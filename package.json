@@ -1,0 +1,32 @@
+{
+  "name": "p1nterest",
+  "version": "1.0.0",
+  "description": "Pinterest clone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rifkegribenes/p1nterest.git"
+  },
+  "author": "Sarah Schneider",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rifkegribenes/p1nterest/issues"
+  },
+  "homepage": "https://github.com/rifkegribenes/p1nterest#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect-mongo": "^2.0.1",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.2.12",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.5.0"
+  }
+}
