@@ -46,7 +46,9 @@ exports.addPin = (req, res, next) => {
 
     const newPin = new Pin({
       title: pin.title,
-  		url: pin.url,
+      description: pin.description,
+  		imageUrl: pin.imageUrl,
+      siteUrl: pin.siteUrl,
   		userId: pin.userId,
   		userName: pin.userName,
   		userAvatarUrl: pin.userAvatarUrl
