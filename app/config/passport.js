@@ -72,7 +72,7 @@ module.exports = (passport) => {
     newUser.github.id = profile.id;
     newUser.github.token = token;
     newUser.github.email = profile.emails[0].value;
-    newUser.github.username = profile.userName;
+    newUser.github.userName = profile.username;
     newUser.profile.firstName = profile.displayName.split(' ')[0],
     newUser.profile.lastName = profile.displayName.split(' ').slice(1),
     newUser.profile.avatarUrl = profile.photos[0].value,
@@ -94,7 +94,7 @@ module.exports = (passport) => {
     clientID: Auth.githubAuth.clientID,
     clientSecret: Auth.githubAuth.clientSecret,
     redirect_uri: Auth.githubAuth.callbackURL,
-    profileFields: ['id', 'emails', 'name', 'photos'],
+    profileFields: ['id', 'emails', 'name', 'username', 'photos'],
     passReqToCallback: true,
     scope: ['profile', 'email']
   };
