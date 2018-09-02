@@ -48,7 +48,7 @@ exports.searchImage = (req, res, next) => {
   const FLICKR_API_KEY = process.env.FLICKR_API_KEY;
   const FLICKR_SECRET = process.env.FLICKR_SECRET;
 
-  const url = `${FLICKR_API_ENDPOINT}?api_key=${FLICKR_API_KEY}&tags=${query.replace(" ", ",")}&per_page=24&format='json'&content_type=1&nojsoncallback=1&safe_search=1&sort='relevance'`;
+  const url = `${FLICKR_API_ENDPOINT}&api_key=${FLICKR_API_KEY}&tags=${keyword.replace(" ", ",")}&per_page=24&format=json&content_type=1&nojsoncallback=1&safe_search=1&sort=relevance`;
 
   console.log(url);
 

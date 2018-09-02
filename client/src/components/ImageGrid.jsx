@@ -9,6 +9,7 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 import AddBox from "@material-ui/icons/AddBox";
+import Delete from "@material-ui/icons/Delete";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
 
@@ -92,24 +93,6 @@ const ImageGrid = props => (
                       }
                     />
                   </div>
-                )}
-              {props.listType === "all" &&
-                props.userId !== book.owner && (
-                  <IconButton
-                    variant="contained"
-                    color="primary"
-                    className={props.classes.button}
-                    title="Propose a Trade"
-                    onClick={() => {
-                      if (props.loggedIn) {
-                        props.handleTradeDialogOpen(book);
-                      } else {
-                        window.location.href = `${BASE_URL}/api/auth/google`;
-                      }
-                    }}
-                  >
-                    <SwapHoriz className={props.classes.rightIcon} />
-                  </IconButton>
                 )}
               {props.listType === "search" ? (
                 props.loggedIn ? (

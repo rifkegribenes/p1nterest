@@ -17,7 +17,7 @@ import Avatar from "@material-ui/core/Avatar";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
 import { skip } from "../utils";
-import p1nterest from "../img/p1nterest_white.svg";
+import pinIcon from "../img/pin.svg";
 
 const styles = theme => ({
   root: {
@@ -117,7 +117,8 @@ class NavBar extends React.Component {
     const linkMap = {
       profile: "Profile",
       all: "All Pins",
-      mypins: "My Pins"
+      mypins: "My Pins",
+      new: "Add Pin"
     };
     const linkList = loggedIn ? Object.keys(linkMap) : ["all"];
     const menuLinks = linkList.map((link, index) => (
@@ -159,7 +160,7 @@ class NavBar extends React.Component {
             >
               {menuLinks}
             </Menu>
-            <img src={p1nterest} alt="" className={classes.logo} />
+            <img src={pinIcon} alt="" className={classes.logo} />
             <Typography
               variant="title"
               color="inherit"

@@ -66,14 +66,14 @@ class AddPin extends Component {
       [name]: value
     });
 
-  searchPin = () => {
+  searchImage = () => {
     const keyword = encodeURIComponent(this.state.keyword);
 
     if (keyword) {
       this.props.apiPin
-        .searchPin(keyword)
+        .searchImage(keyword)
         .then(result => {
-          if (result === "SEARCH_PIN_FAILURE" || this.props.pin.error) {
+          if (result === "SEARCH_IMAGE_FAILURE" || this.props.pin.error) {
             openSnackbar("error", "Sorry, no images found.");
           }
         })
@@ -101,7 +101,7 @@ class AddPin extends Component {
           classes={this.props.classes}
           pin={this.props.pin}
         />
-        {this.props.pin.searchResults.length ? (
+        {this.props.pin.imageSearchResults.length ? (
           <SearchResults clearSearch={this.clearSearch} />
         ) : null}
       </div>
@@ -111,7 +111,7 @@ class AddPin extends Component {
 
 AddPin.propTypes = {
   pin: PropTypes.shape({
-    searchResults: PropTypes.array,
+    imageSearchResults: PropTypes.array,
     error: PropTypes.string
   }),
   apiPin: PropTypes.shape({

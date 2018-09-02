@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import * as apiPinActions from "../store/actions/apiPinActions";
 
 import Notifier, { openSnackbar } from "./Notifier";
-import PinList from "../components/PinList";
+import ImageGrid from "../components/ImageGrid";
 
 import { withStyles } from "@material-ui/core/styles";
 
