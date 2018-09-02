@@ -44,8 +44,8 @@ module.exports = function (app) {
   // Initializing route groups
   const apiRoutes = express.Router(),
     authRoutes = express.Router(),
-    userRoutes = express.Router();
-    // bookRoutes = express.Router(),
+    userRoutes = express.Router(),
+    pinRoutes = express.Router();
     // tradeRoutes = express.Router();
 
   // app.use(passport.initialize());
@@ -91,41 +91,36 @@ module.exports = function (app) {
 
 
   //= ========================
-  // Book Routes
+  // Pin Routes
   //= ========================
 
-  // Set book routes as a subgroup/middleware to apiRoutes
-  // apiRoutes.use('/book', bookRoutes);
+  // Set pin routes as a subgroup/middleware to apiRoutes
+  apiRoutes.use('/pin', pinRoutes);
 
-  // // Get all books (unsecured)
-  // // Returns fail status + message -or- array of all books
-  // bookRoutes.get('/allbooks', BookController.getAllBooks);
+  // Get all pins (unsecured)
+  // Returns fail status + message -or- array of all pins
+  pinRoutes.get('/allpins', PinController.getAllPins);
 
-  // // Get a single book by Id (unsecured)
-  // // Returns fail status + message -or- book object
-  // bookRoutes.get('/:bookId', BookController.getBookById);
+  // Get a single pin by Id (unsecured)
+  // Returns fail status + message -or- pin object
+  pinRoutes.get('/:pinId', PinController.getPinById);
 
-  // // Get all books for one user (unsecured)
-  // // Returns fail status + message -or- array of user's books
-  // bookRoutes.get('/userbooks/:userId', BookController.getUserBooks);
+  // Get all pins for one user (unsecured)
+  // Returns fail status + message -or- array of user's pins
+  pinRoutes.get('/userpins/:userId', PinController.getUserPins);
 
-  // // Search book (unsecured)
-  // // Returns fail status + message -or- array of possible books
-  // bookRoutes.get('/search/:title/:author', BookController.searchBook);
+  // Add new pin (secured)
+  // Returns fail status + message -or- pin object
+  pinRoutes.put('/new', requireAuth, PinController.addPin);
 
-  // // Add new book (secured)
-  // // Returns fail status + message -or- book object
-  // bookRoutes.put('/new', requireAuth, BookController.addBook);
+  // Remove pin (secured)
+  // Returns fail status + message -or- pin object
+  pinRoutes.put('/remove/:pinId', requireAuth, PinController.removePin);
 
-  // // Remove book (secured)
-  // // Returns fail status + message -or- book object
-  // bookRoutes.put('/remove/:bookId', requireAuth, BookController.removeBook);
-
-  // // Update book owner (secured)
-  // // Returns fail status + message -or- book object
-  // bookRoutes.put('/update/:userId/:bookId', requireAuth, BookController.updateBookOwner);
-
-  // remove book ?
+  // Update likes (secured)
+  // Example: PUT >> /api/pins/597dd8665229970e99c6ab55/likes?action=plusplus
+  // Returns fail status + message -or- pin object
+  pinRoutes.put('/:pinId/likes', requireAuth, PinController.updateLikes);
 
 
   //= ========================
