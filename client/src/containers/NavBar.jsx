@@ -17,6 +17,7 @@ import Avatar from "@material-ui/core/Avatar";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
 import { skip } from "../utils";
+import p1nterest from "../img/p1nterest_white.svg";
 
 const styles = theme => ({
   root: {
@@ -70,6 +71,11 @@ const styles = theme => ({
       textAlign: "center",
       zIndex: "1000"
     }
+  },
+  logo: {
+    height: 40,
+    width: "auto",
+    marginRight: 10
   }
 });
 
@@ -153,6 +159,7 @@ class NavBar extends React.Component {
             >
               {menuLinks}
             </Menu>
+            <img src={p1nterest} alt="" className={classes.logo} />
             <Typography
               variant="title"
               color="inherit"
