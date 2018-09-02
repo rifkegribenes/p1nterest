@@ -1,16 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import notFound from "../img/404.svg";
+import notFound from "../img/404.svg";
 
 const NotFound = props => {
   return (
     <div className={props.classes.container}>
-      <div className={props.classes.message}>404 not found</div>
-      {/*      <img
+      <img
         src={notFound}
         className={props.classes.notFound}
         alt="404 error. Sorry, page not found."
-      />*/}
+      />
     </div>
   );
 };

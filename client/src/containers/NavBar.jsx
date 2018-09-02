@@ -187,10 +187,12 @@ class NavBar extends React.Component {
                 href={`${BASE_URL}/api/auth/github`}
                 className={classes.loginButton}
                 onClick={() => {
-                  window.localStorage.setItem(
-                    "redirect",
-                    this.props.location.pathname
-                  );
+                  if (this.props.location.pathname !== "/logout") {
+                    window.localStorage.setItem(
+                      "redirect",
+                      this.props.location.pathname
+                    );
+                  }
                 }}
               >
                 Login
