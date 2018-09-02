@@ -4,8 +4,7 @@ const CLIENT_URL = process.env.NODE_ENV === 'production' ? APP_HOST : 'localhost
 const AuthController = require('./app/controllers/auth.ctrl');
 const UserController = require('./app/controllers/user.ctrl');
 const StaticController = require('./app/controllers/static.ctrl');
-// const BookController = require('./app/controllers/book.ctrl');
-// const TradeController = require('./app/controllers/trade.ctrl');
+const PinController = require('./app/controllers/pin.ctrl');
 
 const express = require('express');
 const passport = require('passport');
@@ -118,7 +117,7 @@ module.exports = function (app) {
   pinRoutes.put('/remove/:pinId', requireAuth, PinController.removePin);
 
   // Update likes (secured)
-  // Example: PUT >> /api/pins/597dd8665229970e99c6ab55/likes?action=plusplus
+  // Example: PUT >> /api/pin/597dd8665229970e99c6ab55/likes?action=plusplus
   // Returns fail status + message -or- pin object
   pinRoutes.put('/:pinId/likes', requireAuth, PinController.updateLikes);
 

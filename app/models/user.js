@@ -17,6 +17,7 @@ const UserSchema = new Schema(
     github: {
       token: { type: String },
       id: { type: String },
+      userName: { type: String },
       email: { type: String, set: toLower }
     }
   },

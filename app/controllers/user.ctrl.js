@@ -33,12 +33,10 @@ exports.partialProfile = (req, res, next) => {
     User.findById(userId)
       .exec()
       .then((user) => {
-          // Respond with first name, avatar, city, and state from user object
+          // Respond with username and avatarUrl from user object
           return res.status(201).json({
             avatarUrl: user.profile.avatarUrl,
-            firstName: user.profile.firstName,
-            city: user.profile.city,
-            state: user.profile.state
+            userName: user.github.userName
           });
        })
       .catch((err) => {

@@ -65,10 +65,14 @@ module.exports = (passport) => {
   // save new user
   const saveNewUser = (profile, token, done) => {
     console.log('saveNewUser');
+    console.log('#########################');
+    console.log('github profile data structure');
+    console.log(profile);
     const newUser = new User();
     newUser.github.id = profile.id;
     newUser.github.token = token;
     newUser.github.email = profile.emails[0].value;
+    newUser.github.username = profile.userName;
     newUser.profile.firstName = profile.displayName.split(' ')[0],
     newUser.profile.lastName = profile.displayName.split(' ').slice(1),
     newUser.profile.avatarUrl = profile.photos[0].value,
@@ -103,7 +107,7 @@ module.exports = (passport) => {
         // console.log(req.user);
         // check if user is already logged in
         if (!req.user) {
-          findExistingUser(profile, token, 'github', done)
+          findExistingUser(profile, token, done)
         } else {
           // found logged-in user. Return
           console.log('gh found user');
