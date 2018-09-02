@@ -11,6 +11,9 @@ import {
   GET_USER_PINS_REQUEST,
   GET_USER_PINS_SUCCESS,
   GET_USER_PINS_FAILURE,
+  SEARCH_IMAGE_REQUEST,
+  SEARCH_IMAGE_SUCCESS,
+  SEARCH_IMAGE_FAILURE,
   ADD_PIN_REQUEST,
   ADD_PIN_SUCCESS,
   ADD_PIN_FAILURE,
@@ -23,6 +26,7 @@ import {
 const INITIAL_STATE = {
   loading: false,
   pins: [],
+  imageSearchResults: [],
   currentPin: {
     _id: "",
     title: "",
@@ -49,6 +53,7 @@ function pin(state = INITIAL_STATE, action) {
     case GET_ALL_PINS_REQUEST:
     case GET_PIN_BY_ID_REQUEST:
     case GET_USER_PINS_REQUEST:
+    case SEARCH_IMAGE_REQUEST:
     case ADD_PIN_REQUEST:
     case UPDATE_LIKES_REQUEST:
       return update(state, {
@@ -71,6 +76,13 @@ function pin(state = INITIAL_STATE, action) {
         error: { $set: null }
       });
 
+    case SEARCH_IMAGE_SUCCESS:
+      return update(state, {
+        loading: { $set: false },
+        imageSearchResults: { $set: action.payload.images },
+        error: { $set: null }
+      });
+
     case GET_PIN_BY_ID_SUCCESS:
     case ADD_PIN_SUCCESS:
     case UPDATE_LIKES_SUCCESS:
@@ -83,6 +95,7 @@ function pin(state = INITIAL_STATE, action) {
     case GET_ALL_PINS_FAILURE:
     case GET_PIN_BY_ID_FAILURE:
     case GET_USER_PINS_FAILURE:
+    case SEARCH_IMAGE_FAILURE:
     case ADD_PIN_FAILURE:
     case UPDATE_LIKES_FAILURE:
       if (typeof action.payload.message === "string") {

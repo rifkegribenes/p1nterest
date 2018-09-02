@@ -39,6 +39,47 @@ exports.getPinById = (req, res, next) => {
     });
 };
 
+// search for images, returns array of 24 images that match search keyword
+// from flickr api
+exports.searchImage = (req, res, next) => {
+  const { keyword } = req.params;
+
+  const FLICKR_API_ENDPOINT = process.env.FLICKR_API_ENDPOINT;
+  const FLICKR_API_KEY = process.env.FLICKR_API_KEY;
+  const FLICKR_SECRET = process.env.FLICKR_SECRET;
+
+  const url = `${FLICKR_API_ENDPOINT}?api_key=${FLICKR_API_KEY}&tags=${query.replace(" ", ",")}&per_page=24&format='json'&content_type=1&nojsoncallback=1&safe_search=1&sort='relevance'`;
+
+  console.log(url);
+
+  utils.getContent(url)
+    .then((results) => {
+        if (!results.photos.photo) {
+          const err = {
+            message: `Error searching for "${keyword}": No Results`
+          }
+          console.log(`pin.ctrl.js > searchImage 61: ${err}`);
+          return handleError(res, err);
+        }
+        const images = results.photos.photo.map(item => {
+          return {
+           "id": item.id,
+           "url": `https://farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`,
+           "snippet": item.title,
+           "thumbnail" : `https://farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}_t.jpg`,
+           "context" : `https://www.flickr.com/photos/${item.owner}/${item.id}`
+          }});
+        const baseUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}${req.path}`;
+        images.baseUrl = baseUrl;
+        return res.status(200).json({ images });
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(`pin.ctrl.js > searchImage 76: ${err}`);
+      return handleError(res, err);
+    });
+};
+
 // add new pin. body: { title, url, userId, userName, userAvatarUrl }
 exports.addPin = (req, res, next) => {
   const pin = req.body;

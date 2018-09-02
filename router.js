@@ -108,6 +108,10 @@ module.exports = function (app) {
   // Returns fail status + message -or- array of user's pins
   pinRoutes.get('/userpins/:userId', PinController.getUserPins);
 
+  // Search image (unsecured)
+  // Returns fail status + message -or- array of images from google images api
+  pinRoutes.get('/search/:keyword', PinController.searchImage);
+
   // Add new pin (secured)
   // Returns fail status + message -or- pin object
   pinRoutes.put('/new', requireAuth, PinController.addPin);
@@ -120,26 +124,6 @@ module.exports = function (app) {
   // Example: PUT >> /api/pin/597dd8665229970e99c6ab55/likes?action=plusplus
   // Returns fail status + message -or- pin object
   pinRoutes.put('/:pinId/likes', requireAuth, PinController.updateLikes);
-
-
-  //= ========================
-  // Trade Routes
-  //= ========================
-
-  // Set trade routes as a subgroup/middleware to apiRoutes
-  // apiRoutes.use('/trade', tradeRoutes);
-
-  // // Get all trades for a user (unsecured)
-  // // Returns fail status + message -or- array of user's trades
-  // tradeRoutes.get('/usertrades/:userId', TradeController.getUserTrades);
-
-  // // Propose new trade (secured)
-  // // Returns fail status + message -or- trade object
-  // tradeRoutes.put('/new', requireAuth, TradeController.proposeTrade);
-
-  // // Update trade (secured)
-  // // Returns fail status + message -or- trade object
-  // tradeRoutes.put('/update', requireAuth, TradeController.updateTrade);
 
 
   // Set url for API group routes

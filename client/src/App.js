@@ -17,7 +17,7 @@ import NotFound from "./components/NotFound";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
 // import UserPins from "./containers/UserPins";
-// import AddPin from "./containers/AddPin";
+import AddPin from "./containers/AddPin";
 // import AllPins from "./containers/AllPins";
 
 const styles = theme => ({
@@ -131,12 +131,12 @@ class App extends Component {
             {/*            <Route
               path="/mypins"
               render={routeProps => <UserPins {...routeProps} />}
-            />
+            />*/}
             <Route
               path="/new"
               render={routeProps => <AddPin {...routeProps} />}
             />
-            <Route
+            {/*            <Route
               path="/all"
               render={routeProps => <AllPins {...routeProps} />}
             />*/}

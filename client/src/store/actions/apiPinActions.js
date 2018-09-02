@@ -10,6 +10,9 @@ export const GET_PIN_BY_ID_FAILURE = "GET_PIN_BY_ID_FAILURE";
 export const GET_USER_PINS_REQUEST = "GET_USER_PINS_REQUEST";
 export const GET_USER_PINS_SUCCESS = "GET_USER_PINS_SUCCESS";
 export const GET_USER_PINS_FAILURE = "GET_USER_PINS_FAILURE";
+export const SEARCH_IMAGE_REQUEST = "SEARCH_IMAGE_REQUEST";
+export const SEARCH_IMAGE_SUCCESS = "SEARCH_IMAGE_SUCCESS";
+export const SEARCH_IMAGE_FAILURE = "SEARCH_IMAGE_FAILURE";
 export const ADD_PIN_REQUEST = "ADD_PIN_REQUEST";
 export const ADD_PIN_SUCCESS = "ADD_PIN_SUCCESS";
 export const ADD_PIN_FAILURE = "ADD_PIN_FAILURE";
@@ -19,7 +22,14 @@ export const REMOVE_PIN_FAILURE = "REMOVE_PIN_FAILURE";
 export const UPDATE_LIKES_REQUEST = "UPDATE_LIKES_REQUEST";
 export const UPDATE_LIKES_SUCCESS = "UPDATE_LIKES_SUCCESS";
 export const UPDATE_LIKES_FAILURE = "UPDATE_LIKES_FAILURE";
+export const CLEAR_SEARCH_RESULTS = "CLEAR_SEARCH_RESULTS";
 export const UPDATE_PINLIST_SUCCESS = "UPDATE_PINLIST_SUCCESS";
+
+export function clearSearchResults() {
+  return {
+    type: CLEAR_SEARCH_RESULTS
+  };
+}
 
 export function updatePinlist(pins) {
   return {
@@ -128,6 +138,47 @@ export function getUserPins(userId) {
         GET_USER_PINS_SUCCESS,
         {
           type: GET_USER_PINS_FAILURE,
+          payload: (action, state, res) => {
+            return res.json().then(data => {
+              let message = "Sorry, something went wrong :(";
+              if (data) {
+                if (data.message) {
+                  message = data.message;
+                }
+                return { message };
+              } else {
+                return { message };
+              }
+            });
+          }
+        }
+      ]
+    }
+  };
+}
+
+/*
+* Function: searchImage -- return an array of images from google images api
+* Returns: array of 24 images that match the search keyword
+* @param {string} keyword
+* This action dispatches additional actions as it executes:
+*   SEARCH_IMAGE_REQUEST:
+*     Initiates a spinner on the home page.
+*   SEARCH_IMAGE_SUCCESS:
+*     If images array successfully retrieved, hides spinner
+*   SEARCH_IMAGE_FAILURE:
+*     If database error, hides spinner, displays error toastr
+*/
+export function searchImage(keyword) {
+  return {
+    [RSAA]: {
+      endpoint: `${BASE_URL}/api/pin/search/${keyword}`,
+      method: "GET",
+      types: [
+        SEARCH_IMAGE_REQUEST,
+        SEARCH_IMAGE_SUCCESS,
+        {
+          type: SEARCH_IMAGE_FAILURE,
           payload: (action, state, res) => {
             return res.json().then(data => {
               let message = "Sorry, something went wrong :(";
