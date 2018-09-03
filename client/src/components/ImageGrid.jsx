@@ -1,23 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Masonry from "react-masonry-component";
+// import Card from '@material-ui/core/Card';
+// import CardActionArea from '@material-ui/core/CardActionArea';
+// import CardActions from '@material-ui/core/CardActions';
+// import CardContent from '@material-ui/core/CardContent';
+// import CardMedia from '@material-ui/core/CardMedia';
+// import IconButton from "@material-ui/core/IconButton";
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
-import pinIcon from "../img/pin.svg";
+// import pinIcon from "../img/pin.svg";
 
 const styles = theme => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
+    margin: "0 auto",
+    width: "100%",
+    maxWidth: 1500
   },
   gridList: {},
+  card: {
+    // this class is being used directly, so can't set options in JSS
+  },
+  media: {
+    objectFit: "cover"
+  },
+  masonry: {
+    margin: "0 auto"
+  },
   icon: {
     color: theme.palette.primary.main
   },
@@ -29,45 +39,28 @@ const styles = theme => ({
 
 const ImageGrid = props => {
   const { classes } = props;
-  let cols = 1;
-  console.log(props.width);
-  if (isWidthUp("sm", props.width)) {
-    cols = 2;
-  }
-  if (isWidthUp("md", props.width)) {
-    cols = 3;
-  }
-  if (isWidthUp("lg", props.width)) {
-    cols = 4;
-  }
-  if (isWidthUp("xl", props.width)) {
-    cols = 6;
-  }
-  console.log(cols);
-
+  const masonryOptions = {
+    itemSelector: ".card",
+    columnWidth: 300,
+    gutter: 10,
+    fitWidth: true
+  };
   return (
     <div className={classes.root}>
-      <GridList cellHeight={180} className={classes.gridList} cols={cols}>
-        <GridListTile key="Subheader" cols={cols} style={{ height: "auto" }}>
-          <ListSubheader component="div">Search Results</ListSubheader>
-        </GridListTile>
+      <Typography variant="headline" style={{ height: "auto" }}>
+        Search Results
+      </Typography>
+      <Masonry masonryOptions={masonryOptions} className={classes.masonry}>
+        {/*        <div className="grid-sizer" style={{ width: "160px"}}/>*/}
         {props.tileData.map(tile => (
-          <GridListTile key={tile.id}>
-            <img src={tile.url} alt={tile.snippet} />
-            <GridListTileBar
-              title={tile.snippet}
-              actionIcon={
-                <IconButton
-                  className={classes.icon}
-                  onClick={props.openAddPinDialog}
-                >
-                  <img src={pinIcon} alt="" className={classes.pinIcon} />
-                </IconButton>
-              }
-            />
-          </GridListTile>
+          <img
+            className="card"
+            src={tile.url}
+            alt={tile.snippet}
+            key={tile.id}
+          />
         ))}
-      </GridList>
+      </Masonry>
     </div>
   );
 };
