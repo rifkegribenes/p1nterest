@@ -46,6 +46,23 @@ const styles = theme => ({
 });
 
 class SearchResults extends Component {
+  state = {
+    dialogOpen: false
+  };
+
+  handleOpen = () => {
+    console.log("handleOpen");
+    this.setstate({
+      dialogOpen: true
+    });
+  };
+
+  handleClose = () => {
+    this.setstate({
+      dialogOpen: false
+    });
+  };
+
   addPin = pin => {
     const token = this.props.appState.authToken;
     const userId = this.props.profile.profile._id;
@@ -84,7 +101,7 @@ class SearchResults extends Component {
           loggedIn={this.props.appState.loggedIn}
           title="Search Results"
           tileData={this.props.pin.imageSearchResults}
-          addPin={this.addPin}
+          openAddPinDialog={this.handleOpen}
           setRedirect={this.setRedirect}
         />
       </div>

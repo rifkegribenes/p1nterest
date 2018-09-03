@@ -6,6 +6,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
+import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import pinIcon from "../img/pin.svg";
 
 const styles = theme => ({
@@ -18,7 +19,7 @@ const styles = theme => ({
   },
   gridList: {},
   icon: {
-    color: "rgba(255, 255, 255, 0.54)"
+    color: theme.palette.primary.main
   },
   pinIcon: {
     width: 20,
@@ -28,11 +29,26 @@ const styles = theme => ({
 
 const ImageGrid = props => {
   const { classes } = props;
+  let cols = 1;
+  console.log(props.width);
+  if (isWidthUp("sm", props.width)) {
+    cols = 2;
+  }
+  if (isWidthUp("md", props.width)) {
+    cols = 3;
+  }
+  if (isWidthUp("lg", props.width)) {
+    cols = 4;
+  }
+  if (isWidthUp("xl", props.width)) {
+    cols = 6;
+  }
+  console.log(cols);
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={180} className={classes.gridList} cols={6}>
-        <GridListTile key="Subheader" cols={6} style={{ height: "auto" }}>
+      <GridList cellHeight={180} className={classes.gridList} cols={cols}>
+        <GridListTile key="Subheader" cols={cols} style={{ height: "auto" }}>
           <ListSubheader component="div">Search Results</ListSubheader>
         </GridListTile>
         {props.tileData.map(tile => (
@@ -41,7 +57,10 @@ const ImageGrid = props => {
             <GridListTileBar
               title={tile.snippet}
               actionIcon={
-                <IconButton className={classes.icon} onClick={props.addPin}>
+                <IconButton
+                  className={classes.icon}
+                  onClick={props.openAddPinDialog}
+                >
                   <img src={pinIcon} alt="" className={classes.pinIcon} />
                 </IconButton>
               }
@@ -57,4 +76,4 @@ ImageGrid.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ImageGrid);
+export default withWidth()(withStyles(styles)(ImageGrid));

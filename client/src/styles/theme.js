@@ -17,8 +17,8 @@ export default createMuiTheme({
       xs: 0,
       sm: 450,
       md: 600,
-      lg: 1280,
-      xl: 1920
+      lg: 960,
+      xl: 1280
     }
   },
   overrides: {}
