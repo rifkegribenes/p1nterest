@@ -15,7 +15,7 @@ const styles = theme => ({
   root: {
     margin: 20,
     padding: 20,
-    maxWidth: 1200
+    maxWidth: 1920
   },
   container: {
     padding: "0px 20px 60px 20px"
@@ -83,10 +83,9 @@ class SearchResults extends Component {
           listType="search"
           loggedIn={this.props.appState.loggedIn}
           title="Search Results"
-          images={this.props.pin.imageSearchResults}
+          tileData={this.props.pin.imageSearchResults}
           addPin={this.addPin}
           setRedirect={this.setRedirect}
-          classes={this.props.classes}
         />
       </div>
     );
