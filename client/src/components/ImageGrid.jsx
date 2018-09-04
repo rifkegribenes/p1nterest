@@ -5,7 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import Masonry from "react-masonry-component";
 // import CardActionArea from "@material-ui/core/CardActionArea";
 import Button from "@material-ui/core/Button";
-import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
+import withWidth from "@material-ui/core/withWidth";
+// import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import pinIcon from "../img/pin.svg";
 
 const styles = theme => ({
@@ -78,16 +79,16 @@ const ImageGrid = props => {
         variant="headline"
         style={{ height: "auto", textAlign: "center", marginBottom: 10 }}
       >
-        Search Results
+        {props.title}
       </Typography>
       <Masonry options={masonryOptions} className={classes.masonry}>
         {/*        <div className="grid-sizer" style={{ width: "160px"}}/>*/}
         {props.tileData.map(tile => (
-          <div className="card" style={cardStyle} key={tile.id}>
+          <div className="card" style={cardStyle} key={tile.id || tile._id}>
             <div className={classes.actionArea}>
               <Button
                 className={classes.pinButton}
-                onClick={props.openAddPinDialog}
+                onClick={() => props.openAddPinDialog(tile)}
                 color="primary"
                 variant="raised"
               >
@@ -96,11 +97,11 @@ const ImageGrid = props => {
               </Button>
               <img
                 className={classes.media}
-                src={tile.url}
-                alt={tile.snippet}
+                src={tile.url || tile.imageUrl}
+                alt={tile.snippet || tile.title}
               />
               <Typography component="p" className={classes.caption}>
-                {tile.snippet}
+                {tile.snippet || tile.title}
               </Typography>
             </div>
           </div>

@@ -18,7 +18,7 @@ import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
 // import UserPins from "./containers/UserPins";
 import AddPin from "./containers/AddPin";
-// import AllPins from "./containers/AllPins";
+import AllPins from "./containers/AllPins";
 
 const styles = theme => ({
   root: {
@@ -136,10 +136,10 @@ class App extends Component {
               path="/new"
               render={routeProps => <AddPin {...routeProps} />}
             />
-            {/*            <Route
+            <Route
               path="/all"
               render={routeProps => <AllPins {...routeProps} />}
-            />*/}
+            />
             <Route
               path="/logout"
               render={routeProps => (
