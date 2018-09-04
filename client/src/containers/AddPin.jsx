@@ -9,6 +9,8 @@ import * as apiPinActions from "../store/actions/apiPinActions";
 import Search from "../components/Search";
 import SearchResults from "./SearchResults";
 import Notifier, { openSnackbar } from "./Notifier";
+import RePin from "../components/RePin";
+import AddLink from "../components/AddLink";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -19,7 +21,12 @@ const styles = theme => ({
     maxWidth: 400
   },
   container: {
-    padding: "20px 20px 60px 20px"
+    padding: "20px 20px 60px 20px",
+    display: "flex",
+    flexDirection: "column"
+  },
+  wrapper: {
+    display: "flex"
   },
   form: {
     margin: "auto",
@@ -30,27 +37,16 @@ const styles = theme => ({
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "space-between",
-    [theme.breakpoints.down("xs")]: {
-      flexWrap: "wrap",
-      height: "100%"
-    }
+    flexWrap: "wrap",
+    height: "100%"
   },
   button: {
-    flex: "0 0 auto",
-    width: "30%",
-    [theme.breakpoints.down("xs")]: {
-      width: "100%",
-      flex: "1 1 auto",
-      marginTop: 20
-    }
+    width: "100%",
+    flex: "1 1 auto",
+    marginTop: 20
   },
   input: {
-    marginRight: 20,
-    width: "70%",
-    [theme.breakpoints.down("xs")]: {
-      width: "100%",
-      marginRight: 0
-    }
+    width: "100%"
   }
 });
 
@@ -96,13 +92,22 @@ class AddPin extends Component {
     return (
       <div className="addPin">
         <Notifier />
-        <Search
-          keyword={this.state.keyword}
-          handleInput={this.handleInput}
-          searchImage={this.searchImage}
-          classes={this.props.classes}
-          pin={this.props.pin}
-        />
+        <div className={this.props.classes.wrapper}>
+          <RePin classes={this.props.classes} />
+          <AddLink
+            handleInput={this.handleInput}
+            addPin={this.addPin}
+            classes={this.props.classes}
+            pin={this.props.pin}
+          />
+          <Search
+            keyword={this.state.keyword}
+            handleInput={this.handleInput}
+            searchImage={this.searchImage}
+            classes={this.props.classes}
+            pin={this.props.pin}
+          />
+        </div>
         {this.props.pin.imageSearchResults.length ? (
           <SearchResults clearSearch={this.clearSearch} />
         ) : null}

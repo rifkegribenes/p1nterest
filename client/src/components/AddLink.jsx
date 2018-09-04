@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 
 import ButtonWithSpinner from "./ButtonWithSpinner";
 
-const Search = props => (
+const AddLink = props => (
   <div style={{ padding: 20 }}>
     <Typography
       variant="headline"
@@ -14,7 +14,7 @@ const Search = props => (
       gutterBottom
       style={{ paddingTop: 20 }}
     >
-      Search for an image on Flickr
+      Add a link by pasting in a URL
     </Typography>
     <form
       className={props.classes.form}
@@ -35,13 +35,13 @@ const Search = props => (
         onClick={props.searchImage}
         loading={props.pin.loading}
       >
-        Search images
+        Add link
       </ButtonWithSpinner>
     </form>
   </div>
 );
 
-Search.propTypes = {
+AddLink.propTypes = {
   pin: PropTypes.shape({
     loading: PropTypes.bool,
     error: PropTypes.string
@@ -52,4 +52,4 @@ Search.propTypes = {
   classes: PropTypes.object
 };
 
-export default Search;
+export default AddLink;

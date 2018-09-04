@@ -1,0 +1,27 @@
+import React from "react";
+import PropTypes from "prop-types";
+
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
+const RePin = props => (
+  <div className={props.classes.container}>
+    <Typography
+      variant="headline"
+      align="center"
+      gutterBottom
+      style={{ paddingTop: 20 }}
+    >
+      Repin another user's link
+    </Typography>
+    <Button href="/all" variant="raised" color="primary">
+      Browser user images
+    </Button>
+  </div>
+);
+
+RePin.propTypes = {
+  classes: PropTypes.object
+};
+
+export default RePin;
