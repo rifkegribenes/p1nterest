@@ -15,7 +15,7 @@ const RePin = props => (
       Repin another user's link
     </Typography>
     <Button href="/all" variant="raised" color="primary">
-      Browser user images
+      Browse user images
     </Button>
   </div>
 );

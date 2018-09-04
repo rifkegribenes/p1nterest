@@ -21,9 +21,30 @@ const AddLink = props => (
       onError={errors => console.log(errors)}
     >
       <TextField
-        name="keyword"
-        label="Keywords"
-        value={props.keyword}
+        name="imageUrl"
+        label="Image URL"
+        value={props.imageUrl}
+        onChange={props.handleInput}
+        className={props.classes.input}
+      />
+      <TextField
+        name="siteUrl"
+        label="Website URL"
+        value={props.siteUrl}
+        onChange={props.handleInput}
+        className={props.classes.input}
+      />
+      <TextField
+        name="title"
+        label="Title"
+        value={props.title}
+        onChange={props.handleInput}
+        className={props.classes.input}
+      />
+      <TextField
+        name="description"
+        label="Description"
+        value={props.description}
         onChange={props.handleInput}
         className={props.classes.input}
       />

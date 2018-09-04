@@ -26,7 +26,9 @@ const styles = theme => ({
     flexDirection: "column"
   },
   wrapper: {
-    display: "flex"
+    display: "flex",
+    margin: "0 auto",
+    justifyContent: "center"
   },
   form: {
     margin: "auto",
@@ -47,6 +49,9 @@ const styles = theme => ({
   },
   input: {
     width: "100%"
+  },
+  widget: {
+    maxWidth: "33%"
   }
 });
 
@@ -55,7 +60,11 @@ class AddPin extends Component {
     super(props);
 
     this.state = {
-      keyword: ""
+      keyword: "",
+      imageUrl: "",
+      siteUrl: "",
+      title: "",
+      description: ""
     };
   }
 
@@ -93,20 +102,30 @@ class AddPin extends Component {
       <div className="addPin">
         <Notifier />
         <div className={this.props.classes.wrapper}>
-          <RePin classes={this.props.classes} />
-          <AddLink
-            handleInput={this.handleInput}
-            addPin={this.addPin}
-            classes={this.props.classes}
-            pin={this.props.pin}
-          />
-          <Search
-            keyword={this.state.keyword}
-            handleInput={this.handleInput}
-            searchImage={this.searchImage}
-            classes={this.props.classes}
-            pin={this.props.pin}
-          />
+          <div className={this.props.classes.widget}>
+            <RePin classes={this.props.classes} />
+          </div>
+          <div className={this.props.classes.widget}>
+            <AddLink
+              handleInput={this.handleInput}
+              addPin={this.addPin}
+              classes={this.props.classes}
+              pin={this.props.pin}
+              imageUrl={this.state.imageUrl}
+              siteUrl={this.state.siteUrl}
+              title={this.state.title}
+              description={this.state.description}
+            />
+          </div>
+          <div className={this.props.classes.widget}>
+            <Search
+              keyword={this.state.keyword}
+              handleInput={this.handleInput}
+              searchImage={this.searchImage}
+              classes={this.props.classes}
+              pin={this.props.pin}
+            />
+          </div>
         </div>
         {this.props.pin.imageSearchResults.length ? (
           <SearchResults clearSearch={this.clearSearch} />

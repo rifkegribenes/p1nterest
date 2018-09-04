@@ -10,6 +10,7 @@ import Notifier, { openSnackbar } from "./Notifier";
 import ImageGrid from "../components/ImageGrid";
 
 import { withStyles } from "@material-ui/core/styles";
+import Divider from "@material-ui/core/Divider";
 
 const styles = theme => ({
   root: {
@@ -18,7 +19,8 @@ const styles = theme => ({
     maxWidth: 1920
   },
   container: {
-    padding: "0px 20px 60px 20px"
+    padding: "0px 20px 60px 20px",
+    marginTop: 40
   },
   item: {
     [theme.breakpoints.down("sm")]: {
@@ -96,6 +98,7 @@ class SearchResults extends Component {
     return (
       <div className={this.props.classes.container}>
         <Notifier />
+        <Divider style={{ margin: 20 }} />
         <ImageGrid
           listType="search"
           loggedIn={this.props.appState.loggedIn}
