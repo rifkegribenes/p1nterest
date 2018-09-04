@@ -41,20 +41,23 @@ const ImageGrid = props => {
   const { classes } = props;
   const masonryOptions = {
     itemSelector: ".card",
-    columnWidth: 300,
     gutter: 10,
     fitWidth: true
   };
   return (
     <div className={classes.root}>
-      <Typography variant="headline" style={{ height: "auto" }}>
+      <Typography
+        variant="headline"
+        style={{ height: "auto", textAlign: "center", marginBottom: 10 }}
+      >
         Search Results
       </Typography>
-      <Masonry masonryOptions={masonryOptions} className={classes.masonry}>
+      <Masonry options={masonryOptions} className={classes.masonry}>
         {/*        <div className="grid-sizer" style={{ width: "160px"}}/>*/}
         {props.tileData.map(tile => (
           <img
             className="card"
+            style={{ marginBottom: 10 }}
             src={tile.url}
             alt={tile.snippet}
             key={tile.id}
