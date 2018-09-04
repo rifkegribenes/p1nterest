@@ -83,7 +83,7 @@ exports.searchImage = (req, res, next) => {
 // add new pin. body: { title, url, userId, userName, userAvatarUrl }
 exports.addPin = (req, res, next) => {
   const pin = req.body;
-  console.log(pin);
+  // console.log(pin);
 
     const newPin = new Pin({
       title: pin.title,
@@ -92,7 +92,7 @@ exports.addPin = (req, res, next) => {
       siteUrl: pin.siteUrl,
   		userId: pin.userId,
   		userName: pin.userName,
-  		userAvatarUrl: pin.userAvatarUrl
+  		userAvatarUrl: pin.avatarUrl
     });
     console.log(newPin);
 

@@ -34,7 +34,6 @@ const styles = theme => ({
     margin: "auto",
     width: "100%",
     maxWidth: 600,
-    height: 92,
     paddingBottom: 20,
     display: "flex",
     alignItems: "flex-end",
@@ -90,11 +89,73 @@ class AddPin extends Component {
     }
   };
 
-  clearSearch = () => {
+  clearForm = () => {
     this.props.apiPin.clearSearchResults();
     this.setState({
-      keyword: ""
+      keyword: "",
+      imageUrl: "",
+      siteUrl: "",
+      title: "",
+      description: ""
     });
+  };
+
+  addPin = e => {
+    e.preventDefault();
+    const { imageUrl, siteUrl, title, description } = this.state;
+    const userId = this.props.profile.profile._id;
+    const { userName, avatarUrl } = this.props.profile.profile;
+    const token = this.props.appState.authToken;
+    const body = {
+      imageUrl,
+      siteUrl,
+      title,
+      description,
+      userId,
+      userName,
+      avatarUrl
+    };
+
+    if (!token) {
+      // change this to redirect to login
+      // with body and redirect saved to localStorage
+      openSnackbar("error", "Please log in to add a pin.");
+    }
+
+    const imageUrlField = document.getElementById("imageUrl");
+    const siteUrlField = document.getElementById("siteUrl");
+    const titleField = document.getElementById("title");
+    const fieldsToValidate = [imageUrlField, siteUrlField, titleField];
+    fieldsToValidate.forEach(field => field.checkValidity());
+
+    if (
+      imageUrl &&
+      title &&
+      !!imageUrlField.validity.valid &&
+      !!siteUrlField.validity.valid &&
+      !!titleField.validity.valid
+    ) {
+      this.props.apiPin
+        .addPin(token, body)
+        .then(result => {
+          if (result.type === "ADD_PIN_FAILURE" || this.props.pin.error) {
+            openSnackbar(
+              "error",
+              this.props.pin.error ||
+                "Sorry, something went wrong, please try again."
+            );
+          } else if (result.type === "ADD_PIN_SUCCESS") {
+            openSnackbar("success", "Pin added.");
+            this.clearForm();
+          }
+        })
+        .catch(err => openSnackbar("error", err));
+    } else {
+      openSnackbar(
+        "error",
+        "Please enter a valid image URL (including http://) and a title to add a new pin."
+      );
+    }
   };
 
   render() {
@@ -128,7 +189,7 @@ class AddPin extends Component {
           </div>
         </div>
         {this.props.pin.imageSearchResults.length ? (
-          <SearchResults clearSearch={this.clearSearch} />
+          <SearchResults clearSearch={this.clearForm} />
         ) : null}
       </div>
     );
@@ -148,7 +209,9 @@ AddPin.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  pin: state.pin
+  pin: state.pin,
+  profile: state.profile,
+  appState: state.appState
 });
 
 const mapDispatchToProps = dispatch => ({

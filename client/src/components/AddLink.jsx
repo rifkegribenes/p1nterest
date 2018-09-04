@@ -14,7 +14,7 @@ const AddLink = props => (
       gutterBottom
       style={{ paddingTop: 20 }}
     >
-      Add a link by pasting in a URL
+      Add image by pasting in a URL
     </Typography>
     <form
       className={props.classes.form}
@@ -22,22 +22,29 @@ const AddLink = props => (
     >
       <TextField
         name="imageUrl"
+        id="imageUrl"
         label="Image URL"
+        type="url"
+        required
         value={props.imageUrl}
         onChange={props.handleInput}
         className={props.classes.input}
       />
       <TextField
         name="siteUrl"
+        id="siteUrl"
         label="Website URL"
+        type="url"
         value={props.siteUrl}
         onChange={props.handleInput}
         className={props.classes.input}
       />
       <TextField
         name="title"
+        id="title"
         label="Title"
         value={props.title}
+        required
         onChange={props.handleInput}
         className={props.classes.input}
       />
@@ -49,11 +56,11 @@ const AddLink = props => (
         className={props.classes.input}
       />
       <ButtonWithSpinner
-        type="button"
+        type="submit"
         color="primary"
         className={props.classes.button}
         variant="raised"
-        onClick={props.searchImage}
+        onClick={e => props.addPin(e)}
         loading={props.pin.loading}
       >
         Add link

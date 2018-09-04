@@ -12,7 +12,7 @@ const RePin = props => (
       gutterBottom
       style={{ paddingTop: 20 }}
     >
-      Repin another user's link
+      Repin another user's image
     </Typography>
     <Button href="/all" variant="raised" color="primary">
       Browse user images
