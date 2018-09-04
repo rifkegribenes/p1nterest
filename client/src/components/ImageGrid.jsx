@@ -30,7 +30,7 @@ const styles = theme => ({
     borderRadius: 4,
     zIndex: 1,
     "&:hover": {
-      backgroundColor: "rgba(0,0,0,.25)"
+      backgroundColor: "rgba(0,0,0,.15)"
     },
     "&:hover $pinButton": {
       visibility: "visible",
@@ -46,12 +46,13 @@ const styles = theme => ({
     margin: "0 auto"
   },
   caption: {
-    padding: 10
+    padding: 20
   },
-  media: {
-    width: 300,
+  image: {
+    maxWidth: 280,
     height: "auto",
-    borderRadius: "4px 4px 0 0"
+    borderRadius: "4px",
+    margin: 10
   },
   icon: {
     color: theme.palette.primary.main
@@ -96,7 +97,7 @@ const ImageGrid = props => {
                 Add Pin
               </Button>
               <img
-                className={classes.media}
+                className={classes.image}
                 src={tile.url || tile.imageUrl}
                 alt={tile.snippet || tile.title}
               />
