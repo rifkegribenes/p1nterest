@@ -3,14 +3,10 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Masonry from "react-masonry-component";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-// import CardActions from '@material-ui/core/CardActions';
-// import CardContent from '@material-ui/core/CardContent';
-import CardMedia from "@material-ui/core/CardMedia";
-// import IconButton from "@material-ui/core/IconButton";
+// import CardActionArea from "@material-ui/core/CardActionArea";
+import Button from "@material-ui/core/Button";
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
-// import pinIcon from "../img/pin.svg";
+import pinIcon from "../img/pin.svg";
 
 const styles = theme => ({
   root: {
@@ -21,6 +17,29 @@ const styles = theme => ({
   gridList: {},
   card: {
     // this class is being used directly, so can't set options in JSS
+  },
+  pinButton: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+    zIndex: 0,
+    visibility: "hidden"
+  },
+  actionArea: {
+    borderRadius: 4,
+    zIndex: 1,
+    "&:hover": {
+      backgroundColor: "rgba(0,0,0,.25)"
+    },
+    "&:hover $pinButton": {
+      visibility: "visible",
+      zIndex: 2
+    }
+  },
+  pinIcon: {
+    height: 27,
+    marginLeft: -9,
+    width: "auto"
   },
   masonry: {
     margin: "0 auto"
@@ -35,17 +54,14 @@ const styles = theme => ({
   },
   icon: {
     color: theme.palette.primary.main
-  },
-  pinIcon: {
-    width: 20,
-    height: "auto"
   }
 });
 
 const cardStyle = {
   marginBottom: 10,
   borderRadius: 4,
-  width: 300
+  width: 300,
+  position: "relative"
 };
 
 const ImageGrid = props => {
@@ -68,7 +84,16 @@ const ImageGrid = props => {
         {/*        <div className="grid-sizer" style={{ width: "160px"}}/>*/}
         {props.tileData.map(tile => (
           <div className="card" style={cardStyle} key={tile.id}>
-            <CardActionArea>
+            <div className={classes.actionArea}>
+              <Button
+                className={classes.pinButton}
+                onClick={props.openAddPinDialog}
+                color="primary"
+                variant="raised"
+              >
+                <img src={pinIcon} alt="" className={classes.pinIcon} />
+                Add Pin
+              </Button>
               <img
                 className={classes.media}
                 src={tile.url}
@@ -77,7 +102,7 @@ const ImageGrid = props => {
               <Typography component="p" className={classes.caption}>
                 {tile.snippet}
               </Typography>
-            </CardActionArea>
+            </div>
           </div>
         ))}
       </Masonry>

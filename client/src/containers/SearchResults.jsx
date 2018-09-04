@@ -52,13 +52,13 @@ class SearchResults extends Component {
 
   handleOpen = () => {
     console.log("handleOpen");
-    this.setstate({
+    this.setState({
       dialogOpen: true
     });
   };
 
   handleClose = () => {
-    this.setstate({
+    this.setState({
       dialogOpen: false
     });
   };

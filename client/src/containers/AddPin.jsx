@@ -37,6 +37,7 @@ const styles = theme => ({
   },
   button: {
     flex: "0 0 auto",
+    width: "30%",
     [theme.breakpoints.down("xs")]: {
       width: "100%",
       flex: "1 1 auto",
@@ -45,6 +46,7 @@ const styles = theme => ({
   },
   input: {
     marginRight: 20,
+    width: "70%",
     [theme.breakpoints.down("xs")]: {
       width: "100%",
       marginRight: 0

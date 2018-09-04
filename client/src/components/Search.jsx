@@ -22,7 +22,7 @@ const Search = props => (
     >
       <TextField
         name="keyword"
-        label="Keyword"
+        label="Keywords"
         value={props.keyword}
         onChange={props.handleInput}
         className={props.classes.input}
@@ -35,7 +35,7 @@ const Search = props => (
         onClick={props.searchImage}
         loading={props.pin.loading}
       >
-        Search pin
+        Search images
       </ButtonWithSpinner>
     </form>
   </div>
