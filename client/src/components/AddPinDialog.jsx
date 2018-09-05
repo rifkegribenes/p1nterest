@@ -5,8 +5,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import { withStyles } from "@material-ui/core/styles";
+
+import AddLink from "./AddLink";
 
 const styles = theme => ({
   root: {
@@ -33,9 +34,16 @@ class AddPinDialog extends Component {
             </DialogTitle>
           )}
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {this.props.content}
-            </DialogContentText>
+            <AddLink
+              handleInput={this.props.handleInput}
+              addPin={this.props.addPin}
+              classes={this.props.classes}
+              pin={this.props.pin}
+              imageUrl={this.props.imageUrl}
+              siteUrl={this.props.siteUrl}
+              title={this.props.title}
+              description={this.props.description}
+            />
           </DialogContent>
           <DialogActions>
             <Button
@@ -44,14 +52,6 @@ class AddPinDialog extends Component {
               color="default"
             >
               Cancel
-            </Button>
-            <Button
-              onClick={this.props.action}
-              color="secondary"
-              variant="contained"
-              autoFocus
-            >
-              {this.props.buttonText}
             </Button>
           </DialogActions>
         </Dialog>

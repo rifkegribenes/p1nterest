@@ -162,6 +162,7 @@ class AddPin extends Component {
     return (
       <div className="addPin">
         <Notifier />
+        {this.state.addP}
         <div className={this.props.classes.wrapper}>
           <div className={this.props.classes.widget}>
             <RePin classes={this.props.classes} />
@@ -189,7 +190,16 @@ class AddPin extends Component {
           </div>
         </div>
         {this.props.pin.imageSearchResults.length ? (
-          <SearchResults clearSearch={this.clearForm} />
+          <SearchResults
+            handleInput={this.handleInput}
+            addPin={this.addPin}
+            pin={this.props.pin}
+            imageUrl={this.state.imageUrl}
+            siteUrl={this.state.siteUrl}
+            title={this.state.title}
+            description={this.state.description}
+            clearSearch={this.clearForm}
+          />
         ) : null}
       </div>
     );

@@ -10,7 +10,7 @@ const RePin = props => (
       variant="headline"
       align="center"
       gutterBottom
-      style={{ paddingTop: 20 }}
+      style={{ paddingTop: 20, marginBottom: 40 }}
     >
       Repin another user's image
     </Typography>

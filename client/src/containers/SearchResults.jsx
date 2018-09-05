@@ -11,6 +11,7 @@ import ImageGrid from "../components/ImageGrid";
 
 import { withStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
+import AddPinDialog from "../components/AddPinDialog";
 
 const styles = theme => ({
   root: {
@@ -98,6 +99,18 @@ class SearchResults extends Component {
     return (
       <div className={this.props.classes.container}>
         <Notifier />
+        {this.state.dialogOpen && (
+          <AddPinDialog
+            open={this.state.dialogOpen}
+            handleInput={this.props.handleInput}
+            addPin={this.props.addPin}
+            pin={this.props.pin}
+            imageUrl={this.props.imageUrl}
+            siteUrl={this.props.siteUrl}
+            title={this.props.title}
+            description={this.props.description}
+          />
+        )}
         <Divider style={{ margin: 20 }} />
         <ImageGrid
           listType="search"
