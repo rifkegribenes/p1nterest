@@ -23,18 +23,22 @@ const styles = theme => ({
     position: "absolute",
     top: 20,
     right: 20,
-    zIndex: 0,
     visibility: "hidden"
   },
   actionArea: {
     borderRadius: 4,
     zIndex: 1,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    cursor: "pointer",
     "&:hover": {
-      backgroundColor: "rgba(0,0,0,.15)"
+      backgroundColor: "rgba(0,0,0,.05)"
     },
     "&:hover $pinButton": {
-      visibility: "visible",
-      zIndex: 2
+      visibility: "visible"
     }
   },
   pinIcon: {
@@ -86,7 +90,11 @@ const ImageGrid = props => {
         {/*        <div className="grid-sizer" style={{ width: "160px"}}/>*/}
         {props.tileData.map(tile => (
           <div className="card" style={cardStyle} key={tile.id || tile._id}>
-            <div className={classes.actionArea}>
+            <div
+              className={classes.actionArea}
+              onClick={() => props.openAddPinDialog(tile)}
+              tabIndex={0}
+            >
               <Button
                 className={classes.pinButton}
                 onClick={() => props.openAddPinDialog(tile)}
@@ -94,17 +102,17 @@ const ImageGrid = props => {
                 variant="raised"
               >
                 <img src={pinIcon} alt="" className={classes.pinIcon} />
-                Add Pin
+                Save
               </Button>
-              <img
-                className={classes.image}
-                src={tile.url || tile.imageUrl}
-                alt={tile.snippet || tile.title}
-              />
-              <Typography component="p" className={classes.caption}>
-                {tile.snippet || tile.title}
-              </Typography>
             </div>
+            <img
+              className={classes.image}
+              src={tile.url || tile.imageUrl}
+              alt={tile.snippet || tile.title}
+            />
+            <Typography component="p" className={classes.caption}>
+              {tile.snippet || tile.title}
+            </Typography>
           </div>
         ))}
       </Masonry>
