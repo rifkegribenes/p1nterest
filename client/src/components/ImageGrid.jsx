@@ -53,7 +53,7 @@ const styles = theme => ({
     padding: 20
   },
   image: {
-    maxWidth: 280,
+    width: 280,
     height: "auto",
     borderRadius: "4px",
     margin: 10

@@ -100,11 +100,17 @@ class AddPin extends Component {
     });
   };
 
-  addPin = e => {
+  addPin = (e, selectedPin, flickr) => {
     e.preventDefault();
-    const { imageUrl, siteUrl, title, description } = this.state;
+    console.log(selectedPin);
+    console.log(flickr);
+    let { imageUrl, siteUrl, title, description } = this.state;
     const userId = this.props.profile.profile._id;
     const { userName, avatarUrl } = this.props.profile.profile;
+    if (selectedPin) {
+      imageUrl = flickr ? selectedPin.url : selectedPin.imageUrl;
+      siteUrl = flickr ? selectedPin.context : selectedPin.siteUrl;
+    }
     const token = this.props.appState.authToken;
     const body = {
       imageUrl,
@@ -115,6 +121,7 @@ class AddPin extends Component {
       userName,
       avatarUrl
     };
+    console.log(body);
 
     if (!token) {
       // change this to redirect to login

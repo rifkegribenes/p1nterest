@@ -50,19 +50,22 @@ const styles = theme => ({
 
 class SearchResults extends Component {
   state = {
-    dialogOpen: false
+    dialogOpen: false,
+    selectedPin: {}
   };
 
-  handleOpen = () => {
+  handleOpen = selectedPin => {
     console.log("handleOpen");
     this.setState({
-      dialogOpen: true
+      dialogOpen: true,
+      selectedPin
     });
   };
 
   handleClose = () => {
     this.setState({
-      dialogOpen: false
+      dialogOpen: false,
+      selectedPin: {}
     });
   };
 
@@ -101,8 +104,10 @@ class SearchResults extends Component {
         <Notifier />
         {this.state.dialogOpen && (
           <AddPinDialog
+            flickr={true}
             open={this.state.dialogOpen}
             handleInput={this.props.handleInput}
+            selectedPin={this.state.selectedPin}
             addPin={this.props.addPin}
             pin={this.props.pin}
             imageUrl={this.props.imageUrl}
