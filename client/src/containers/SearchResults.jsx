@@ -49,26 +49,6 @@ const styles = theme => ({
 });
 
 class SearchResults extends Component {
-  state = {
-    dialogOpen: false,
-    selectedPin: {}
-  };
-
-  handleOpen = selectedPin => {
-    console.log("handleOpen");
-    this.setState({
-      dialogOpen: true,
-      selectedPin
-    });
-  };
-
-  handleClose = () => {
-    this.setState({
-      dialogOpen: false,
-      selectedPin: {}
-    });
-  };
-
   addPin = pin => {
     const token = this.props.appState.authToken;
     const userId = this.props.profile.profile._id;
@@ -102,12 +82,12 @@ class SearchResults extends Component {
     return (
       <div className={this.props.classes.container}>
         <Notifier />
-        {this.state.dialogOpen && (
+        {this.props.dialogOpen && (
           <AddPinDialog
             flickr={true}
-            open={this.state.dialogOpen}
+            open={this.props.dialogOpen}
             handleInput={this.props.handleInput}
-            selectedPin={this.state.selectedPin}
+            selectedPin={this.props.selectedPin}
             addPin={this.props.addPin}
             pin={this.props.pin}
             imageUrl={this.props.imageUrl}
@@ -122,7 +102,7 @@ class SearchResults extends Component {
           loggedIn={this.props.appState.loggedIn}
           title="Search Results"
           tileData={this.props.pin.imageSearchResults}
-          openAddPinDialog={this.handleOpen}
+          openAddPinDialog={this.props.handleOpen}
           setRedirect={this.setRedirect}
         />
       </div>

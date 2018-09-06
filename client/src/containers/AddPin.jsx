@@ -63,7 +63,9 @@ class AddPin extends Component {
       imageUrl: "",
       siteUrl: "",
       title: "",
-      description: ""
+      description: "",
+      dialogOpen: false,
+      selectedPin: {}
     };
   }
 
@@ -71,6 +73,21 @@ class AddPin extends Component {
     this.setState({
       [name]: value
     });
+
+  handleOpen = selectedPin => {
+    console.log("handleOpen");
+    this.setState({
+      dialogOpen: true,
+      selectedPin
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      dialogOpen: false,
+      selectedPin: {}
+    });
+  };
 
   searchImage = () => {
     const keyword = encodeURIComponent(this.state.keyword);
@@ -96,14 +113,15 @@ class AddPin extends Component {
       imageUrl: "",
       siteUrl: "",
       title: "",
-      description: ""
+      description: "",
+      dialogOpen: false,
+      selectedPin: {}
     });
   };
 
   addPin = (e, selectedPin, flickr) => {
     e.preventDefault();
     console.log(selectedPin);
-    console.log(flickr);
     let { imageUrl, siteUrl, title, description } = this.state;
     const userId = this.props.profile.profile._id;
     const { userName, avatarUrl } = this.props.profile.profile;
@@ -136,11 +154,12 @@ class AddPin extends Component {
     fieldsToValidate.forEach(field => field.checkValidity());
 
     if (
-      imageUrl &&
-      title &&
-      !!imageUrlField.validity.valid &&
-      !!siteUrlField.validity.valid &&
-      !!titleField.validity.valid
+      (imageUrl &&
+        title &&
+        !!imageUrlField.validity.valid &&
+        !!siteUrlField.validity.valid &&
+        !!titleField.validity.valid) ||
+      (flickr && title)
     ) {
       this.props.apiPin
         .addPin(token, body)
@@ -154,13 +173,18 @@ class AddPin extends Component {
           } else if (result.type === "ADD_PIN_SUCCESS") {
             openSnackbar("success", "Pin added.");
             this.clearForm();
+            this.handleClose();
           }
         })
         .catch(err => openSnackbar("error", err));
     } else {
       openSnackbar(
         "error",
-        "Please enter a valid image URL (including http://) and a title to add a new pin."
+        `${
+          flickr
+            ? "Please enter a title."
+            : "Please enter a valid image URL (including http://) and a title to add a new pin."
+        }`
       );
     }
   };
@@ -177,6 +201,7 @@ class AddPin extends Component {
           <div className={this.props.classes.widget}>
             <AddLink
               handleInput={this.handleInput}
+              handleClose={this.handleClose}
               addPin={this.addPin}
               classes={this.props.classes}
               pin={this.props.pin}
@@ -199,6 +224,10 @@ class AddPin extends Component {
         {this.props.pin.imageSearchResults.length ? (
           <SearchResults
             handleInput={this.handleInput}
+            handleOpen={this.handleOpen}
+            handleClose={this.handleClose}
+            dialogOpen={this.state.dialogOpen}
+            selectedPin={this.state.selectedPin}
             addPin={this.addPin}
             pin={this.props.pin}
             imageUrl={this.state.imageUrl}

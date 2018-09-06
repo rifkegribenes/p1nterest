@@ -41,6 +41,7 @@ const styles = theme => ({
 
 class AddPinDialog extends Component {
   render() {
+    const { classes } = this.props;
     return (
       <React.Fragment>
         <Dialog
