@@ -8,6 +8,7 @@ import ButtonWithSpinner from "./ButtonWithSpinner";
 
 const AddLink = props => {
   const dialog = props.type === "dialog";
+  console.log(props);
   return (
     <div style={{ padding: 20 }}>
       <Typography
@@ -18,6 +19,15 @@ const AddLink = props => {
       >
         {dialog ? "Save to your wall" : "Add image by pasting in a URL"}
       </Typography>
+      <img
+        src={
+          dialog
+            ? props.selectedPin.imageUrl || props.selectedPin.url
+            : props.imageUrl
+        }
+        className={props.classes.dialogThumbnail}
+        alt={props.title}
+      />
       <form
         className={props.classes.form}
         onError={errors => console.log(errors)}

@@ -11,6 +11,7 @@ import SearchResults from "./SearchResults";
 import Notifier, { openSnackbar } from "./Notifier";
 import RePin from "../components/RePin";
 import AddLink from "../components/AddLink";
+import AddPinDialog from "../components/AddPinDialog";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -51,6 +52,12 @@ const styles = theme => ({
   },
   widget: {
     maxWidth: "33%"
+  },
+  dialogThumbnail: {
+    width: 100,
+    height: "auto",
+    margin: "auto",
+    textAlign: "center"
   }
 });
 
@@ -65,8 +72,22 @@ class AddPin extends Component {
       title: "",
       description: "",
       dialogOpen: false,
-      selectedPin: {}
+      selectedPin: {},
+      flickr: false
     };
+  }
+
+  componentDidMount() {
+    const pinToAdd = window.localStorage.getItem("pin");
+    const flickr = window.localStorage.getItem("flickr");
+    if (pinToAdd) {
+      this.setState(
+        {
+          selectedPin: { ...pinToAdd }
+        },
+        () => this.handleOpen(this.state.selectedPin, flickr)
+      );
+    }
   }
 
   handleInput = ({ target: { name, value } }) =>
@@ -74,11 +95,12 @@ class AddPin extends Component {
       [name]: value
     });
 
-  handleOpen = selectedPin => {
+  handleOpen = (selectedPin, flickr) => {
     console.log("handleOpen");
     this.setState({
       dialogOpen: true,
-      selectedPin
+      selectedPin: { ...selectedPin },
+      flickr
     });
   };
 
@@ -193,7 +215,20 @@ class AddPin extends Component {
     return (
       <div className="addPin">
         <Notifier />
-        {this.state.addP}
+        {this.state.dialogOpen && (
+          <AddPinDialog
+            flickr={this.state.flickr}
+            open={this.state.dialogOpen}
+            handleInput={this.handleInput}
+            selectedPin={this.state.selectedPin}
+            addPin={this.addPin}
+            pin={this.props.pin}
+            imageUrl={this.state.imageUrl}
+            siteUrl={this.state.siteUrl}
+            title={this.state.title}
+            description={this.state.description}
+          />
+        )}
         <div className={this.props.classes.wrapper}>
           <div className={this.props.classes.widget}>
             <RePin classes={this.props.classes} />

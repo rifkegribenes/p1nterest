@@ -9,6 +9,8 @@ import withWidth from "@material-ui/core/withWidth";
 // import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import pinIcon from "../img/pin.svg";
 
+import { BASE_URL } from "../store/actions/apiConfig.js";
+
 const styles = theme => ({
   root: {
     margin: "0 auto",
@@ -95,9 +97,21 @@ const ImageGrid = props => {
               onClick={() => props.openAddPinDialog(tile)}
               tabIndex={0}
             >
+              {/*DON'T DISPLAY BUTTON OR ADD PIN IF IT's USER's OWN PIN */}
               <Button
                 className={classes.pinButton}
-                onClick={() => props.openAddPinDialog(tile)}
+                onClick={() => {
+                  if (props.loggedIn) {
+                    props.openAddPinDialog(tile);
+                  } else {
+                    window.localStorage.setItem("redirect", "/new");
+                    window.localStorage.setItem("pin", tile);
+                    if (props.listType === "search") {
+                      window.localStorage.setItem("flickr", true);
+                    }
+                    window.location.href = `${BASE_URL}/api/auth/github`;
+                  }
+                }}
                 color="primary"
                 variant="raised"
               >

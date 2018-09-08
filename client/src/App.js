@@ -12,7 +12,6 @@ import * as apiProfileActions from "./store/actions/apiProfileActions";
 
 import NavBar from "./containers/NavBar";
 import Footer from "./components/Footer";
-import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
@@ -121,7 +120,7 @@ class App extends Component {
               exact
               path="/"
               render={routeProps => (
-                <Home classes={this.props.classes} {...routeProps} />
+                <AllPins classes={this.props.classes} {...routeProps} />
               )}
             />
             <Route
