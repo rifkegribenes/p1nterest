@@ -73,7 +73,7 @@ const cardStyle = {
 };
 
 const ImageGrid = props => {
-  const { classes, ...other } = props;
+  const { classes } = props;
   const masonryOptions = {
     itemSelector: ".card",
     gutter: 10,

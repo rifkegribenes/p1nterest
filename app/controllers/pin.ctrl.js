@@ -4,6 +4,7 @@ const utils = require('../utils');
 
 // Get all pins
 exports.getAllPins = (req, res, next) => {
+  console.log('getAllPins');
   Pin.find()
   	.then((pins) => {
     	return res.status(200).json({ pins });

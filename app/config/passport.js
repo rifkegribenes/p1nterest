@@ -71,10 +71,10 @@ module.exports = (passport) => {
     const newUser = new User();
     newUser.github.id = profile.id;
     newUser.github.token = token;
-    newUser.github.email = profile.emails[0].value;
+    newUser.github.email = profile.emails ? profile.emails[0].value : "";
     newUser.github.userName = profile.username;
-    newUser.profile.firstName = profile.displayName.split(' ')[0],
-    newUser.profile.lastName = profile.displayName.split(' ').slice(1),
+    newUser.profile.firstName = profile.displayName ? profile.displayName.split(' ')[0] : "",
+    newUser.profile.lastName = profile.displayName ? profile.displayName.split(' ').slice(1) : "",
     newUser.profile.avatarUrl = profile.photos[0].value,
 
     // save new user to database

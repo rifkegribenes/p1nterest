@@ -51,12 +51,6 @@ const styles = theme => ({
 
 class AddPinDialog extends Component {
   render() {
-    const { classes, ...other } = this.props;
-    const paperClasses = {
-      root: {
-        margin: 0
-      }
-    };
     return (
       <React.Fragment>
         <Dialog

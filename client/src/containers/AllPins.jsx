@@ -77,9 +77,6 @@ class AllPins extends Component {
   };
 
   componentDidMount() {
-    const userId = this.props.profile.profile._id;
-
-    // fetch all pin data from Mongo
     this.props.apiPin.getAllPins().then(result => {
       console.log(result.type);
       if (result.type === "GET_ALL_PINS_FAILURE" || this.props.pin.error) {

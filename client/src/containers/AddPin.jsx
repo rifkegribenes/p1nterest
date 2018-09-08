@@ -72,7 +72,7 @@ class AddPin extends Component {
   }
 
   componentDidMount() {
-    // window.localStorage.removeItem("pin");
+    window.localStorage.removeItem("pin");
     const pinToAdd = JSON.parse(window.localStorage.getItem("pin"));
     const flickr = window.localStorage.getItem("flickr");
     const userId = this.props.profile.profile._id;
@@ -215,7 +215,6 @@ class AddPin extends Component {
   };
 
   render() {
-    const { classes, ...other } = this.props;
     return (
       <div className="addPin">
         <Notifier />
