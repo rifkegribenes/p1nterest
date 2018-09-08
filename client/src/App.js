@@ -23,11 +23,6 @@ const styles = theme => ({
   root: {
     flexGrow: 1
   },
-  hero: {
-    marginRight: 20,
-    height: 150,
-    width: "auto"
-  },
   notFound: {
     height: "80vh",
     width: "auto",
@@ -119,9 +114,7 @@ class App extends Component {
             <Route
               exact
               path="/"
-              render={routeProps => (
-                <AllPins classes={this.props.classes} {...routeProps} />
-              )}
+              render={routeProps => <AllPins {...routeProps} />}
             />
             <Route
               path="/profile/:id?/:token?"

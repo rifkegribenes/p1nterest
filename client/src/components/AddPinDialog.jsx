@@ -36,12 +36,27 @@ const styles = theme => ({
     visibility: "hidden",
     height: 0,
     overflow: "hidden"
+  },
+  dialogThumbnailWrap: {
+    display: "flex",
+    justifyContent: "center",
+    height: 140,
+    alignItems: "center"
+  },
+  dialogThumbnail: {
+    height: 100,
+    width: "auto"
   }
 });
 
 class AddPinDialog extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, ...other } = this.props;
+    const paperClasses = {
+      root: {
+        margin: 0
+      }
+    };
     return (
       <React.Fragment>
         <Dialog
@@ -53,7 +68,7 @@ class AddPinDialog extends Component {
               : "Save pin to your wall"
           }
           aria-describedby="Save pin to your wall"
-          PaperProps={{ classes: this.props.classes }}
+          PaperProps={{ classes: { root: "dialog-root" } }}
         >
           {this.props.modalTitle && (
             <DialogTitle id="alert-dialog-title">

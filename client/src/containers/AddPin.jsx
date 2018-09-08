@@ -52,12 +52,6 @@ const styles = theme => ({
   },
   widget: {
     maxWidth: "33%"
-  },
-  dialogThumbnail: {
-    width: 100,
-    height: "auto",
-    margin: "auto",
-    textAlign: "center"
   }
 });
 
@@ -78,14 +72,22 @@ class AddPin extends Component {
   }
 
   componentDidMount() {
-    const pinToAdd = window.localStorage.getItem("pin");
+    // window.localStorage.removeItem("pin");
+    const pinToAdd = JSON.parse(window.localStorage.getItem("pin"));
     const flickr = window.localStorage.getItem("flickr");
-    if (pinToAdd) {
+    const userId = this.props.profile.profile._id;
+    // console.log(this.props.profile.profile);
+    // console.log(userId);
+    // console.log(pinToAdd);
+    if (pinToAdd && userId !== pinToAdd.userId) {
       this.setState(
         {
           selectedPin: { ...pinToAdd }
         },
-        () => this.handleOpen(this.state.selectedPin, flickr)
+        () => {
+          // console.log(this.state.selectedPin);
+          this.handleOpen(this.state.selectedPin, flickr);
+        }
       );
     }
   }
@@ -96,7 +98,6 @@ class AddPin extends Component {
     });
 
   handleOpen = (selectedPin, flickr) => {
-    console.log("handleOpen");
     this.setState({
       dialogOpen: true,
       selectedPin: { ...selectedPin },
@@ -105,10 +106,12 @@ class AddPin extends Component {
   };
 
   handleClose = () => {
+    console.log("close");
     this.setState({
       dialogOpen: false,
       selectedPin: {}
     });
+    window.localStorage.removeItem("pin");
   };
 
   searchImage = () => {
@@ -212,6 +215,7 @@ class AddPin extends Component {
   };
 
   render() {
+    const { classes, ...other } = this.props;
     return (
       <div className="addPin">
         <Notifier />
@@ -219,6 +223,7 @@ class AddPin extends Component {
           <AddPinDialog
             flickr={this.state.flickr}
             open={this.state.dialogOpen}
+            handleClose={this.handleClose}
             handleInput={this.handleInput}
             selectedPin={this.state.selectedPin}
             addPin={this.addPin}
@@ -281,6 +286,11 @@ AddPin.propTypes = {
   pin: PropTypes.shape({
     imageSearchResults: PropTypes.array,
     error: PropTypes.string
+  }),
+  profile: PropTypes.shape({
+    profile: PropTypes.shape({
+      userId: PropTypes.String
+    })
   }),
   apiPin: PropTypes.shape({
     clearSearchResults: PropTypes.func,

@@ -90,45 +90,58 @@ const ImageGrid = props => {
       </Typography>
       <Masonry options={masonryOptions} className={classes.masonry}>
         {/*        <div className="grid-sizer" style={{ width: "160px"}}/>*/}
-        {props.tileData.map(tile => (
-          <div className="card" style={cardStyle} key={tile.id || tile._id}>
-            <div
-              className={classes.actionArea}
-              onClick={() => props.openAddPinDialog(tile)}
-              tabIndex={0}
-            >
-              {/*DON'T DISPLAY BUTTON OR ADD PIN IF IT's USER's OWN PIN */}
-              <Button
-                className={classes.pinButton}
+        {props.tileData.map(tile => {
+          const owner = props.userId === tile.userId;
+          return (
+            <div className="card" style={cardStyle} key={tile.id || tile._id}>
+              <div
+                className={classes.actionArea}
                 onClick={() => {
-                  if (props.loggedIn) {
-                    props.openAddPinDialog(tile);
+                  if (owner) {
+                    return null;
                   } else {
-                    window.localStorage.setItem("redirect", "/new");
-                    window.localStorage.setItem("pin", tile);
-                    if (props.listType === "search") {
-                      window.localStorage.setItem("flickr", true);
-                    }
-                    window.location.href = `${BASE_URL}/api/auth/github`;
+                    props.openAddPinDialog(tile);
                   }
                 }}
-                color="primary"
-                variant="raised"
+                tabIndex={0}
               >
-                <img src={pinIcon} alt="" className={classes.pinIcon} />
-                Save
-              </Button>
+                {!owner && (
+                  <Button
+                    className={classes.pinButton}
+                    onClick={() => {
+                      if (props.loggedIn) {
+                        props.openAddPinDialog(tile);
+                      } else {
+                        window.localStorage.setItem("redirect", "/new");
+                        window.localStorage.setItem(
+                          "pin",
+                          JSON.stringify(tile)
+                        );
+                        if (props.listType === "search") {
+                          window.localStorage.setItem("flickr", true);
+                        }
+                        window.location.href = `${BASE_URL}/api/auth/github`;
+                      }
+                    }}
+                    color="primary"
+                    variant="raised"
+                  >
+                    <img src={pinIcon} alt="" className={classes.pinIcon} />
+                    Save
+                  </Button>
+                )}
+              </div>
+              <img
+                className={classes.image}
+                src={tile.url || tile.imageUrl}
+                alt={tile.snippet || tile.title}
+              />
+              <Typography component="p" className={classes.caption}>
+                {tile.snippet || tile.title}
+              </Typography>
             </div>
-            <img
-              className={classes.image}
-              src={tile.url || tile.imageUrl}
-              alt={tile.snippet || tile.title}
-            />
-            <Typography component="p" className={classes.caption}>
-              {tile.snippet || tile.title}
-            </Typography>
-          </div>
-        ))}
+          );
+        })}
       </Masonry>
     </div>
   );

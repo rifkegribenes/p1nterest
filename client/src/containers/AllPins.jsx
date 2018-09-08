@@ -8,7 +8,6 @@ import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiPinActions from "../store/actions/apiPinActions";
 
 import ImageGrid from "../components/ImageGrid";
-import AlertDialog from "../components/AlertDialog";
 import Notifier, { openSnackbar } from "./Notifier";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -82,6 +81,7 @@ class AllPins extends Component {
 
     // fetch all pin data from Mongo
     this.props.apiPin.getAllPins().then(result => {
+      console.log(result.type);
       if (result.type === "GET_ALL_PINS_FAILURE" || this.props.pin.error) {
         openSnackbar(
           "error",
@@ -115,26 +115,6 @@ class AllPins extends Component {
     return (
       <div className="pinList">
         <Notifier />
-        {/*        {this.state.alertDialogOpen && (
-          <AlertDialog
-            handleClose={this.handleAlertDialogClose}
-            open={this.state.alertDialogOpen}
-            title="Confirm your proposal"
-            content={`Clicking Propose Trade will send a message to ${
-              this.state.pinRequested.ownerData.firstName
-            } offering to trade your copy of ${
-              this.state.pinOffered.title
-            } for their copy of ${this.state.pinRequested.title}.`}
-            action={() => {
-              this.proposeTrade(
-                this.state.pinRequested,
-                this.state.pinOffered
-              );
-              this.handleAlertDialogClose();
-            }}
-            buttonText="Propose Trade"
-          />
-        )}*/}
         <ImageGrid
           listType="all"
           loggedIn={this.props.appState.loggedIn}
