@@ -24,6 +24,11 @@ export const UPDATE_LIKES_SUCCESS = "UPDATE_LIKES_SUCCESS";
 export const UPDATE_LIKES_FAILURE = "UPDATE_LIKES_FAILURE";
 export const CLEAR_SEARCH_RESULTS = "CLEAR_SEARCH_RESULTS";
 export const UPDATE_PINLIST_SUCCESS = "UPDATE_PINLIST_SUCCESS";
+export const SET_SELECTED_PIN = "SET_SELECTED_PIN";
+export const HANDLE_INPUT = "HANDLE_INPUT";
+export const HANDLE_ADDPIN_OPEN = "HANDLE_ADDPIN_OPEN";
+export const HANDLE_ADDPIN_CLOSE = "HANDLE_ADDPIN_CLOSE";
+export const CLEAR_FORM = "CLEAR_FORM";
 
 export function clearSearchResults() {
   return {
@@ -35,6 +40,39 @@ export function updatePinlist(pins) {
   return {
     type: UPDATE_PINLIST_SUCCESS,
     payload: { pins }
+  };
+}
+
+export function setSelectedPin(selectedPin) {
+  return {
+    type: SET_SELECTED_PIN,
+    payload: { selectedPin }
+  };
+}
+
+export function handleInput({ target: { name, value } }) {
+  return {
+    type: HANDLE_INPUT,
+    payload: { name, value }
+  };
+}
+
+export function handleAddPinOpen(selectedPin, flickr) {
+  return {
+    type: HANDLE_ADDPIN_OPEN,
+    payload: { selectedPin, flickr }
+  };
+}
+
+export function handleAddPinClose() {
+  return {
+    type: HANDLE_ADDPIN_CLOSE
+  };
+}
+
+export function clearForm() {
+  return {
+    type: CLEAR_FORM
   };
 }
 

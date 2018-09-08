@@ -13,11 +13,14 @@ import * as apiProfileActions from "./store/actions/apiProfileActions";
 import NavBar from "./containers/NavBar";
 import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
+import AddPinDialog from "./components/AddPinDialog";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
 // import UserPins from "./containers/UserPins";
 import AddPin from "./containers/AddPin";
 import AllPins from "./containers/AllPins";
+
+import Notifier, { openSnackbar } from "./containers/Notifier";
 
 const styles = theme => ({
   root: {
@@ -104,12 +107,103 @@ class App extends Component {
     }
   }
 
+  addPin = (e, selectedPin, flickr) => {
+    e.preventDefault();
+    console.log(selectedPin);
+    let { imageUrl, siteUrl, title, description } = this.props.pin.form;
+    const userId = this.props.profile.profile._id;
+    const { userName, avatarUrl } = this.props.profile.profile;
+    if (selectedPin) {
+      imageUrl = flickr ? selectedPin.url : selectedPin.imageUrl;
+      siteUrl = flickr ? selectedPin.context : selectedPin.siteUrl;
+    }
+    const token = this.props.appState.authToken;
+    const body = {
+      imageUrl,
+      siteUrl,
+      title,
+      description,
+      userId,
+      userName,
+      avatarUrl
+    };
+    console.log(body);
+
+    if (!token) {
+      // change this to redirect to login
+      // with body and redirect saved to localStorage
+      openSnackbar("error", "Please log in to add a pin.");
+    }
+
+    const imageUrlField = document.getElementById("imageUrl");
+    const siteUrlField = document.getElementById("siteUrl");
+    const titleField = document.getElementById("title");
+    const fieldsToValidate = [imageUrlField, siteUrlField, titleField];
+    fieldsToValidate.forEach(field => field.checkValidity());
+
+    if (
+      (imageUrl &&
+        title &&
+        !!imageUrlField.validity.valid &&
+        !!siteUrlField.validity.valid &&
+        !!titleField.validity.valid) ||
+      (flickr && title)
+    ) {
+      this.props.apiPin
+        .addPin(token, body)
+        .then(result => {
+          if (result.type === "ADD_PIN_FAILURE" || this.props.pin.error) {
+            openSnackbar(
+              "error",
+              this.props.pin.error ||
+                "Sorry, something went wrong, please try again."
+            );
+          } else if (result.type === "ADD_PIN_SUCCESS") {
+            openSnackbar("success", "Pin added.");
+            this.props.apiPin.clearForm();
+            this.props.apiPin.handleAddPinClose();
+          }
+        })
+        .catch(err => openSnackbar("error", err));
+    } else {
+      openSnackbar(
+        "error",
+        `${
+          flickr
+            ? "Please enter a title."
+            : "Please enter a valid image URL (including http://) and a title to add a new pin."
+        }`
+      );
+    }
+  };
+
+  handleClose = () => {
+    this.props.apiPin.handleAddPinClose();
+    window.localStorage.removeItem("pin");
+  };
+
   render() {
     return (
       <React.Fragment>
         <CssBaseline />
         <NavBar />
+        <Notifier />
         <main className="main" id="main">
+          {this.props.pin.form.dialogOpen && (
+            <AddPinDialog
+              flickr={this.props.pin.form.flickr}
+              open={this.props.pin.form.dialogOpen}
+              handleClose={this.handleClose}
+              handleInput={this.props.apiPin.handleInput}
+              selectedPin={this.props.pin.form.selectedPin}
+              addPin={this.addPin}
+              pin={this.props.pin}
+              imageUrl={this.props.pin.form.imageUrl}
+              siteUrl={this.props.pin.form.siteUrl}
+              title={this.props.pin.form.title}
+              description={this.props.pin.form.description}
+            />
+          )}
           <Switch>
             <Route
               exact

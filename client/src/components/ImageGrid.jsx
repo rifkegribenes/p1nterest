@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Masonry from "react-masonry-component";
-// import CardActionArea from "@material-ui/core/CardActionArea";
 import Button from "@material-ui/core/Button";
-import withWidth from "@material-ui/core/withWidth";
-// import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import pinIcon from "../img/pin.svg";
+
+import * as apiPinActions from "../store/actions/apiPinActions";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
 
@@ -72,83 +74,109 @@ const cardStyle = {
   position: "relative"
 };
 
-const ImageGrid = props => {
-  const { classes } = props;
-  const masonryOptions = {
-    itemSelector: ".card",
-    gutter: 10,
-    columnWidth: 300,
-    fitWidth: true
-  };
-  return (
-    <div className={classes.root}>
-      <Typography
-        variant="headline"
-        style={{ height: "auto", textAlign: "center", marginBottom: 10 }}
-      >
-        {props.title}
-      </Typography>
-      <Masonry options={masonryOptions} className={classes.masonry}>
-        {/*        <div className="grid-sizer" style={{ width: "160px"}}/>*/}
-        {props.tileData.map(tile => {
-          const owner = props.userId === tile.userId;
-          return (
-            <div className="card" style={cardStyle} key={tile.id || tile._id}>
-              <div
-                className={classes.actionArea}
-                onClick={() => {
-                  if (owner) {
-                    return null;
-                  } else {
-                    props.openAddPinDialog(tile);
-                  }
-                }}
-                tabIndex={0}
-              >
-                {!owner && (
-                  <Button
-                    className={classes.pinButton}
-                    onClick={() => {
-                      if (props.loggedIn) {
-                        props.openAddPinDialog(tile);
-                      } else {
-                        window.localStorage.setItem("redirect", "/new");
-                        window.localStorage.setItem(
-                          "pin",
-                          JSON.stringify(tile)
-                        );
-                        if (props.listType === "search") {
-                          window.localStorage.setItem("flickr", true);
+class ImageGrid extends React.Component {
+  render() {
+    const { classes } = this.props;
+    const masonryOptions = {
+      itemSelector: ".card",
+      gutter: 10,
+      columnWidth: 300,
+      fitWidth: true
+    };
+    const tileData =
+      this.props.listType === "search"
+        ? this.props.pin.imageSearchResults
+        : this.props.listType === "user"
+          ? this.props.pin.loggedInUserPins
+          : this.props.pin.pins;
+    return (
+      <div className={classes.root}>
+        <Typography
+          variant="headline"
+          style={{ height: "auto", textAlign: "center", marginBottom: 10 }}
+        >
+          {this.props.title}
+        </Typography>
+        <Masonry options={masonryOptions} className={classes.masonry}>
+          {/*        <div className="grid-sizer" style={{ width: "160px"}}/>*/}
+          {tileData.map(tile => {
+            const owner = this.props.profile.profile._id === tile.userId;
+            return (
+              <div className="card" style={cardStyle} key={tile.id || tile._id}>
+                <div
+                  className={classes.actionArea}
+                  onClick={() => {
+                    if (owner) {
+                      return null;
+                    } else {
+                      this.props.apiPin.handleAddPinOpen(tile);
+                    }
+                  }}
+                  tabIndex={0}
+                >
+                  {!owner && (
+                    <Button
+                      className={classes.pinButton}
+                      onClick={() => {
+                        if (this.props.appState.loggedIn) {
+                          console.log("this should open the addpin dialog");
+                          this.props.apiPin.handleAddPinOpen(tile);
+                        } else {
+                          window.localStorage.setItem("redirect", "/new");
+                          window.localStorage.setItem(
+                            "pin",
+                            JSON.stringify(tile)
+                          );
+                          if (this.props.listType === "search") {
+                            window.localStorage.setItem("flickr", true);
+                          }
+                          window.location.href = `${BASE_URL}/api/auth/github`;
                         }
-                        window.location.href = `${BASE_URL}/api/auth/github`;
-                      }
-                    }}
-                    color="primary"
-                    variant="raised"
-                  >
-                    <img src={pinIcon} alt="" className={classes.pinIcon} />
-                    Save
-                  </Button>
-                )}
+                      }}
+                      color="primary"
+                      variant="raised"
+                    >
+                      <img src={pinIcon} alt="" className={classes.pinIcon} />
+                      Save
+                    </Button>
+                  )}
+                </div>
+                <img
+                  className={classes.image}
+                  src={tile.url || tile.imageUrl}
+                  alt={tile.snippet || tile.title}
+                />
+                <Typography component="p" className={classes.caption}>
+                  {tile.snippet || tile.title}
+                </Typography>
               </div>
-              <img
-                className={classes.image}
-                src={tile.url || tile.imageUrl}
-                alt={tile.snippet || tile.title}
-              />
-              <Typography component="p" className={classes.caption}>
-                {tile.snippet || tile.title}
-              </Typography>
-            </div>
-          );
-        })}
-      </Masonry>
-    </div>
-  );
-};
+            );
+          })}
+        </Masonry>
+      </div>
+    );
+  }
+}
 
 ImageGrid.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withWidth()(withStyles(styles)(ImageGrid));
+const mapStateToProps = state => ({
+  appState: state.appState,
+  profile: state.profile,
+  pin: state.pin
+});
+
+const mapDispatchToProps = dispatch => ({
+  apiPin: bindActionCreators(apiPinActions, dispatch)
+});
+
+export default withStyles(styles)(
+  withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(ImageGrid)
+  )
+);

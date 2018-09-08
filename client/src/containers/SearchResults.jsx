@@ -6,12 +6,12 @@ import { bindActionCreators } from "redux";
 
 import * as apiPinActions from "../store/actions/apiPinActions";
 
-import Notifier, { openSnackbar } from "./Notifier";
 import ImageGrid from "../components/ImageGrid";
 
 import { withStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
-import AddPinDialog from "../components/AddPinDialog";
+
+import { openSnackbar } from "./Notifier";
 
 const styles = theme => ({
   root: {
@@ -62,9 +62,9 @@ class SearchResults extends Component {
       this.props.apiPin
         .addPin(token, pin)
         .then(result => {
-          openSnackbar("success", `Added ${pin.title} to your library.`);
-          this.props.clearSearch();
-          this.props.history.push("/library");
+          openSnackbar("success", `Added ${pin.title} to your wall.`);
+          this.props.apiPin.clearSearch();
+          this.props.history.push("/mypins");
         })
         .catch(err => openSnackbar("error", err));
     } else {
@@ -81,28 +81,11 @@ class SearchResults extends Component {
   render() {
     return (
       <div className={this.props.classes.container}>
-        <Notifier />
-        {this.props.dialogOpen && (
-          <AddPinDialog
-            flickr={true}
-            open={this.props.dialogOpen}
-            handleInput={this.props.handleInput}
-            selectedPin={this.props.selectedPin}
-            addPin={this.props.addPin}
-            pin={this.props.pin}
-            imageUrl={this.props.imageUrl}
-            siteUrl={this.props.siteUrl}
-            title={this.props.title}
-            description={this.props.description}
-          />
-        )}
         <Divider style={{ margin: 20 }} />
         <ImageGrid
           listType="search"
-          loggedIn={this.props.appState.loggedIn}
           title="Search Results"
           tileData={this.props.pin.imageSearchResults}
-          openAddPinDialog={this.props.handleOpen}
           setRedirect={this.setRedirect}
         />
       </div>

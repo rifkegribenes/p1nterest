@@ -8,8 +8,9 @@ import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiPinActions from "../store/actions/apiPinActions";
 
 import ImageGrid from "../components/ImageGrid";
-import Notifier, { openSnackbar } from "./Notifier";
 import { withStyles } from "@material-ui/core/styles";
+
+import { openSnackbar } from "./Notifier";
 
 const styles = theme => ({
   root: {
@@ -72,10 +73,6 @@ const styles = theme => ({
 });
 
 class AllPins extends Component {
-  state = {
-    alertDialogOpen: false
-  };
-
   componentDidMount() {
     this.props.apiPin.getAllPins().then(result => {
       console.log(result.type);
@@ -92,36 +89,10 @@ class AllPins extends Component {
     });
   }
 
-  likePin = pin => {
-    console.log("likePin");
-  };
-
-  handleOpen = () => {
-    this.setState({ alertDialogOpen: true });
-  };
-
-  handleClose = () => {
-    this.setState({ alertDialogOpen: false });
-  };
-
-  cancel = () => {
-    this.setState({ alertDialogOpen: false });
-  };
-
   render() {
     return (
       <div className="pinList">
-        <Notifier />
-        <ImageGrid
-          listType="all"
-          loggedIn={this.props.appState.loggedIn}
-          alertDialogOpen={this.state.alertDialogOpen}
-          openAddPinDialog={this.handleOpen}
-          closeAddPinDialog={this.handleClose}
-          cancel={this.cancel}
-          tileData={this.props.pin.pins}
-          userId={this.props.profile.profile._id}
-        />
+        <ImageGrid />
       </div>
     );
   }

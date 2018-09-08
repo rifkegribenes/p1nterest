@@ -20,7 +20,12 @@ import {
   UPDATE_LIKES_REQUEST,
   UPDATE_LIKES_SUCCESS,
   UPDATE_LIKES_FAILURE,
-  UPDATE_PINLIST_SUCCESS
+  UPDATE_PINLIST_SUCCESS,
+  SET_SELECTED_PIN,
+  HANDLE_INPUT,
+  HANDLE_ADDPIN_OPEN,
+  HANDLE_ADDPIN_CLOSE,
+  CLEAR_FORM
 } from "../actions/apiPinActions";
 
 const INITIAL_STATE = {
@@ -39,6 +44,16 @@ const INITIAL_STATE = {
     createdAt: "",
     likes: [] // array of userIds
   },
+  form: {
+    keyword: "",
+    imageUrl: "",
+    siteUrl: "",
+    title: "",
+    description: "",
+    dialogOpen: false,
+    selectedPin: {},
+    flickr: false
+  },
   loggedInUserPins: [],
   error: null
 };
@@ -49,6 +64,52 @@ function pin(state = INITIAL_STATE, action) {
   switch (action.type) {
     case LOGOUT:
       return INITIAL_STATE;
+
+    case SET_SELECTED_PIN:
+      return update(state, {
+        form: {
+          selectedPin: { $set: { ...action.payload.selectedPin } }
+        }
+      });
+
+    case HANDLE_INPUT:
+      return update(state, {
+        form: {
+          [action.payload.name]: { $set: action.payload.value }
+        }
+      });
+
+    case HANDLE_ADDPIN_OPEN:
+      return update(state, {
+        form: {
+          dialogOpen: { $set: true },
+          selectedPin: { $set: { ...action.payload.selectedPin } },
+          flickr: { $set: action.payload.flickr }
+        }
+      });
+
+    case HANDLE_ADDPIN_CLOSE:
+      return update(state, {
+        form: {
+          dialogOpen: { $set: false },
+          selectedPin: { $set: {} },
+          flickr: { $set: false }
+        }
+      });
+
+    case CLEAR_FORM:
+      return update(state, {
+        form: {
+          keyword: { $set: "" },
+          imageUrl: { $set: "" },
+          siteUrl: { $set: "" },
+          title: { $set: "" },
+          description: { $set: "" },
+          dialogOpen: { $set: false },
+          selectedPin: { $set: {} },
+          flickr: { $set: false }
+        }
+      });
 
     case GET_ALL_PINS_REQUEST:
     case GET_PIN_BY_ID_REQUEST:
