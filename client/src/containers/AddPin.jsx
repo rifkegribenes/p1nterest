@@ -96,7 +96,11 @@ class AddPin extends Component {
             <RePin classes={this.props.classes} />
           </div>
           <div className={this.props.classes.widget}>
-            <AddLink classes={this.props.classes} pin={this.props.pin} />
+            <AddLink
+              classes={this.props.classes}
+              pin={this.props.pin}
+              addPin={this.props.addPin}
+            />
           </div>
           <div className={this.props.classes.widget}>
             <Search

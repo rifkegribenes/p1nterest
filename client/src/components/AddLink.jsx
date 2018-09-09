@@ -11,6 +11,24 @@ import * as apiPinActions from "../store/actions/apiPinActions";
 import ButtonWithSpinner from "./ButtonWithSpinner";
 
 class AddLink extends React.Component {
+  addLink = e => {
+    console.log("addLink");
+    const dialog = this.props.type === "dialog";
+    let pinToAdd;
+    if (dialog) {
+      pinToAdd = this.props.pin.form.selectedPin;
+    } else {
+      const { imageUrl, siteUrl, title, description } = this.props.pin.form;
+      pinToAdd = {
+        imageUrl,
+        siteUrl,
+        title,
+        description
+      };
+    }
+    this.props.addPin(e, pinToAdd);
+  };
+
   render() {
     const dialog = this.props.type === "dialog";
     return (
@@ -93,7 +111,7 @@ class AddLink extends React.Component {
             color="primary"
             className={this.props.classes.button}
             variant="raised"
-            onClick={e => this.props.addPin(e, this.props.pin.form.selectedPin)}
+            onClick={this.addLink}
             loading={this.props.pin.loading}
           >
             Save pin
