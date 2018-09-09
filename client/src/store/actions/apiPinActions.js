@@ -29,6 +29,7 @@ export const HANDLE_INPUT = "HANDLE_INPUT";
 export const HANDLE_ADDPIN_OPEN = "HANDLE_ADDPIN_OPEN";
 export const HANDLE_ADDPIN_CLOSE = "HANDLE_ADDPIN_CLOSE";
 export const CLEAR_FORM = "CLEAR_FORM";
+export const SET_FLICKR = "SET_FLICKR";
 
 export function clearSearchResults() {
   return {
@@ -57,10 +58,10 @@ export function handleInput({ target: { name, value } }) {
   };
 }
 
-export function handleAddPinOpen(selectedPin, flickr) {
+export function handleAddPinOpen(selectedPin) {
   return {
     type: HANDLE_ADDPIN_OPEN,
-    payload: { selectedPin, flickr }
+    payload: { selectedPin }
   };
 }
 
@@ -73,6 +74,13 @@ export function handleAddPinClose() {
 export function clearForm() {
   return {
     type: CLEAR_FORM
+  };
+}
+
+export function setFlickr(bool) {
+  return {
+    type: SET_FLICKR,
+    payload: bool
   };
 }
 

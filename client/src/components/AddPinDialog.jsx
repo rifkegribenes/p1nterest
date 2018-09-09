@@ -50,6 +50,14 @@ const styles = theme => ({
 });
 
 class AddPinDialog extends Component {
+  // componentDidMount() {
+  //   const flickr = window.localStorage.getItem("flickr");
+  //   if (flickr) {
+  //     this.props.apiPin.setFlickr(true);
+  //     window.localStorage.removeItem('flickr');
+  //   }
+  // }
+
   render() {
     return (
       <React.Fragment>
@@ -71,7 +79,6 @@ class AddPinDialog extends Component {
           )}
           <DialogContent>
             <AddLink
-              flickr={this.props.flickr}
               formTitle="Save Pin"
               type="dialog"
               handleInput={this.props.handleInput}

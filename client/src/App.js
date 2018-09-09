@@ -107,10 +107,11 @@ class App extends Component {
     }
   }
 
-  addPin = (e, selectedPin, flickr) => {
+  addPin = (e, selectedPin) => {
     e.preventDefault();
     console.log(selectedPin);
-    let { imageUrl, siteUrl, title, description } = this.props.pin.form;
+    let { imageUrl, siteUrl, title, description, flickr } = this.props.pin.form;
+    console.log(`flickr: ${flickr}`);
     const userId = this.props.profile.profile._id;
     const { userName, avatarUrl } = this.props.profile.profile;
     if (selectedPin) {

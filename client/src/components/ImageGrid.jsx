@@ -75,6 +75,24 @@ const cardStyle = {
 };
 
 class ImageGrid extends React.Component {
+  openDialog = tile => {
+    if (this.props.listType === "search") {
+      console.log("setting flickr true");
+      this.props.apiPin.setFlickr(true);
+    }
+    if (this.props.appState.loggedIn) {
+      console.log("this should open the addpin dialog");
+      this.props.apiPin.handleAddPinOpen(tile);
+    } else {
+      window.localStorage.setItem("redirect", "/new");
+      window.localStorage.setItem("pin", JSON.stringify(tile));
+      if (this.props.listType === "search") {
+        window.localStorage.setItem("flickr", true);
+      }
+      window.location.href = `${BASE_URL}/api/auth/github`;
+    }
+  };
+
   render() {
     const { classes } = this.props;
     const masonryOptions = {
@@ -109,7 +127,7 @@ class ImageGrid extends React.Component {
                     if (owner) {
                       return null;
                     } else {
-                      this.props.apiPin.handleAddPinOpen(tile);
+                      this.openDialog(tile);
                     }
                   }}
                   tabIndex={0}
@@ -117,22 +135,7 @@ class ImageGrid extends React.Component {
                   {!owner && (
                     <Button
                       className={classes.pinButton}
-                      onClick={() => {
-                        if (this.props.appState.loggedIn) {
-                          console.log("this should open the addpin dialog");
-                          this.props.apiPin.handleAddPinOpen(tile);
-                        } else {
-                          window.localStorage.setItem("redirect", "/new");
-                          window.localStorage.setItem(
-                            "pin",
-                            JSON.stringify(tile)
-                          );
-                          if (this.props.listType === "search") {
-                            window.localStorage.setItem("flickr", true);
-                          }
-                          window.location.href = `${BASE_URL}/api/auth/github`;
-                        }
-                      }}
+                      onClick={() => this.openDialog(tile)}
                       color="primary"
                       variant="raised"
                     >

@@ -25,7 +25,8 @@ import {
   HANDLE_INPUT,
   HANDLE_ADDPIN_OPEN,
   HANDLE_ADDPIN_CLOSE,
-  CLEAR_FORM
+  CLEAR_FORM,
+  SET_FLICKR
 } from "../actions/apiPinActions";
 
 const INITIAL_STATE = {
@@ -72,6 +73,14 @@ function pin(state = INITIAL_STATE, action) {
         }
       });
 
+    case SET_FLICKR:
+      console.log(`set flickr: ${action.payload}`);
+      return update(state, {
+        form: {
+          flickr: { $set: action.payload }
+        }
+      });
+
     case HANDLE_INPUT:
       return update(state, {
         form: {
@@ -83,8 +92,7 @@ function pin(state = INITIAL_STATE, action) {
       return update(state, {
         form: {
           dialogOpen: { $set: true },
-          selectedPin: { $set: { ...action.payload.selectedPin } },
-          flickr: { $set: action.payload.flickr }
+          selectedPin: { $set: { ...action.payload.selectedPin } }
         }
       });
 

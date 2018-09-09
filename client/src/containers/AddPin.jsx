@@ -60,14 +60,14 @@ class AddPin extends Component {
     window.localStorage.removeItem("pin");
     const pinToAdd = JSON.parse(window.localStorage.getItem("pin"));
     const flickr = window.localStorage.getItem("flickr");
+    if (flickr) {
+      this.props.apiPin.setFlickr(true);
+      window.localStorage.removeItem("flickr");
+    }
     const userId = this.props.profile.profile._id;
-    // console.log(this.props.profile.profile);
-    // console.log(userId);
-    // console.log(pinToAdd);
     if (pinToAdd && userId !== pinToAdd.userId) {
       this.props.apiPin.setSelectedPin(pinToAdd);
-      // console.log(this.props.pin.selectedPin);
-      this.props.apiPin.handleAddPinOpen(pinToAdd, flickr);
+      this.props.apiPin.handleAddPinOpen(pinToAdd);
     }
   }
 

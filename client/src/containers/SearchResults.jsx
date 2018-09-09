@@ -20,8 +20,7 @@ const styles = theme => ({
     maxWidth: 1920
   },
   container: {
-    padding: "0px 20px 60px 20px",
-    marginTop: 40
+    padding: "0px 20px 60px 20px"
   },
   item: {
     [theme.breakpoints.down("sm")]: {
