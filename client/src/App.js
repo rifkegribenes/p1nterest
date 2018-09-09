@@ -16,7 +16,7 @@ import NotFound from "./components/NotFound";
 import AddPinDialog from "./components/AddPinDialog";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
-// import UserPins from "./containers/UserPins";
+import UserPins from "./containers/UserPins";
 import AddPin from "./containers/AddPin";
 import AllPins from "./containers/AllPins";
 
@@ -176,27 +176,6 @@ class App extends Component {
     }
   };
 
-  removePin = pinId => {
-    const token = this.props.appState.authToken;
-    this.props.apiPin
-      .removePin(token, pinId)
-      .then(result => {
-        if (result.type === "REMOVE_PIN_SUCCESS") {
-          openSnackbar("success", "Pin was deleted");
-        } else if (
-          result.type === "REMOVE_PIN_FAILURE" ||
-          this.props.pin.error
-        ) {
-          openSnackbar(
-            "error",
-            this.props.pin.error ||
-              "Sorry, something went wrong, please try again."
-          );
-        }
-      })
-      .catch(err => openSnackbar("error", err));
-  };
-
   handleClose = () => {
     this.props.apiPin.handleAddPinClose();
     window.localStorage.removeItem("pin");
@@ -240,10 +219,10 @@ class App extends Component {
               path="/profile/:id?/:token?"
               render={routeProps => <Profile {...routeProps} />}
             />
-            {/*            <Route
+            <Route
               path="/mypins"
               render={routeProps => <UserPins {...routeProps} />}
-            />*/}
+            />
             <Route
               path="/new"
               render={routeProps => (

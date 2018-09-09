@@ -11,8 +11,6 @@ import ImageGrid from "../components/ImageGrid";
 import { withStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 
-import { openSnackbar } from "./Notifier";
-
 const styles = theme => ({
   root: {
     margin: 20,

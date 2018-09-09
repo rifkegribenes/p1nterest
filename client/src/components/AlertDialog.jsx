@@ -47,7 +47,7 @@ class AlertDialog extends Component {
             </Button>
             <Button
               onClick={this.props.action}
-              color="secondary"
+              color="primary"
               variant="contained"
               autoFocus
             >

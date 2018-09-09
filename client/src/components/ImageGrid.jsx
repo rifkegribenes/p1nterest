@@ -8,6 +8,9 @@ import Typography from "@material-ui/core/Typography";
 import Masonry from "react-masonry-component";
 import Button from "@material-ui/core/Button";
 import pinIcon from "../img/pin.svg";
+import Delete from "@material-ui/icons/Delete";
+
+import AlertDialog from "./AlertDialog";
 
 import * as apiPinActions from "../store/actions/apiPinActions";
 
@@ -75,7 +78,7 @@ const cardStyle = {
 };
 
 class ImageGrid extends React.Component {
-  openDialog = tile => {
+  openAddPinDialog = tile => {
     if (this.props.listType === "search") {
       console.log("setting flickr true");
       this.props.apiPin.setFlickr(true);
@@ -121,13 +124,28 @@ class ImageGrid extends React.Component {
             const owner = this.props.profile.profile._id === tile.userId;
             return (
               <div className="card" style={cardStyle} key={tile.id || tile._id}>
+                {this.props.listType === "user" &&
+                  this.props.deleteDialogOpen &&
+                  this.props.selectedPin._id === tile._id && (
+                    <AlertDialog
+                      pin={tile}
+                      handleClose={this.props.handleDeleteDialogClose}
+                      open={this.props.deleteDialogOpen}
+                      content={`Delete Pin?`}
+                      action={() => {
+                        this.props.removePin(tile);
+                        this.props.handleDeleteDialogClose();
+                      }}
+                      buttonText="Delete"
+                    />
+                  )}
                 <div
                   className={classes.actionArea}
                   onClick={() => {
                     if (owner) {
                       return null;
                     } else {
-                      this.openDialog(tile);
+                      this.openAddPinDialog(tile);
                     }
                   }}
                   tabIndex={0}
@@ -135,12 +153,24 @@ class ImageGrid extends React.Component {
                   {!owner && (
                     <Button
                       className={classes.pinButton}
-                      onClick={() => this.openDialog(tile)}
+                      onClick={() => this.openAddPinDialog(tile)}
                       color="primary"
                       variant="raised"
+                      aria-label="Save Pin"
                     >
                       <img src={pinIcon} alt="" className={classes.pinIcon} />
                       Save
+                    </Button>
+                  )}
+                  {this.props.listType === "user" && (
+                    <Button
+                      className={classes.pinButton}
+                      onClick={() => this.props.handleDeleteDialogOpen(tile)}
+                      color="primary"
+                      variant="fab"
+                      aria-label="Delete Pin"
+                    >
+                      <Delete />
                     </Button>
                   )}
                 </div>
