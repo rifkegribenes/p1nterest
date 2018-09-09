@@ -22,7 +22,6 @@ export const REMOVE_PIN_FAILURE = "REMOVE_PIN_FAILURE";
 export const UPDATE_LIKES_REQUEST = "UPDATE_LIKES_REQUEST";
 export const UPDATE_LIKES_SUCCESS = "UPDATE_LIKES_SUCCESS";
 export const UPDATE_LIKES_FAILURE = "UPDATE_LIKES_FAILURE";
-export const CLEAR_SEARCH_RESULTS = "CLEAR_SEARCH_RESULTS";
 export const UPDATE_PINLIST_SUCCESS = "UPDATE_PINLIST_SUCCESS";
 export const SET_SELECTED_PIN = "SET_SELECTED_PIN";
 export const HANDLE_INPUT = "HANDLE_INPUT";
@@ -30,12 +29,6 @@ export const HANDLE_ADDPIN_OPEN = "HANDLE_ADDPIN_OPEN";
 export const HANDLE_ADDPIN_CLOSE = "HANDLE_ADDPIN_CLOSE";
 export const CLEAR_FORM = "CLEAR_FORM";
 export const SET_FLICKR = "SET_FLICKR";
-
-export function clearSearchResults() {
-  return {
-    type: CLEAR_SEARCH_RESULTS
-  };
-}
 
 export function updatePinlist(pins) {
   return {

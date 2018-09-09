@@ -107,6 +107,7 @@ function pin(state = INITIAL_STATE, action) {
 
     case CLEAR_FORM:
       return update(state, {
+        imageSearchResults: { $set: [] },
         form: {
           keyword: { $set: "" },
           imageUrl: { $set: "" },

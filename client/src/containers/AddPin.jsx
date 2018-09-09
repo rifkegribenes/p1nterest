@@ -110,7 +110,12 @@ class AddPin extends Component {
             />
           </div>
         </div>
-        {this.props.pin.imageSearchResults.length ? <SearchResults /> : null}
+        {this.props.pin.imageSearchResults.length ? (
+          <SearchResults
+            addPin={this.props.addPin}
+            setRedirect={this.props.setRedirect}
+          />
+        ) : null}
       </div>
     );
   }

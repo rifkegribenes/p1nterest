@@ -48,35 +48,6 @@ const styles = theme => ({
 });
 
 class SearchResults extends Component {
-  addPin = pin => {
-    const token = this.props.appState.authToken;
-    const userId = this.props.profile.profile._id;
-    if (!this.props.appState.loggedIn || !userId || !token) {
-      openSnackbar("error", "Please log in to add a pin");
-      return;
-    }
-
-    if (pin) {
-      pin.owner = userId;
-      this.props.apiPin
-        .addPin(token, pin)
-        .then(result => {
-          openSnackbar("success", `Added ${pin.title} to your wall.`);
-          this.props.apiPin.clearSearch();
-          this.props.history.push("/mypins");
-        })
-        .catch(err => openSnackbar("error", err));
-    } else {
-      openSnackbar("error", "Sorry, no pins found.");
-    }
-  };
-
-  setRedirect = pin => {
-    console.log(pin);
-    window.localStorage.setItem("redirect", "/mypins");
-    window.localStorage.setItem("pin", JSON.stringify(pin));
-  };
-
   render() {
     return (
       <div className={this.props.classes.container}>
@@ -85,7 +56,8 @@ class SearchResults extends Component {
           listType="search"
           title="Search Results"
           tileData={this.props.pin.imageSearchResults}
-          setRedirect={this.setRedirect}
+          setRedirect={this.props.setRedirect}
+          addPin={this.props.addPin}
         />
       </div>
     );

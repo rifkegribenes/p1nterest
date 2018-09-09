@@ -158,8 +158,9 @@ class App extends Component {
             );
           } else if (result.type === "ADD_PIN_SUCCESS") {
             openSnackbar("success", "Pin added.");
-            this.props.apiPin.clearForm();
             this.props.apiPin.handleAddPinClose();
+            this.props.apiPin.clearForm(); // also clears search results
+            this.props.history.push("/mypins");
           }
         })
         .catch(err => openSnackbar("error", err));
@@ -175,9 +176,36 @@ class App extends Component {
     }
   };
 
+  removePin = pinId => {
+    const token = this.props.appState.authToken;
+    this.props.apiPin
+      .removePin(token, pinId)
+      .then(result => {
+        if (result.type === "REMOVE_PIN_SUCCESS") {
+          openSnackbar("success", "Pin was deleted");
+        } else if (
+          result.type === "REMOVE_PIN_FAILURE" ||
+          this.props.pin.error
+        ) {
+          openSnackbar(
+            "error",
+            this.props.pin.error ||
+              "Sorry, something went wrong, please try again."
+          );
+        }
+      })
+      .catch(err => openSnackbar("error", err));
+  };
+
   handleClose = () => {
     this.props.apiPin.handleAddPinClose();
     window.localStorage.removeItem("pin");
+  };
+
+  setRedirect = pin => {
+    console.log(pin);
+    window.localStorage.setItem("redirect", "/mypins");
+    window.localStorage.setItem("pin", JSON.stringify(pin));
   };
 
   render() {
@@ -219,7 +247,11 @@ class App extends Component {
             <Route
               path="/new"
               render={routeProps => (
-                <AddPin addPin={this.addPin} {...routeProps} />
+                <AddPin
+                  addPin={this.addPin}
+                  setRedirect={this.setRedirect}
+                  {...routeProps}
+                />
               )}
             />
             <Route
