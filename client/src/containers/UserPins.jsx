@@ -81,7 +81,9 @@ class UserPins extends Component {
             openSnackbar("success", `Pin saved to your wall.`);
             this.props.apiPin
               .getUserPins(userId)
-              .then(result => console.log(this.props.pin.loggedInUserPins))
+              .then(result => {
+                console.log(this.props.pin.loggedInUserPins);
+              })
               .catch(err => {
                 console.log(err);
                 openSnackbar("error", err);
@@ -101,7 +103,25 @@ class UserPins extends Component {
 
     this.props.apiPin
       .getUserPins(userId)
-      .then(result => {})
+      .then(result => {
+        if (result.type === "GET_USER_PINS_SUCCESS") {
+          this.props.apiProfile
+            .getPartialProfile(userId)
+            .then(result => {
+              if (result.type !== "GET_PARTIAL_PROFILE_SUCCESS") {
+                console.log(this.props.profile.error);
+                openSnackbar("error", this.props.profile.error);
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              openSnackbar("error", err);
+            });
+        } else {
+          console.log(this.props.profile.error);
+          openSnackbar("error", this.props.profile.error);
+        }
+      })
       .catch(err => {
         console.log(err);
         openSnackbar("error", err);
@@ -163,7 +183,7 @@ class UserPins extends Component {
           <ImageGrid
             listType="user"
             loggedIn={this.props.appState.loggedIn}
-            title={`${this.props.profile.profile.userName}'s Wall`}
+            title={`${this.props.profile.partialProfile.userName}'s Wall`}
             pins={this.props.pin.loggedInUserPins}
             removePin={this.removePin}
             handleDeleteDialogOpen={this.handleDeleteDialogOpen}

@@ -10,7 +10,8 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   root: {
-    margin: 0
+    margin: 0,
+    padding: 20
   }
 });
 

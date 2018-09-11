@@ -56,10 +56,14 @@ const styles = theme => ({
     zIndex: 2,
     display: "flex",
     justifyContent: "center",
+    width: "100%",
     alignItems: "center",
     textDecoration: "none",
     padding: 15,
-    visibility: "hidden"
+    visibility: "hidden",
+    position: "absolute",
+    top: "calc(50% - 20px)",
+    backgroundColor: "rgba(255,255,255,.4)"
   },
   userName: {
     marginLeft: 20
@@ -76,7 +80,6 @@ const styles = theme => ({
   },
   caption: {
     padding: 10,
-    borderBottom: "1px solid #ddd",
     textAlign: "center",
     fontWeight: 700,
     fontSize: "1.2em"
@@ -183,16 +186,32 @@ class ImageGrid extends React.Component {
                       Save
                     </Button>
                   )}
-                  {this.props.listType === "user" && (
-                    <Button
-                      className={classes.pinButton}
-                      onClick={() => this.props.handleDeleteDialogOpen(tile)}
-                      color="primary"
-                      variant="fab"
-                      aria-label="Delete Pin"
+                  {this.props.listType === "user" &&
+                    this.props.profile.profile._id === tile.userId && (
+                      <Button
+                        className={classes.pinButton}
+                        onClick={() => this.props.handleDeleteDialogOpen(tile)}
+                        color="primary"
+                        variant="fab"
+                        aria-label="Delete Pin"
+                      >
+                        <Delete />
+                      </Button>
+                    )}
+                  {this.props.listType !== "search" && (
+                    <Link
+                      className={classes.ownerInfo}
+                      to={`/userpins/${tile.userId}`}
                     >
-                      <Delete />
-                    </Button>
+                      <Avatar
+                        alt={tile.userName}
+                        src={tile.userAvatarUrl}
+                        className={classes.avatar}
+                      />
+                      <Typography component="p" className={classes.userName}>
+                        By {tile.userName}
+                      </Typography>
+                    </Link>
                   )}
                 </div>
                 <img
@@ -203,21 +222,6 @@ class ImageGrid extends React.Component {
                 <Typography component="p" className={classes.caption}>
                   {tile.snippet || tile.title}
                 </Typography>
-                {this.props.listType !== "search" && (
-                  <Link
-                    className={classes.ownerInfo}
-                    to={`/userpins/${tile.userId}`}
-                  >
-                    <Avatar
-                      alt={tile.userName}
-                      src={tile.userAvatarUrl}
-                      className={classes.avatar}
-                    />
-                    <Typography component="p" className={classes.userName}>
-                      By {tile.userName}
-                    </Typography>
-                  </Link>
-                )}
               </div>
             );
           })}
