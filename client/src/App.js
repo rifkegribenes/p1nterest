@@ -224,6 +224,10 @@ class App extends Component {
               render={routeProps => <UserPins {...routeProps} />}
             />
             <Route
+              path="/userpins/:userId"
+              render={routeProps => <UserPins {...routeProps} />}
+            />
+            <Route
               path="/new"
               render={routeProps => (
                 <AddPin

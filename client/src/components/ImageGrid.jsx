@@ -2,11 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Masonry from "react-masonry-component";
 import Button from "@material-ui/core/Button";
+import Avatar from "@material-ui/core/Avatar";
 import pinIcon from "../img/pin.svg";
 import Delete from "@material-ui/icons/Delete";
 
@@ -46,7 +47,24 @@ const styles = theme => ({
     },
     "&:hover $pinButton": {
       visibility: "visible"
+    },
+    "&:hover $ownerInfo": {
+      visibility: "visible"
     }
+  },
+  ownerInfo: {
+    zIndex: 2,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    textDecoration: "none",
+    padding: 15,
+    visibility: "hidden"
+  },
+  userName: {
+    marginLeft: 20
+    // fontWeight: 700,
+    // fontSize: "1.2em"
   },
   pinIcon: {
     height: 27,
@@ -57,7 +75,11 @@ const styles = theme => ({
     margin: "0 auto"
   },
   caption: {
-    padding: 20
+    padding: 10,
+    borderBottom: "1px solid #ddd",
+    textAlign: "center",
+    fontWeight: 700,
+    fontSize: "1.2em"
   },
   image: {
     width: 280,
@@ -119,7 +141,6 @@ class ImageGrid extends React.Component {
           {this.props.title}
         </Typography>
         <Masonry options={masonryOptions} className={classes.masonry}>
-          {/*        <div className="grid-sizer" style={{ width: "160px"}}/>*/}
           {tileData.map(tile => {
             const owner = this.props.profile.profile._id === tile.userId;
             return (
@@ -182,6 +203,21 @@ class ImageGrid extends React.Component {
                 <Typography component="p" className={classes.caption}>
                   {tile.snippet || tile.title}
                 </Typography>
+                {this.props.listType !== "search" && (
+                  <Link
+                    className={classes.ownerInfo}
+                    to={`/userpins/${tile.userId}`}
+                  >
+                    <Avatar
+                      alt={tile.userName}
+                      src={tile.userAvatarUrl}
+                      className={classes.avatar}
+                    />
+                    <Typography component="p" className={classes.userName}>
+                      By {tile.userName}
+                    </Typography>
+                  </Link>
+                )}
               </div>
             );
           })}

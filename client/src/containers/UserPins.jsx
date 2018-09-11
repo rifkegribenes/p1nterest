@@ -44,6 +44,11 @@ class UserPins extends Component {
   };
 
   componentDidMount() {
+    if (this.props.match.params && this.props.match.params.userId) {
+      const { userId } = this.props.match.params;
+      this.getUserPins(userId);
+      return;
+    }
     if (this.props.profile.profile._id) {
       this.getUserPins();
     }
@@ -55,8 +60,13 @@ class UserPins extends Component {
     }
   }
 
-  getUserPins = () => {
-    const userId = this.props.profile.profile._id;
+  getUserPins = user => {
+    let userId;
+    if (!user) {
+      userId = this.props.profile.profile._id;
+    } else {
+      userId = user;
+    }
     const pin = JSON.parse(window.localStorage.getItem("pin"));
     if (pin) {
       // if user was redirected to login after trying to add a pin
