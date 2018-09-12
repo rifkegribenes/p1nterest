@@ -92,7 +92,7 @@ class AllPins extends Component {
   render() {
     return (
       <div className="pinList">
-        <ImageGrid />
+        <ImageGrid listType="all" />
       </div>
     );
   }

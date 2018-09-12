@@ -36,7 +36,7 @@ const styles = theme => ({
     visibility: "hidden"
   },
   actionArea: {
-    borderRadius: 4,
+    borderRadius: 6,
     zIndex: 1,
     position: "absolute",
     top: 0,
@@ -63,7 +63,7 @@ const styles = theme => ({
     bottom: 25,
     left: 20,
     backgroundColor: "white",
-    borderRadius: "4px",
+    borderRadius: 6,
     "&:hover": {
       cursor: "pointer",
       backgroundColor: "white"
@@ -95,7 +95,7 @@ const styles = theme => ({
   image: {
     width: 280,
     height: "auto",
-    borderRadius: "4px",
+    borderRadius: 6,
     margin: 10
   },
   icon: {
@@ -105,7 +105,7 @@ const styles = theme => ({
 
 const cardStyle = {
   marginBottom: 10,
-  borderRadius: 4,
+  borderRadius: 6,
   width: 300,
   position: "relative"
 };
