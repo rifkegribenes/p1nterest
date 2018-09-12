@@ -2,15 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Masonry from "react-masonry-component";
 import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
 import pinIcon from "../img/pin.svg";
 import Delete from "@material-ui/icons/Delete";
 import arrow from "../img/arrow.png";
+
+import psl from "psl";
 
 import AlertDialog from "./AlertDialog";
 
@@ -42,7 +43,7 @@ const styles = theme => ({
     left: 0,
     right: 0,
     bottom: 0,
-    cursor: "pointer",
+    cursor: "zoom-in",
     "&:hover": {
       backgroundColor: "rgba(0,0,0,.05)"
     },
@@ -55,17 +56,18 @@ const styles = theme => ({
   },
   ownerInfo: {
     zIndex: 3,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    textDecoration: "none",
-    padding: "7px 10px",
+    textTransform: "lowercase",
+    // padding: "7px 10px",
     visibility: "hidden",
     position: "absolute",
     bottom: 25,
     left: 20,
     backgroundColor: "white",
-    borderRadius: "4px"
+    borderRadius: "4px",
+    "&:hover": {
+      cursor: "pointer",
+      backgroundColor: "white"
+    }
   },
   userName: {
     marginLeft: 7,
@@ -152,6 +154,15 @@ class ImageGrid extends React.Component {
         <Masonry options={masonryOptions} className={classes.masonry}>
           {tileData.map(tile => {
             const owner = this.props.profile.profile._id === tile.userId;
+            let parsed;
+            if (tile.siteUrl.includes("flickr")) {
+              parsed = "flickr.com";
+            } else {
+              const input = psl.parse(tile.siteUrl);
+              parsed = input.domain;
+            }
+            console.log(tile.siteUrl);
+            console.log(parsed);
             return (
               <div className="card" style={cardStyle} key={tile.id || tile._id}>
                 {this.props.listType === "user" &&
@@ -171,14 +182,8 @@ class ImageGrid extends React.Component {
                   )}
                 <div
                   className={classes.actionArea}
-                  onClick={() => {
-                    if (owner) {
-                      return null;
-                    } else {
-                      this.openAddPinDialog(tile);
-                    }
-                  }}
                   tabIndex={0}
+                  onClick={() => console.log("open pin")} // link to full pin view here?
                 >
                   {!owner && (
                     <Button
@@ -204,16 +209,24 @@ class ImageGrid extends React.Component {
                         <Delete />
                       </Button>
                     )}
-                  {this.props.listType !== "search" && (
-                    <Link
+                  {this.props.listType === "all" && (
+                    <Button
                       className={classes.ownerInfo}
-                      to={`/userpins/${tile.userId}`}
+                      href={`/userpins/${tile.userId}`}
                     >
                       <img alt="" src={arrow} className={classes.arrow} />
                       <Typography component="p" className={classes.userName}>
                         {tile.userName}
                       </Typography>
-                    </Link>
+                    </Button>
+                  )}
+                  {this.props.listType === "user" && (
+                    <Button className={classes.ownerInfo} href={tile.siteUrl}>
+                      <img alt="" src={arrow} className={classes.arrow} />
+                      <Typography component="p" className={classes.userName}>
+                        {parsed}
+                      </Typography>
+                    </Button>
                   )}
                 </div>
                 <img

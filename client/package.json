@@ -7,6 +7,7 @@
     "@material-ui/icons": "^3.0.1",
     "immutability-helper": "^2.7.1",
     "prop-types": "^15.6.2",
+    "psl": "^1.1.29",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-masonry-component": "^6.2.1",
