@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import pinIcon from "../img/pin.svg";
 import Delete from "@material-ui/icons/Delete";
+import arrow from "../img/arrow.png";
 
 import AlertDialog from "./AlertDialog";
 
@@ -53,26 +54,31 @@ const styles = theme => ({
     }
   },
   ownerInfo: {
-    zIndex: 2,
+    zIndex: 3,
     display: "flex",
     justifyContent: "center",
-    width: "100%",
     alignItems: "center",
     textDecoration: "none",
-    padding: 15,
+    padding: "7px 10px",
     visibility: "hidden",
     position: "absolute",
-    top: "calc(50% - 20px)",
-    backgroundColor: "rgba(255,255,255,.4)"
+    bottom: 25,
+    left: 20,
+    backgroundColor: "white",
+    borderRadius: "4px"
   },
   userName: {
-    marginLeft: 20
-    // fontWeight: 700,
-    // fontSize: "1.2em"
+    marginLeft: 7,
+    fontWeight: 700,
+    fontSize: "1.2em"
   },
   pinIcon: {
     height: 27,
     marginLeft: -9,
+    width: "auto"
+  },
+  arrow: {
+    height: 20,
     width: "auto"
   },
   masonry: {
@@ -203,13 +209,9 @@ class ImageGrid extends React.Component {
                       className={classes.ownerInfo}
                       to={`/userpins/${tile.userId}`}
                     >
-                      <Avatar
-                        alt={tile.userName}
-                        src={tile.userAvatarUrl}
-                        className={classes.avatar}
-                      />
+                      <img alt="" src={arrow} className={classes.arrow} />
                       <Typography component="p" className={classes.userName}>
-                        By {tile.userName}
+                        {tile.userName}
                       </Typography>
                     </Link>
                   )}
@@ -219,9 +221,6 @@ class ImageGrid extends React.Component {
                   src={tile.url || tile.imageUrl}
                   alt={tile.snippet || tile.title}
                 />
-                <Typography component="p" className={classes.caption}>
-                  {tile.snippet || tile.title}
-                </Typography>
               </div>
             );
           })}
