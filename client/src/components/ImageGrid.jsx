@@ -154,15 +154,9 @@ class ImageGrid extends React.Component {
         <Masonry options={masonryOptions} className={classes.masonry}>
           {tileData.map(tile => {
             const owner = this.props.profile.profile._id === tile.userId;
-            let parsed;
-            if (tile.siteUrl.includes("flickr")) {
-              parsed = "flickr.com";
-            } else {
-              const input = psl.parse(tile.siteUrl);
-              parsed = input.domain;
-            }
-            console.log(tile.siteUrl);
-            console.log(parsed);
+            const url = tile.siteUrl.split("/")[2];
+            const input = psl.parse(url);
+            const parsed = input.domain;
             return (
               <div className="card" style={cardStyle} key={tile.id || tile._id}>
                 {this.props.listType === "user" &&
