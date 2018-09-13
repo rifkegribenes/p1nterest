@@ -10,9 +10,9 @@ class Logout extends React.Component {
   componentDidMount() {
     this.props.actions.logout();
     window.localStorage.clear();
-    // setTimeout(() => {
-    //   window.location.href = "https://p1nterest.herokuapp.com";
-    // }, 1000);
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 1000);
   }
 
   render() {

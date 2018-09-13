@@ -7,6 +7,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import { withStyles } from "@material-ui/core/styles";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+import * as apiPinActions from "../store/actions/apiPinActions";
+
 import AddLink from "./AddLink";
 
 const styles = theme => ({
@@ -50,6 +55,22 @@ const styles = theme => ({
 });
 
 class AddPinDialog extends Component {
+  componentDidMount() {
+    // if selectedPin exists, set form values
+    if (this.props.pin.form.selectedPin) {
+      const { imageUrl, siteUrl } = this.props.pin.form.selectedPin;
+      if (imageUrl) {
+        this.props.apiPin.handleInput({
+          target: { name: "imageUrl", value: imageUrl }
+        });
+      }
+      if (siteUrl) {
+        this.props.apiPin.handleInput({
+          target: { name: "siteUrl", value: siteUrl }
+        });
+      }
+    }
+  }
   render() {
     return (
       <React.Fragment>
@@ -108,4 +129,17 @@ AddPinDialog.propTypes = {
   action: PropTypes.func
 };
 
-export default withStyles(styles)(AddPinDialog);
+const mapStateToProps = state => ({
+  pin: state.pin
+});
+
+const mapDispatchToProps = dispatch => ({
+  apiPin: bindActionCreators(apiPinActions, dispatch)
+});
+
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AddPinDialog)
+);

@@ -57,7 +57,6 @@ const styles = theme => ({
 
 class AddPin extends Component {
   componentDidMount() {
-    window.localStorage.removeItem("pin");
     const pinToAdd = JSON.parse(window.localStorage.getItem("pin"));
     const flickr = window.localStorage.getItem("flickr");
     if (flickr) {
@@ -65,9 +64,17 @@ class AddPin extends Component {
       window.localStorage.removeItem("flickr");
     }
     const userId = this.props.profile.profile._id;
-    if (pinToAdd && userId !== pinToAdd.userId) {
-      this.props.apiPin.setSelectedPin(pinToAdd);
-      this.props.apiPin.handleAddPinOpen(pinToAdd);
+    if (pinToAdd) {
+      console.log("pinToAdd");
+      console.log(pinToAdd);
+      if (userId !== pinToAdd.userId) {
+        this.props.apiPin.handleAddPinOpen(pinToAdd);
+      } else {
+        openSnackbar(
+          "error",
+          "Pin not added, that pin is already on your wall."
+        );
+      }
     }
   }
 

@@ -57,7 +57,6 @@ const styles = theme => ({
   ownerInfo: {
     zIndex: 3,
     textTransform: "lowercase",
-    // padding: "7px 10px",
     visibility: "hidden",
     position: "absolute",
     bottom: 25,
@@ -137,12 +136,14 @@ class ImageGrid extends React.Component {
       columnWidth: 300,
       fitWidth: true
     };
-    const tileData =
-      this.props.listType === "search"
-        ? this.props.pin.imageSearchResults
-        : this.props.listType === "user"
-          ? this.props.pin.loggedInUserPins
-          : this.props.pin.pins;
+    const all = this.props.listType === "all";
+    const search = this.props.listType === "search";
+    const user = this.props.listType === "user";
+    const tileData = search
+      ? this.props.pin.imageSearchResults
+      : user
+        ? this.props.pin.loggedInUserPins
+        : this.props.pin.pins;
     return (
       <div className={classes.root}>
         <Typography
@@ -159,7 +160,7 @@ class ImageGrid extends React.Component {
             const parsed = input.domain;
             return (
               <div className="card" style={cardStyle} key={tile.id || tile._id}>
-                {this.props.listType === "user" &&
+                {user &&
                   this.props.deleteDialogOpen &&
                   this.props.selectedPin._id === tile._id && (
                     <AlertDialog
@@ -191,8 +192,16 @@ class ImageGrid extends React.Component {
                       Save
                     </Button>
                   )}
-                  {this.props.listType === "user" &&
-                    this.props.profile.profile._id === tile.userId && (
+                  {user && (
+                    <Button className={classes.ownerInfo} href={tile.siteUrl}>
+                      <img alt="" src={arrow} className={classes.arrow} />
+                      <Typography component="p" className={classes.userName}>
+                        {parsed}
+                      </Typography>
+                    </Button>
+                  )}
+                  {user &&
+                    owner && (
                       <Button
                         className={classes.pinButton}
                         onClick={() => this.props.handleDeleteDialogOpen(tile)}
@@ -203,7 +212,7 @@ class ImageGrid extends React.Component {
                         <Delete />
                       </Button>
                     )}
-                  {this.props.listType === "all" && (
+                  {all && (
                     <Button
                       className={classes.ownerInfo}
                       href={`/userpins/${tile.userId}`}
@@ -211,14 +220,6 @@ class ImageGrid extends React.Component {
                       <img alt="" src={arrow} className={classes.arrow} />
                       <Typography component="p" className={classes.userName}>
                         {tile.userName}
-                      </Typography>
-                    </Button>
-                  )}
-                  {this.props.listType === "user" && (
-                    <Button className={classes.ownerInfo} href={tile.siteUrl}>
-                      <img alt="" src={arrow} className={classes.arrow} />
-                      <Typography component="p" className={classes.userName}>
-                        {parsed}
                       </Typography>
                     </Button>
                   )}

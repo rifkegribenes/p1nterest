@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 
-import Notifier, { openSnackbar } from "./Notifier";
+import { openSnackbar } from "./Notifier";
 
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
@@ -139,7 +139,6 @@ class Profile extends React.Component {
               </CardContent>
             </Card>
           )}
-        <Notifier />
       </div>
     );
   }
