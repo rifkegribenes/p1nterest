@@ -4,16 +4,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
+import psl from "psl";
+
 import Typography from "@material-ui/core/Typography";
 import Masonry from "react-masonry-component";
 import Button from "@material-ui/core/Button";
 import pinIcon from "../img/pin.svg";
 import Delete from "@material-ui/icons/Delete";
 import arrow from "../img/arrow.png";
-
-import psl from "psl";
-
-import AlertDialog from "./AlertDialog";
 
 import * as apiPinActions from "../store/actions/apiPinActions";
 
@@ -160,25 +158,17 @@ class ImageGrid extends React.Component {
             const parsed = input.domain;
             return (
               <div className="card" style={cardStyle} key={tile.id || tile._id}>
-                {user &&
-                  this.props.deleteDialogOpen &&
-                  this.props.selectedPin._id === tile._id && (
-                    <AlertDialog
-                      pin={tile}
-                      handleClose={this.props.handleDeleteDialogClose}
-                      open={this.props.deleteDialogOpen}
-                      content={`Delete Pin?`}
-                      action={() => {
-                        this.props.removePin(tile);
-                        this.props.handleDeleteDialogClose();
-                      }}
-                      buttonText="Delete"
-                    />
-                  )}
                 <div
                   className={classes.actionArea}
                   tabIndex={0}
-                  onClick={() => console.log("open pin")} // link to full pin view here?
+                  onClick={() => {
+                    if (!search) {
+                      this.props.history.push(`/pin/${tile._id}`);
+                    } else {
+                      let win = window.open(tile.context, "_blank");
+                      win.focus();
+                    }
+                  }}
                 >
                   {!owner && (
                     <Button

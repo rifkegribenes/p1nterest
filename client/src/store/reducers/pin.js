@@ -25,6 +25,8 @@ import {
   HANDLE_INPUT,
   HANDLE_ADDPIN_OPEN,
   HANDLE_ADDPIN_CLOSE,
+  HANDLE_DELETE_OPEN,
+  HANDLE_DELETE_CLOSE,
   CLEAR_FORM,
   SET_FLICKR
 } from "../actions/apiPinActions";
@@ -33,6 +35,7 @@ const INITIAL_STATE = {
   loading: false,
   pins: [],
   imageSearchResults: [],
+  deleteDialogOpen: false,
   currentPin: {
     _id: "",
     title: "",
@@ -52,7 +55,6 @@ const INITIAL_STATE = {
     title: "",
     description: "",
     dialogOpen: false,
-    selectedPin: {},
     flickr: false
   },
   loggedInUserPins: [],
@@ -68,9 +70,7 @@ function pin(state = INITIAL_STATE, action) {
 
     case SET_SELECTED_PIN:
       return update(state, {
-        form: {
-          selectedPin: { $set: { ...action.payload.selectedPin } }
-        }
+        currentPin: { $set: { ...action.payload.selectedPin } }
       });
 
     case SET_FLICKR:
@@ -91,18 +91,30 @@ function pin(state = INITIAL_STATE, action) {
     case HANDLE_ADDPIN_OPEN:
       return update(state, {
         form: {
-          dialogOpen: { $set: true },
-          selectedPin: { $set: { ...action.payload.selectedPin } }
-        }
+          dialogOpen: { $set: true }
+        },
+        currentPin: { $set: { ...action.payload.selectedPin } }
       });
 
     case HANDLE_ADDPIN_CLOSE:
       return update(state, {
         form: {
           dialogOpen: { $set: false },
-          selectedPin: { $set: {} },
           flickr: { $set: false }
-        }
+        },
+        currentPin: { $set: {} }
+      });
+
+    case HANDLE_DELETE_OPEN:
+      return update(state, {
+        deleteDialogOpen: { $set: true },
+        currentPin: { $set: { ...action.payload.selectedPin } }
+      });
+
+    case HANDLE_DELETE_CLOSE:
+      return update(state, {
+        deleteDialogOpen: { $set: false },
+        currentPin: { $set: {} }
       });
 
     case CLEAR_FORM:
@@ -115,7 +127,6 @@ function pin(state = INITIAL_STATE, action) {
           title: { $set: "" },
           description: { $set: "" },
           dialogOpen: { $set: false },
-          selectedPin: { $set: {} },
           flickr: { $set: false }
         }
       });

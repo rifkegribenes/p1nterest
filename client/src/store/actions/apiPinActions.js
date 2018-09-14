@@ -27,6 +27,8 @@ export const SET_SELECTED_PIN = "SET_SELECTED_PIN";
 export const HANDLE_INPUT = "HANDLE_INPUT";
 export const HANDLE_ADDPIN_OPEN = "HANDLE_ADDPIN_OPEN";
 export const HANDLE_ADDPIN_CLOSE = "HANDLE_ADDPIN_CLOSE";
+export const HANDLE_DELETE_OPEN = "HANDLE_DELETE_OPEN";
+export const HANDLE_DELETE_CLOSE = "HANDLE_DELETE_CLOSE";
 export const CLEAR_FORM = "CLEAR_FORM";
 export const SET_FLICKR = "SET_FLICKR";
 
@@ -58,9 +60,22 @@ export function handleAddPinOpen(selectedPin) {
   };
 }
 
+export function handleDeleteOpen(selectedPin) {
+  return {
+    type: HANDLE_DELETE_OPEN,
+    payload: { selectedPin }
+  };
+}
+
 export function handleAddPinClose() {
   return {
     type: HANDLE_ADDPIN_CLOSE
+  };
+}
+
+export function handleDeleteClose() {
+  return {
+    type: HANDLE_DELETE_CLOSE
   };
 }
 

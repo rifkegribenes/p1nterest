@@ -38,11 +38,6 @@ const styles = theme => ({
 });
 
 class UserPins extends Component {
-  state = {
-    deleteDialogOpen: false,
-    selectedPin: {}
-  };
-
   componentDidMount() {
     if (this.props.match.params && this.props.match.params.userId) {
       const { userId } = this.props.match.params;
@@ -128,53 +123,6 @@ class UserPins extends Component {
       });
   };
 
-  removePin = pinData => {
-    console.log("removePin");
-    console.log(pinData);
-    this.setState({
-      dialogOpen: true,
-      selectedPin: { ...pinData }
-    });
-    const token = this.props.appState.authToken;
-    const userId = this.props.profile.profile._id;
-    this.props.apiPin
-      .removePin(token, pinData._id)
-      .then(result => {
-        if (result.type === "REMOVE_PIN_SUCCESS") {
-          openSnackbar("success", `Deleted pin from your wall.`);
-          this.props.apiPin
-            .getUserPins(userId)
-            .then(result => console.log(this.props.pin.pins))
-            .catch(err => {
-              console.log(err);
-              openSnackbar("error", err);
-            });
-        } else {
-          openSnackbar("error", this.props.pin.error);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        openSnackbar("error", err);
-      });
-  };
-
-  handleDeleteDialogOpen = pin => {
-    console.log("open delete dialog");
-    if (pin) {
-      console.log(pin);
-      if (!this.props.appState.loggedIn) {
-        openSnackbar("error", "Please log in to delete a pin");
-        return;
-      }
-    }
-    this.setState({ deleteDialogOpen: true, selectedPin: { ...pin } });
-  };
-
-  handleDeleteDialogClose = () => {
-    this.setState({ deleteDialogOpen: false, selectedPin: {} });
-  };
-
   render() {
     const { classes } = this.props;
     return (
@@ -185,11 +133,11 @@ class UserPins extends Component {
             loggedIn={this.props.appState.loggedIn}
             title={`${this.props.profile.partialProfile.userName}'s Wall`}
             pins={this.props.pin.loggedInUserPins}
-            removePin={this.removePin}
-            handleDeleteDialogOpen={this.handleDeleteDialogOpen}
-            handleDeleteDialogClose={this.handleDeleteDialogClose}
-            deleteDialogOpen={this.state.deleteDialogOpen}
-            selectedPin={this.state.selectedPin}
+            removePin={this.props.removePin}
+            handleDeleteDialogOpen={this.props.handleDeleteDialogOpen}
+            handleDeleteDialogClose={this.props.handleDeleteDialogClose}
+            deleteDialogOpen={this.props.pin.deleteDialogOpen}
+            selectedPin={this.props.pin.currentPin}
           />
         ) : (
           <div className={classes.container}>

@@ -16,7 +16,7 @@ class AddLink extends React.Component {
     const dialog = this.props.type === "dialog";
     let pinToAdd;
     if (dialog) {
-      pinToAdd = this.props.pin.form.selectedPin;
+      pinToAdd = this.props.pin.currentPin;
     } else {
       const { imageUrl, siteUrl, title, description } = this.props.pin.form;
       pinToAdd = {
@@ -45,8 +45,8 @@ class AddLink extends React.Component {
           <img
             src={
               dialog
-                ? this.props.pin.form.selectedPin.imageUrl ||
-                  this.props.pin.form.selectedPin.url
+                ? this.props.pin.currentPin.imageUrl ||
+                  this.props.pin.currentPin.url
                 : this.props.imageUrl
             }
             className={this.props.classes.dialogThumbnail}
@@ -65,8 +65,8 @@ class AddLink extends React.Component {
             required
             value={
               dialog
-                ? this.props.pin.form.selectedPin.imageUrl ||
-                  this.props.pin.form.selectedPin.url
+                ? this.props.pin.currentPin.imageUrl ||
+                  this.props.pin.currentPin.url
                 : this.props.pin.form.imageUrl
             }
             onChange={this.props.apiPin.handleInput}

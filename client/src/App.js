@@ -14,11 +14,13 @@ import NavBar from "./containers/NavBar";
 import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
 import AddPinDialog from "./components/AddPinDialog";
+import AlertDialog from "./components/AlertDialog";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
 import UserPins from "./containers/UserPins";
 import AddPin from "./containers/AddPin";
 import AllPins from "./containers/AllPins";
+import SinglePin from "./containers/SinglePin";
 
 import Notifier, { openSnackbar } from "./containers/Notifier";
 
@@ -78,6 +80,11 @@ const styles = theme => ({
 });
 
 class App extends Component {
+  state = {
+    deleteDialogOpen: false,
+    selectedPin: {}
+  };
+
   componentDidMount() {
     if (this.props.location.hash) {
       const hash = this.props.location.hash.slice(2);
@@ -187,6 +194,49 @@ class App extends Component {
     window.localStorage.setItem("pin", JSON.stringify(pin));
   };
 
+  removePin = pinData => {
+    console.log("removePin");
+    console.log(pinData);
+    this.setState({
+      dialogOpen: true,
+      selectedPin: { ...pinData }
+    });
+    const token = this.props.appState.authToken;
+    const userId = this.props.profile.profile._id;
+    this.props.apiPin
+      .removePin(token, pinData._id)
+      .then(result => {
+        if (result.type === "REMOVE_PIN_SUCCESS") {
+          openSnackbar("success", `Deleted pin from your wall.`);
+          this.props.apiPin
+            .getUserPins(userId)
+            .then(result => console.log(this.props.pin.pins))
+            .catch(err => {
+              console.log(err);
+              openSnackbar("error", err);
+            });
+        } else {
+          openSnackbar("error", this.props.pin.error);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        openSnackbar("error", err);
+      });
+  };
+
+  handleDeleteDialogOpen = pin => {
+    console.log("open delete dialog");
+    if (pin) {
+      console.log(pin);
+      if (!this.props.appState.loggedIn) {
+        openSnackbar("error", "Please log in to delete a pin");
+        return;
+      }
+    }
+    this.props.apiPin.handleDeleteDialogOpen(pin);
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -209,6 +259,19 @@ class App extends Component {
               description={this.props.pin.form.description}
             />
           )}
+          {this.props.pin.deleteDialogOpen && (
+            <AlertDialog
+              pin={this.props.pin.currentPin}
+              handleClose={this.handleDeleteDialogClose}
+              open={this.state.deleteDialogOpen}
+              content={`Delete Pin?`}
+              action={() => {
+                this.removePin(this.props.pin.currentPin);
+                this.handleDeleteDialogClose();
+              }}
+              buttonText="Delete"
+            />
+          )}
           <Switch>
             <Route
               exact
@@ -225,7 +288,29 @@ class App extends Component {
             />
             <Route
               path="/userpins/:userId"
-              render={routeProps => <UserPins {...routeProps} />}
+              render={routeProps => (
+                <UserPins
+                  removePin={this.removePin}
+                  handleDeleteDialogOpen={this.handleDeleteDialogOpen}
+                  handleDeleteDialogClose={
+                    this.props.apiPin.handleDeleteDialogClose
+                  }
+                  {...routeProps}
+                />
+              )}
+            />
+            <Route
+              path="/pin/:pinId"
+              render={routeProps => (
+                <SinglePin
+                  removePin={this.removePin}
+                  handleDeleteDialogOpen={this.handleDeleteDialogOpen}
+                  handleDeleteDialogClose={
+                    this.props.apiPin.handleDeleteDialogClose
+                  }
+                  {...routeProps}
+                />
+              )}
             />
             <Route
               path="/new"

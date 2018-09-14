@@ -58,7 +58,7 @@ class AddPinDialog extends Component {
   componentDidMount() {
     // if selectedPin exists, set form values
     if (this.props.pin.form.selectedPin) {
-      const { imageUrl, siteUrl } = this.props.pin.form.selectedPin;
+      const { imageUrl, siteUrl } = this.props.pin.currentPin;
       if (imageUrl) {
         this.props.apiPin.handleInput({
           target: { name: "imageUrl", value: imageUrl }

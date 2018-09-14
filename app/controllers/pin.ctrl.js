@@ -30,7 +30,7 @@ exports.getUserPins = (req, res, next) => {
 
 // Get a single pin by id. params = pinId
 exports.getPinById = (req, res, next) => {
-  Pin.find({ _id: req.params.pinId })
+  Pin.findOne({ _id: req.params.pinId })
     .then((pin) => {
       return res.status(200).json({ pin });
       })
