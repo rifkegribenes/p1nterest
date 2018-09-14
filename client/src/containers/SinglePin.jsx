@@ -64,6 +64,7 @@ const styles = theme => ({
     width: "100%",
     maxWidth: 400,
     display: "flex",
+    alignItems: "flex-start",
     paddingTop: 40,
     [theme.breakpoints.down("sm")]: {
       padding: 0
@@ -72,7 +73,8 @@ const styles = theme => ({
   image: {
     borderRadius: 6,
     width: "100%",
-    height: "auto"
+    height: "auto",
+    flex: "0 0 auto"
   },
   contentBold: {
     fontWeight: "bold"

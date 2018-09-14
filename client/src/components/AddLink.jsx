@@ -81,8 +81,8 @@ class AddLink extends React.Component {
             type="url"
             value={
               dialog
-                ? this.props.pin.form.selectedPin.siteUrl ||
-                  this.props.pin.form.selectedPin.context
+                ? this.props.pin.currentPin.siteUrl ||
+                  this.props.pin.currentPin.context
                 : this.props.pin.form.siteUrl
             }
             onChange={this.props.apiPin.handleInput}

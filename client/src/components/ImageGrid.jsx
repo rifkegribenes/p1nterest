@@ -153,9 +153,12 @@ class ImageGrid extends React.Component {
         <Masonry options={masonryOptions} className={classes.masonry}>
           {tileData.map(tile => {
             const owner = this.props.profile.profile._id === tile.userId;
-            const url = tile.siteUrl.split("/")[2];
-            const input = psl.parse(url);
-            const parsed = input.domain;
+            let parsed;
+            if (tile.siteUrl) {
+              const url = tile.siteUrl.split("/")[2];
+              const input = psl.parse(url);
+              parsed = input.domain;
+            }
             return (
               <div className="card" style={cardStyle} key={tile.id || tile._id}>
                 <div
@@ -165,8 +168,7 @@ class ImageGrid extends React.Component {
                     if (!search) {
                       this.props.history.push(`/pin/${tile._id}`);
                     } else {
-                      let win = window.open(tile.context, "_blank");
-                      win.focus();
+                      this.openAddPinDialog(tile);
                     }
                   }}
                 >
