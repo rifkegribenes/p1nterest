@@ -71,7 +71,8 @@ const styles = theme => ({
     padding: 5,
     display: "flex",
     justifyContent: "center",
-    boxShadow: "0 1px 5px 2px rgba(0,0,0,.2)"
+    boxShadow: "0 1px 5px 2px rgba(0,0,0,.2)",
+    zIndex: 2
   },
   footerIcon: {
     width: 20,
@@ -234,7 +235,7 @@ class App extends Component {
         return;
       }
     }
-    this.props.apiPin.handleDeleteDialogOpen(pin);
+    this.props.apiPin.handleDeleteOpen(pin);
   };
 
   render() {

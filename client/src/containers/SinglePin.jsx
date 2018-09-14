@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import psl from "psl";
@@ -11,6 +11,8 @@ import * as apiPinActions from "../store/actions/apiPinActions";
 import { withStyles } from "@material-ui/core/styles";
 import Delete from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
+import Avatar from "@material-ui/core/Avatar";
+import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import pinIcon from "../img/pin.svg";
 import arrow from "../img/arrow.png";
@@ -60,13 +62,18 @@ const styles = theme => ({
       padding: "0 10px"
     }
   },
+  userName: {
+    marginLeft: 10,
+    textDecoration: "none",
+    "&:hover": {
+      borderBottom: "1px dotted #ccc"
+    }
+  },
   imageWrap: {
     position: "relative",
-    width: "100%",
-    maxWidth: 400,
+    width: 500,
+    maxWidth: "100%",
     display: "flex",
-    // flex: "0 0 auto",
-    // alignItems: "flex-start",
     marginTop: 40,
     [theme.breakpoints.down("sm")]: {
       padding: 0
@@ -81,14 +88,20 @@ const styles = theme => ({
   },
   image: {
     borderRadius: 6,
-    width: "calc(100%-20px)",
-    maxWidth: 380,
+    width: 480,
+    maxWidth: "100%",
     height: "auto",
     // flex: "0 0 auto",
     margin: 10
   },
   contentBold: {
-    fontWeight: "bold"
+    fontWeight: 700
+  },
+  contentLight: {
+    fontWeight: 100
+  },
+  contentRegular: {
+    fontWeight: 400
   },
   container: {
     width: "100%",
@@ -105,15 +118,13 @@ const styles = theme => ({
       flexWrap: "wrap"
     }
   },
+  divider: {
+    margin: "20px 0px"
+  },
   actionArea: {
     borderRadius: 6,
     zIndex: 1,
-    maxWidth: 400,
-    // position: "absolute",
-    // top: 0,
-    // left: 0,
-    // right: 0,
-    // bottom: 0,
+    width: 500,
     cursor: "zoom-in",
     "&:hover": {
       backgroundColor: "rgba(0,0,0,.05)"
@@ -124,6 +135,12 @@ const styles = theme => ({
     "&:hover $deleteButton": {
       visibility: "visible"
     }
+  },
+  ownerInfo: {
+    display: "flex",
+    alignItems: "center",
+    fontWeight: 100,
+    textDecoration: "none"
   },
   pinInfo: {
     [theme.breakpoints.down("sm")]: {
@@ -137,6 +154,17 @@ const styles = theme => ({
       right: 20,
       bottom: 15
     }
+  },
+  title: {
+    fontSize: 36,
+    fontWeight: 100,
+    marginTop: 20,
+    textTransform: "capitalize"
+  },
+  description: {
+    fontSize: "1.1em",
+    fontWeight: 100,
+    marginTop: 10
   }
 });
 
@@ -175,7 +203,15 @@ class SinglePin extends Component {
   render() {
     const { classes } = this.props;
     const { currentPin } = this.props.pin;
-    const { imageUrl, siteUrl, userId, title } = currentPin;
+    const {
+      imageUrl,
+      siteUrl,
+      userId,
+      userName,
+      userAvatarUrl,
+      title,
+      description
+    } = currentPin;
     const owner = this.props.profile.profile._id === userId;
     let parsed;
     if (siteUrl) {
@@ -228,11 +264,28 @@ class SinglePin extends Component {
             variant="raised"
           >
             <img alt="" src={arrow} className={classes.arrow} />
-            <Typography component="p" className={classes.userName}>
+            <Typography component="p" className={classes.contentBold}>
               {parsed}
             </Typography>
           </Button>
-          <div className={classes.ownerInfo} />
+          <Divider className={classes.divider} />
+          <Link className={classes.ownerInfo} to={`/userpins/${userId}`}>
+            <Avatar
+              className={classes.avatar}
+              src={userAvatarUrl}
+              alt={userName}
+            />
+            <Typography component="p" className={classes.userName}>
+              <span className={classes.contentLight}>Saved by</span>{" "}
+              <span className={classes.contentBold}>{userName}</span>
+            </Typography>
+          </Link>
+          <Typography component="h2" className={classes.title}>
+            {title}
+          </Typography>
+          <Typography component="p" className={classes.description}>
+            {description}
+          </Typography>
         </div>
       </div>
     );
