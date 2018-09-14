@@ -61,20 +61,31 @@ const styles = theme => ({
     }
   },
   imageWrap: {
+    position: "relative",
     width: "100%",
     maxWidth: 400,
     display: "flex",
-    alignItems: "flex-start",
-    paddingTop: 40,
+    // flex: "0 0 auto",
+    // alignItems: "flex-start",
+    marginTop: 40,
     [theme.breakpoints.down("sm")]: {
       padding: 0
     }
   },
+  deleteButton: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+    visibility: "hidden",
+    zIndex: 2
+  },
   image: {
     borderRadius: 6,
-    width: "100%",
+    width: "calc(100%-20px)",
+    maxWidth: 380,
     height: "auto",
-    flex: "0 0 auto"
+    // flex: "0 0 auto",
+    margin: 10
   },
   contentBold: {
     fontWeight: "bold"
@@ -86,11 +97,32 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    paddingBottom: 40
+    paddingBottom: 40,
+    alignItems: "flex-start"
   },
   item: {
     [theme.breakpoints.down("sm")]: {
       flexWrap: "wrap"
+    }
+  },
+  actionArea: {
+    borderRadius: 6,
+    zIndex: 1,
+    maxWidth: 400,
+    // position: "absolute",
+    // top: 0,
+    // left: 0,
+    // right: 0,
+    // bottom: 0,
+    cursor: "zoom-in",
+    "&:hover": {
+      backgroundColor: "rgba(0,0,0,.05)"
+    },
+    "&:hover $pinButton": {
+      visibility: "visible"
+    },
+    "&:hover $deleteButton": {
+      visibility: "visible"
     }
   },
   pinInfo: {
@@ -113,8 +145,6 @@ class SinglePin extends Component {
     if (this.props.match.params && this.props.match.params.pinId) {
       const { pinId } = this.props.match.params;
       this.props.apiPin.getPinById(pinId).then(result => {
-        console.log(result);
-        console.log(this.props.pin.currentPin);
         if (result.type === "GET_PIN_BY_ID_FAILURE" || this.props.pin.error) {
           openSnackbar(
             "error",
@@ -124,7 +154,7 @@ class SinglePin extends Component {
             openSnackbar("error", err);
           });
         } else {
-          console.log(this.props.pin.currentPin);
+          // console.log(this.props.pin.currentPin);
         }
       });
     } else {
@@ -155,19 +185,28 @@ class SinglePin extends Component {
     }
     return (
       <div className={classes.container}>
-        {owner && (
-          <Button
-            className={classes.deleteButton}
-            onClick={() => this.props.handleDeleteDialogOpen(currentPin)}
-            color="primary"
-            variant="fab"
-            aria-label="Delete Pin"
-          >
-            <Delete />
-          </Button>
-        )}
         <div className={classes.imageWrap}>
-          <img className={classes.image} src={imageUrl} alt={title} />
+          <div
+            className={classes.actionArea}
+            tabIndex={0}
+            onClick={() => {
+              let win = window.open(siteUrl, "_blank");
+              win.focus();
+            }}
+          >
+            {owner && (
+              <Button
+                className={classes.deleteButton}
+                onClick={() => this.props.handleDeleteDialogOpen(currentPin)}
+                color="primary"
+                variant="fab"
+                aria-label="Delete Pin"
+              >
+                <Delete />
+              </Button>
+            )}
+            <img className={classes.image} src={imageUrl} alt={title} />
+          </div>
         </div>
         <div className={classes.metaWrap}>
           {!owner && (

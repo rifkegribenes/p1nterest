@@ -75,6 +75,7 @@ const styles = theme => ({
 class AllPins extends Component {
   componentDidMount() {
     this.props.apiPin.getAllPins().then(result => {
+      console.log(result.type);
       if (result.type === "GET_ALL_PINS_FAILURE" || this.props.pin.error) {
         openSnackbar(
           "error",
