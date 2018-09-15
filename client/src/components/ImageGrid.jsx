@@ -214,6 +214,7 @@ class ImageGrid extends React.Component {
                 <Image
                   imageUrl={tile.url || tile.imageUrl}
                   title={tile.snippet || tile.title}
+                  handleParentError={() => {}}
                 />
               </div>
             );

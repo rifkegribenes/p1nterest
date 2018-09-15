@@ -103,12 +103,13 @@ class App extends Component {
           this.props.apiProfile.validateToken(token, userId).then(result => {
             if (result === "VALIDATE_TOKEN_FAILURE") {
               window.localStorage.clear();
+              console.log("validate token failure");
             } else if (result === "VALIDATE_TOKEN_SUCESS") {
             }
           });
         }
       } else {
-        // console.log("no token found in local storage");
+        console.log("no token found in local storage");
       }
     } else {
       // console.log("logged in");

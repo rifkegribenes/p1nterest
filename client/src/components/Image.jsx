@@ -10,6 +10,13 @@ const styles = theme => ({
     height: "auto",
     borderRadius: 6,
     margin: 10
+  },
+  singleImage: {
+    borderRadius: 6,
+    width: 480,
+    maxWidth: "100%",
+    height: "auto",
+    margin: 10
   }
 });
 
@@ -30,12 +37,16 @@ class Image extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const single = this.props.type === "single";
     return (
       <img
-        className={classes.image}
+        className={single ? classes.singleImage : classes.image}
         src={this.state.error ? placeholder : this.props.imageUrl}
         alt={this.props.title}
-        onError={this.handleError}
+        onError={() => {
+          this.handleError();
+          this.props.handleParentError();
+        }}
       />
     );
   }

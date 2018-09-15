@@ -17,6 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import pinIcon from "../img/pin.svg";
 import arrow from "../img/arrow.png";
 import { openSnackbar } from "./Notifier";
+import Image from "../components/Image";
 import { BASE_URL } from "../store/actions/apiConfig.js";
 
 const styles = theme => ({
@@ -85,14 +86,6 @@ const styles = theme => ({
     right: 20,
     visibility: "hidden",
     zIndex: 2
-  },
-  image: {
-    borderRadius: 6,
-    width: 480,
-    maxWidth: "100%",
-    height: "auto",
-    // flex: "0 0 auto",
-    margin: 10
   },
   contentBold: {
     fontWeight: 700
@@ -165,10 +158,22 @@ const styles = theme => ({
     fontSize: "1.1em",
     fontWeight: 100,
     marginTop: 10
+  },
+  error: {
+    fontWeight: 100,
+    color: theme.palette.error.main,
+    textAlign: "center"
   }
 });
 
 class SinglePin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: false
+    };
+  }
+
   componentDidMount() {
     if (this.props.match.params && this.props.match.params.pinId) {
       const { pinId } = this.props.match.params;
@@ -189,6 +194,13 @@ class SinglePin extends Component {
       openSnackbar("error", "Sorry, something went wrong.");
     }
   }
+
+  handleError = () => {
+    console.log("image load error");
+    this.setState({
+      error: true
+    });
+  };
 
   openAddPinDialog = tile => {
     if (this.props.appState.loggedIn) {
@@ -241,7 +253,17 @@ class SinglePin extends Component {
                 <Delete />
               </Button>
             )}
-            <img className={classes.image} src={imageUrl} alt={title} />
+            <Image
+              imageUrl={imageUrl}
+              title={title}
+              type="single"
+              handleParentError={this.handleError}
+            />
+            {this.state.error && (
+              <Typography className={classes.error}>
+                Sorry, looks like this image link is broken :(
+              </Typography>
+            )}
           </div>
         </div>
         <div className={classes.metaWrap}>
