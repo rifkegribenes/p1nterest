@@ -115,7 +115,7 @@ class App extends Component {
     }
   }
 
-  addPin = (e, selectedPin) => {
+  addPin = (e, selectedPin, dialog) => {
     e.preventDefault();
     let { imageUrl, siteUrl, title, description, flickr } = this.props.pin.form;
     const userId = this.props.profile.profile._id;
@@ -124,6 +124,7 @@ class App extends Component {
       imageUrl = flickr ? selectedPin.url : selectedPin.imageUrl;
       siteUrl = flickr ? selectedPin.context : selectedPin.siteUrl;
     }
+    console.log(imageUrl);
     const token = this.props.appState.authToken;
     const body = {
       imageUrl,
@@ -143,45 +144,55 @@ class App extends Component {
 
     const imageUrlField = document.getElementById("imageUrl");
     const siteUrlField = document.getElementById("siteUrl");
-    const titleField = document.getElementById("title");
-    const fieldsToValidate = [imageUrlField, siteUrlField, titleField];
+    const fieldsToValidate = [imageUrlField, siteUrlField];
     fieldsToValidate.forEach(field => field.checkValidity());
 
-    if (
-      (imageUrl &&
-        title &&
-        !!imageUrlField.validity.valid &&
-        !!siteUrlField.validity.valid &&
-        !!titleField.validity.valid) ||
-      (flickr && title)
-    ) {
-      this.props.apiPin
-        .addPin(token, body)
-        .then(result => {
-          if (result.type === "ADD_PIN_FAILURE" || this.props.pin.error) {
-            openSnackbar(
-              "error",
-              this.props.pin.error ||
-                "Sorry, something went wrong, please try again."
-            );
-          } else if (result.type === "ADD_PIN_SUCCESS") {
-            openSnackbar("success", "Pin added.");
-            this.props.apiPin.handleAddPinClose();
-            this.props.apiPin.clearForm(); // also clears search results
-            this.props.history.push("/mypins");
-          }
-        })
-        .catch(err => openSnackbar("error", err));
-    } else {
+    // check field validity if those fields are visible in the form
+    // if they were prepopulated from another source, bypass validation
+
+    if (!imageUrl || !title) {
       openSnackbar(
         "error",
-        `${
-          flickr
-            ? "Please enter a title."
-            : "Please enter a valid image URL (including http://) and a title to add a new pin."
-        }`
+        "Please enter an image URL and a title to add a new pin."
       );
+      return;
     }
+    if (imageUrlField && !dialog && !imageUrlField.validity.valid) {
+      openSnackbar(
+        "error",
+        "Please enter an valid image URL (including http://) to add a new pin."
+      );
+      return;
+    }
+    if (
+      siteUrlField &&
+      !dialog &&
+      siteUrlField.value !== "" &&
+      !siteUrlField.validity.valid
+    ) {
+      openSnackbar(
+        "error",
+        "Please enter an valid website URL (including http://) to add a new pin."
+      );
+      return;
+    }
+    this.props.apiPin
+      .addPin(token, body)
+      .then(result => {
+        if (result.type === "ADD_PIN_FAILURE" || this.props.pin.error) {
+          openSnackbar(
+            "error",
+            this.props.pin.error ||
+              "Sorry, something went wrong, please try again."
+          );
+        } else if (result.type === "ADD_PIN_SUCCESS") {
+          openSnackbar("success", "Pin added.");
+          this.props.apiPin.handleAddPinClose();
+          this.props.apiPin.clearForm(); // also clears search results
+          this.props.history.push("/mypins");
+        }
+      })
+      .catch(err => openSnackbar("error", err));
   };
 
   handleClose = () => {

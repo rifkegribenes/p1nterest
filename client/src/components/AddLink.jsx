@@ -12,7 +12,6 @@ import ButtonWithSpinner from "./ButtonWithSpinner";
 
 class AddLink extends React.Component {
   addLink = e => {
-    console.log("addLink");
     const dialog = this.props.type === "dialog";
     let pinToAdd;
     if (dialog) {
@@ -26,7 +25,7 @@ class AddLink extends React.Component {
         description
       };
     }
-    this.props.addPin(e, pinToAdd);
+    this.props.addPin(e, pinToAdd, dialog);
   };
 
   render() {
@@ -79,6 +78,7 @@ class AddLink extends React.Component {
             id="siteUrl"
             label="Website URL"
             type="url"
+            required
             value={
               dialog
                 ? this.props.pin.currentPin.siteUrl ||

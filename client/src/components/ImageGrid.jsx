@@ -14,6 +14,7 @@ import Delete from "@material-ui/icons/Delete";
 import arrow from "../img/arrow.png";
 
 import * as apiPinActions from "../store/actions/apiPinActions";
+import Image from "./Image";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
 
@@ -88,12 +89,6 @@ const styles = theme => ({
     textAlign: "center",
     fontWeight: 700,
     fontSize: "1.2em"
-  },
-  image: {
-    width: 280,
-    height: "auto",
-    borderRadius: 6,
-    margin: 10
   },
   icon: {
     color: theme.palette.primary.main
@@ -216,10 +211,9 @@ class ImageGrid extends React.Component {
                     </Button>
                   )}
                 </div>
-                <img
-                  className={classes.image}
-                  src={tile.url || tile.imageUrl}
-                  alt={tile.snippet || tile.title}
+                <Image
+                  imageUrl={tile.url || tile.imageUrl}
+                  title={tile.snippet || tile.title}
                 />
               </div>
             );
