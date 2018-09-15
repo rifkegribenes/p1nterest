@@ -238,8 +238,12 @@ class SinglePin extends Component {
             className={classes.actionArea}
             tabIndex={0}
             onClick={() => {
-              let win = window.open(siteUrl, "_blank");
-              win.focus();
+              if (owner) {
+                this.props.handleDeleteDialogOpen(currentPin);
+              } else {
+                let win = window.open(siteUrl, "_blank");
+                win.focus();
+              }
             }}
           >
             {owner && (

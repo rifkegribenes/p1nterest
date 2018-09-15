@@ -45,8 +45,7 @@ const INITIAL_STATE = {
     userId: "",
     userName: "",
     userAvatarUrl: "",
-    createdAt: "",
-    likes: [] // array of userIds
+    createdAt: ""
   },
   form: {
     keyword: "",
@@ -114,7 +113,17 @@ function pin(state = INITIAL_STATE, action) {
     case HANDLE_DELETE_CLOSE:
       return update(state, {
         deleteDialogOpen: { $set: false },
-        currentPin: { $set: {} }
+        currentPin: {
+          _id: { $set: "" },
+          title: { $set: "" },
+          imageUrl: { $set: "" },
+          siteUrl: { $set: "" },
+          description: { $set: "" },
+          userId: { $set: "" },
+          userName: { $set: "" },
+          userAvatarUrl: { $set: "" },
+          createdAt: { $set: "" }
+        }
       });
 
     case CLEAR_FORM:

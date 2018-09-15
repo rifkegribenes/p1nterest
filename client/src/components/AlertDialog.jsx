@@ -16,6 +16,9 @@ const styles = theme => ({
 });
 
 class AlertDialog extends Component {
+  componentDidMount() {
+    console.log("alert dialog cDM");
+  }
   render() {
     return (
       <React.Fragment>

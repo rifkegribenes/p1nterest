@@ -215,19 +215,12 @@ class App extends Component {
       selectedPin: { ...pinData }
     });
     const token = this.props.appState.authToken;
-    const userId = this.props.profile.profile._id;
     this.props.apiPin
       .removePin(token, pinData._id)
       .then(result => {
         if (result.type === "REMOVE_PIN_SUCCESS") {
           openSnackbar("success", `Deleted pin from your wall.`);
-          this.props.apiPin
-            .getUserPins(userId)
-            .then(result => console.log(this.props.pin.pins))
-            .catch(err => {
-              console.log(err);
-              openSnackbar("error", err);
-            });
+          this.props.history.push("/mypins");
         } else {
           openSnackbar("error", this.props.pin.error);
         }
@@ -245,9 +238,10 @@ class App extends Component {
       if (!this.props.appState.loggedIn) {
         openSnackbar("error", "Please log in to delete a pin");
         return;
+      } else {
+        this.props.apiPin.handleDeleteOpen(pin);
       }
     }
-    this.props.apiPin.handleDeleteOpen(pin);
   };
 
   render() {
@@ -276,11 +270,11 @@ class App extends Component {
             <AlertDialog
               pin={this.props.pin.currentPin}
               handleClose={this.handleDeleteDialogClose}
-              open={this.state.deleteDialogOpen}
+              open={this.props.pin.deleteDialogOpen}
               content={`Delete Pin?`}
               action={() => {
                 this.removePin(this.props.pin.currentPin);
-                this.handleDeleteDialogClose();
+                this.props.apiPin.handleDeleteClose();
               }}
               buttonText="Delete"
             />
