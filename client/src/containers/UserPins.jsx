@@ -51,7 +51,14 @@ class UserPins extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.profile.profile._id !== this.props.profile.profile._id) {
-      this.getUserPins();
+      if (this.props.match.params && this.props.match.params.userId) {
+        const { userId } = this.props.match.params;
+        this.getUserPins(userId);
+        return;
+      }
+      if (this.props.profile.profile._id) {
+        this.getUserPins();
+      }
     }
   }
 

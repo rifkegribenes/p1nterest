@@ -160,7 +160,7 @@ const styles = theme => ({
     marginTop: 10
   },
   error: {
-    fontWeight: 100,
+    fontWeight: 400,
     color: theme.palette.error.main,
     textAlign: "center"
   }
