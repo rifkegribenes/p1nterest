@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 
 import * as apiPinActions from "../store/actions/apiPinActions";
 
-import ButtonWithSpinner from "./ButtonWithSpinner";
+import ButtonWithSpinner from "../components/ButtonWithSpinner";
 
 class AddLink extends React.Component {
   addLink = e => {

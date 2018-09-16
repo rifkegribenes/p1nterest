@@ -6,10 +6,10 @@ import { bindActionCreators } from "redux";
 
 import * as apiPinActions from "../store/actions/apiPinActions";
 
-import Search from "../components/Search";
-import SearchResults from "./SearchResults";
+import Search from "./Search";
+import SearchResults from "../components/SearchResults";
 import RePin from "../components/RePin";
-import AddLink from "../components/AddLink";
+import AddLink from "./AddLink";
 
 import { withStyles } from "@material-ui/core/styles";
 

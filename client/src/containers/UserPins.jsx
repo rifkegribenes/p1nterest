@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiPinActions from "../store/actions/apiPinActions";
 
-import ImageGrid from "../components/ImageGrid";
+import ImageGrid from "./ImageGrid";
 import { openSnackbar } from "./Notifier";
 
 import { withStyles } from "@material-ui/core/styles";

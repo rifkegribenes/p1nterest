@@ -14,7 +14,7 @@ import Delete from "@material-ui/icons/Delete";
 import arrow from "../img/arrow.png";
 
 import * as apiPinActions from "../store/actions/apiPinActions";
-import Image from "./Image";
+import Image from "../components/Image";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
 

@@ -14,7 +14,7 @@ import * as apiProfileActions from "./store/actions/apiProfileActions";
 import NavBar from "./containers/NavBar";
 import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
-import AddPinDialog from "./components/AddPinDialog";
+import AddPinDialog from "./containers/AddPinDialog";
 import AlertDialog from "./components/AlertDialog";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
