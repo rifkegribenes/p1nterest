@@ -237,7 +237,7 @@ ImageGrid.propTypes = {
   }),
   profile: PropTypes.shape({
     profile: PropTypes.shape({
-      userId: PropTypes.string
+      _id: PropTypes.string
     })
   }),
   handleDeleteDialogOpen: PropTypes.func,

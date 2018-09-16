@@ -150,13 +150,15 @@ Profile.propTypes = {
     authToken: PropTypes.string
   }).isRequired,
   actions: PropTypes.shape({
-    setLoggedIn: PropTypes.func
+    setLoggedIn: PropTypes.func,
+    setSpinner: PropTypes.func
   }).isRequired,
   api: PropTypes.shape({
     getProfile: PropTypes.func
   }).isRequired,
   profile: PropTypes.shape({
     profile: PropTypes.shape({
+      _id: PropTypes.string,
       userName: PropTypes.string,
       avatarUrl: PropTypes.string
     }).isRequired,
@@ -165,7 +167,13 @@ Profile.propTypes = {
   }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func
-  }).isRequired
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+      token: PropTypes.string
+    })
+  })
 };
 
 const mapStateToProps = state => ({

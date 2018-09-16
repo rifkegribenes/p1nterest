@@ -96,25 +96,18 @@ class AddPin extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div className="addPin">
-        <div className={this.props.classes.wrapper}>
-          <div className={this.props.classes.widget}>
-            <RePin classes={this.props.classes} />
+        <div className={classes.wrapper}>
+          <div className={classes.widget}>
+            <RePin classes={classes} />
           </div>
-          <div className={this.props.classes.widget}>
-            <AddLink
-              classes={this.props.classes}
-              pin={this.props.pin}
-              addPin={this.props.addPin}
-            />
+          <div className={classes.widget}>
+            <AddLink classes={classes} addPin={this.props.addPin} />
           </div>
-          <div className={this.props.classes.widget}>
-            <Search
-              searchImage={this.searchImage}
-              classes={this.props.classes}
-              pin={this.props.pin}
-            />
+          <div className={classes.widget}>
+            <Search searchImage={this.searchImage} classes={classes} />
           </div>
         </div>
         {this.props.pin.imageSearchResults.length ? (
@@ -131,16 +124,21 @@ class AddPin extends Component {
 AddPin.propTypes = {
   pin: PropTypes.shape({
     imageSearchResults: PropTypes.array,
-    error: PropTypes.string
+    error: PropTypes.string,
+    form: PropTypes.shape({
+      keyword: PropTypes.string
+    })
   }),
   profile: PropTypes.shape({
     profile: PropTypes.shape({
-      userId: PropTypes.String
+      _id: PropTypes.String
     })
   }),
   apiPin: PropTypes.shape({
     clearSearchResults: PropTypes.func,
-    searchImage: PropTypes.func
+    searchImage: PropTypes.func,
+    setFlickr: PropTypes.func,
+    handleAddPinOpen: PropTypes.func
   }),
   classes: PropTypes.object
 };

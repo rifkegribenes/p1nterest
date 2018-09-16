@@ -13,6 +13,7 @@ import ButtonWithSpinner from "./ButtonWithSpinner";
 
 class Search extends React.Component {
   render() {
+    const { classes } = this.props;
     return (
       <div style={{ padding: 20 }}>
         <Typography
@@ -23,21 +24,18 @@ class Search extends React.Component {
         >
           Search for an image on Flickr
         </Typography>
-        <form
-          className={this.props.classes.form}
-          onError={errors => console.log(errors)}
-        >
+        <form className={classes.form} onError={errors => console.log(errors)}>
           <TextField
             name="keyword"
             label="Keywords"
             value={this.props.pin.form.keyword}
             onChange={this.props.apiPin.handleInput}
-            className={this.props.classes.input}
+            className={classes.input}
           />
           <ButtonWithSpinner
             type="button"
             color="primary"
-            className={this.props.classes.button}
+            className={classes.button}
             variant="raised"
             onClick={this.props.searchImage}
             loading={this.props.pin.loading}
@@ -53,17 +51,19 @@ class Search extends React.Component {
 Search.propTypes = {
   pin: PropTypes.shape({
     loading: PropTypes.bool,
-    error: PropTypes.string
+    error: PropTypes.string,
+    form: PropTypes.shape({
+      keyword: PropTypes.string
+    })
   }),
-  keyword: PropTypes.string,
-  handleInput: PropTypes.func,
+  apiPin: PropTypes.shape({
+    handleInput: PropTypes.func
+  }),
   searchImage: PropTypes.func,
   classes: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  appState: state.appState,
-  profile: state.profile,
   pin: state.pin
 });
 

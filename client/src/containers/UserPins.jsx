@@ -137,14 +137,8 @@ class UserPins extends Component {
         {this.props.pin.loggedInUserPins.length ? (
           <ImageGrid
             listType="user"
-            loggedIn={this.props.appState.loggedIn}
             title={`${this.props.profile.partialProfile.userName}'s Wall`}
-            pins={this.props.pin.loggedInUserPins}
-            removePin={this.props.removePin}
             handleDeleteDialogOpen={this.props.handleDeleteDialogOpen}
-            handleDeleteDialogClose={this.props.handleDeleteDialogClose}
-            deleteDialogOpen={this.props.pin.deleteDialogOpen}
-            selectedPin={this.props.pin.currentPin}
           />
         ) : (
           <div className={classes.container}>
@@ -161,25 +155,32 @@ class UserPins extends Component {
 
 UserPins.propTypes = {
   appState: PropTypes.shape({
-    loggedIn: PropTypes.bool,
     authToken: PropTypes.string
   }),
   pin: PropTypes.shape({
     error: PropTypes.string,
-    pins: PropTypes.array,
     loggedInUserPins: PropTypes.array
   }),
   profile: PropTypes.shape({
     profile: PropTypes.shape({
-      _id: PropTypes.string,
-      firstName: PropTypes.string
-    })
+      _id: PropTypes.string
+    }),
+    partialProfile: PropTypes.shape({
+      userName: PropTypes.string
+    }),
+    error: PropTypes.string
   }),
   classes: PropTypes.object,
   apiPin: PropTypes.shape({
     getUserPins: PropTypes.func,
     addPin: PropTypes.func
-  })
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      userId: PropTypes.string
+    })
+  }),
+  handleDeleteDialogOpen: PropTypes.func
 };
 
 const mapStateToProps = state => ({

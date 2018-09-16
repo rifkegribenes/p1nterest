@@ -130,8 +130,6 @@ AddLink.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  appState: state.appState,
-  profile: state.profile,
   pin: state.pin
 });
 

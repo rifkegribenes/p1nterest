@@ -90,7 +90,8 @@ function ListItemLink(props) {
 
 ListItemLink.propTypes = {
   primary: PropTypes.node.isRequired,
-  to: PropTypes.string.isRequired
+  to: PropTypes.string.isRequired,
+  handleClose: PropTypes.func.isRequired
 };
 
 class NavBar extends React.Component {
@@ -223,6 +224,9 @@ NavBar.propTypes = {
       firstName: PropTypes.string,
       avatarUrl: PropTypes.string
     })
+  }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string
   })
 };
 

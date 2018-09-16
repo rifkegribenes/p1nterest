@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import psl from "psl";
 
-import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiPinActions from "../store/actions/apiPinActions";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -320,32 +319,36 @@ class SinglePin extends Component {
 
 SinglePin.propTypes = {
   appState: PropTypes.shape({
-    loggedIn: PropTypes.bool,
-    authToken: PropTypes.string
+    loggedIn: PropTypes.bool
   }),
   pin: PropTypes.shape({
-    pins: PropTypes.array
+    error: PropTypes.string,
+    currentPin: PropTypes.shape({
+      imageUrl: PropTypes.string,
+      siteUrl: PropTypes.string,
+      userId: PropTypes.string,
+      userName: PropTypes.string,
+      userAvatarUrl: PropTypes.string,
+      title: PropTypes.string,
+      description: PropTypes.string
+    })
   }),
   profile: PropTypes.shape({
     profile: PropTypes.shape({
-      _id: PropTypes.string,
-      userName: PropTypes.string,
-      avatarUrl: PropTypes.string
-    }),
-    partialProfile: PropTypes.shape({
-      _id: PropTypes.string,
-      userName: PropTypes.string,
-      avatarUrl: PropTypes.string
+      _id: PropTypes.string
     })
   }),
   classes: PropTypes.object,
-  apiProfile: PropTypes.shape({
-    getPartialProfile: PropTypes.func
-  }),
   apiPin: PropTypes.shape({
-    getAllPins: PropTypes.func,
-    updatePinlist: PropTypes.func
-  })
+    getPinById: PropTypes.func,
+    handleAddPinOpen: PropTypes.func
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      pinId: PropTypes.string
+    })
+  }),
+  handleDeleteDialogOpen: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -355,8 +358,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  apiPin: bindActionCreators(apiPinActions, dispatch),
-  apiProfile: bindActionCreators(apiProfileActions, dispatch)
+  apiPin: bindActionCreators(apiPinActions, dispatch)
 });
 
 export default withStyles(styles)(

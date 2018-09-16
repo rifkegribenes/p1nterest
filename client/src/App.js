@@ -288,9 +288,6 @@ class App extends Component {
                 <UserPins
                   removePin={this.removePin}
                   handleDeleteDialogOpen={this.handleDeleteDialogOpen}
-                  handleDeleteDialogClose={
-                    this.props.apiPin.handleDeleteDialogClose
-                  }
                   {...routeProps}
                 />
               )}
