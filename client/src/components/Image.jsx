@@ -53,9 +53,11 @@ class Image extends React.Component {
 }
 
 Image.propTypes = {
+  type: PropTypes.string,
   classes: PropTypes.object.isRequired,
   title: PropTypes.string,
-  imageUrl: PropTypes.string
+  imageUrl: PropTypes.string,
+  handleParentError: PropTypes.func
 };
 
 export default withStyles(styles)(Image);

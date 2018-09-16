@@ -70,7 +70,8 @@ AlertDialog.propTypes = {
   content: PropTypes.string,
   buttonText: PropTypes.string,
   handleClose: PropTypes.func,
-  action: PropTypes.func
+  action: PropTypes.func,
+  classes: PropTypes.object
 };
 
 export default withStyles(styles)(AlertDialog);

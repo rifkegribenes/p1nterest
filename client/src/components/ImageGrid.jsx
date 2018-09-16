@@ -24,10 +24,6 @@ const styles = theme => ({
     width: "100%",
     maxWidth: 1920
   },
-  gridList: {},
-  card: {
-    // this class is being used directly, so can't set options in JSS
-  },
   pinButton: {
     position: "absolute",
     top: 20,
@@ -155,7 +151,11 @@ class ImageGrid extends React.Component {
               parsed = input.domain;
             }
             return (
-              <div className="card" style={cardStyle} key={tile.id || tile._id}>
+              <div
+                className="card"
+                style={cardStyle}
+                key={search ? tile.id : tile._id}
+              >
                 <div
                   className={classes.actionArea}
                   tabIndex={0}
@@ -212,8 +212,8 @@ class ImageGrid extends React.Component {
                   )}
                 </div>
                 <Image
-                  imageUrl={tile.url || tile.imageUrl}
-                  title={tile.snippet || tile.title}
+                  imageUrl={search ? tile.url : tile.imageUrl}
+                  title={search ? tile.snippet : tile.title}
                   handleParentError={() => {}}
                 />
               </div>
@@ -226,7 +226,44 @@ class ImageGrid extends React.Component {
 }
 
 ImageGrid.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  listType: PropTypes.string,
+  appState: PropTypes.shape({
+    loggedIn: PropTypes.bool
+  }),
+  apiPin: PropTypes.shape({
+    setFlickr: PropTypes.func,
+    handleAddPinOpen: PropTypes.func
+  }),
+  profile: PropTypes.shape({
+    profile: PropTypes.shape({
+      userId: PropTypes.string
+    })
+  }),
+  handleDeleteDialogOpen: PropTypes.func,
+  pin: PropTypes.shape({
+    imageSearchResults: PropTypes.arrayOf({
+      id: PropTypes.string,
+      url: PropTypes.string,
+      snippet: PropTypes.string
+    }),
+    loggedInUserPins: PropTypes.arrayOf({
+      _id: PropTypes.string,
+      imageUrl: PropTypes.string,
+      siteUrl: PropTypes.string,
+      title: PropTypes.string,
+      userId: PropTypes.string,
+      userName: PropTypes.string
+    }),
+    pins: PropTypes.arrayOf({
+      _id: PropTypes.string,
+      imageUrl: PropTypes.string,
+      siteUrl: PropTypes.string,
+      title: PropTypes.string,
+      userId: PropTypes.string,
+      userName: PropTypes.string
+    })
+  })
 };
 
 const mapStateToProps = state => ({
