@@ -285,6 +285,7 @@ class SinglePin extends Component {
           <Button
             className={classes.siteLink}
             href={siteUrl}
+            target="blank"
             color="default"
             variant="raised"
           >

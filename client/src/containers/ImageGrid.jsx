@@ -242,27 +242,33 @@ ImageGrid.propTypes = {
   }),
   handleDeleteDialogOpen: PropTypes.func,
   pin: PropTypes.shape({
-    imageSearchResults: PropTypes.arrayOf({
-      id: PropTypes.string,
-      url: PropTypes.string,
-      snippet: PropTypes.string
-    }),
-    loggedInUserPins: PropTypes.arrayOf({
-      _id: PropTypes.string,
-      imageUrl: PropTypes.string,
-      siteUrl: PropTypes.string,
-      title: PropTypes.string,
-      userId: PropTypes.string,
-      userName: PropTypes.string
-    }),
-    pins: PropTypes.arrayOf({
-      _id: PropTypes.string,
-      imageUrl: PropTypes.string,
-      siteUrl: PropTypes.string,
-      title: PropTypes.string,
-      userId: PropTypes.string,
-      userName: PropTypes.string
-    })
+    imageSearchResults: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        url: PropTypes.string,
+        snippet: PropTypes.string
+      })
+    ),
+    loggedInUserPins: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string,
+        imageUrl: PropTypes.string,
+        siteUrl: PropTypes.string,
+        title: PropTypes.string,
+        userId: PropTypes.string,
+        userName: PropTypes.string
+      })
+    ),
+    pins: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string,
+        imageUrl: PropTypes.string,
+        siteUrl: PropTypes.string,
+        title: PropTypes.string,
+        userId: PropTypes.string,
+        userName: PropTypes.string
+      })
+    )
   })
 };
 

@@ -29,7 +29,6 @@ class Image extends React.Component {
   }
 
   handleError = () => {
-    console.log("image load error");
     this.setState({
       error: true
     });
@@ -43,6 +42,7 @@ class Image extends React.Component {
         className={single ? classes.singleImage : classes.image}
         src={this.state.error ? placeholder : this.props.imageUrl}
         alt={this.props.title}
+        onLoad={() => this.setState({ error: false })}
         onError={() => {
           this.handleError();
           this.props.handleParentError();
