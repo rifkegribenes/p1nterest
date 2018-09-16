@@ -75,7 +75,7 @@ class AddPinDialog extends Component {
     return (
       <React.Fragment>
         <Dialog
-          open={this.props.open}
+          open={this.props.pin.form.dialogOpen}
           onClose={this.props.handleClose}
           aria-labelledby={
             this.props.modalTitle

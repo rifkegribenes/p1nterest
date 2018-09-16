@@ -18,13 +18,13 @@ const styles = theme => ({
 });
 
 const SearchResults = props => (
-  <div className={this.props.classes.container}>
+  <div className={props.classes.container}>
     <Divider style={{ margin: 20 }} />
     <ImageGrid
       listType="search"
       title="Search Results"
-      setRedirect={this.props.setRedirect}
-      addPin={this.props.addPin}
+      setRedirect={props.setRedirect}
+      addPin={props.addPin}
     />
   </div>
 );

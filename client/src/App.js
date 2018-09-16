@@ -259,6 +259,7 @@ class App extends Component {
           )}
           {deleteDialogOpen && (
             <AlertDialog
+              open={deleteDialogOpen}
               handleClose={this.handleDeleteDialogClose}
               content={`Delete Pin?`}
               action={() => {
@@ -280,7 +281,13 @@ class App extends Component {
             />
             <Route
               path="/mypins"
-              render={routeProps => <UserPins {...routeProps} />}
+              render={routeProps => (
+                <UserPins
+                  removePin={this.removePin}
+                  handleDeleteDialogOpen={this.handleDeleteDialogOpen}
+                  {...routeProps}
+                />
+              )}
             />
             <Route
               path="/userpins/:userId"

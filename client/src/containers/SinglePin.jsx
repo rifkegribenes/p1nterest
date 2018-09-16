@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import pinIcon from "../img/pin.svg";
 import arrow from "../img/arrow.png";
 import { openSnackbar } from "./Notifier";
+import SpinnerAdornment from "../components/SpinnerAdornment";
 import Image from "../components/Image";
 import { BASE_URL } from "../store/actions/apiConfig.js";
 
@@ -162,6 +163,11 @@ const styles = theme => ({
     fontWeight: 400,
     color: theme.palette.error.main,
     textAlign: "center"
+  },
+  spinner: {
+    position: "absolute",
+    left: "calc(50% - 10px)",
+    top: "calc(50% - 10px)"
   }
 });
 
@@ -195,7 +201,7 @@ class SinglePin extends Component {
   }
 
   handleError = unset => {
-    console.log("image load error");
+    console.log(`image load error: ${unset}`);
     const error = unset ? false : true;
     this.setState({
       error
@@ -224,6 +230,7 @@ class SinglePin extends Component {
       title,
       description
     } = currentPin;
+    console.log(imageUrl);
     const owner = this.props.profile.profile._id === userId;
     let parsed;
     if (siteUrl) {
@@ -257,12 +264,16 @@ class SinglePin extends Component {
                 <Delete />
               </Button>
             )}
-            <Image
-              imageUrl={imageUrl}
-              title={title}
-              type="single"
-              handleParentError={this.handleError}
-            />
+            {imageUrl ? (
+              <Image
+                imageUrl={imageUrl}
+                title={title}
+                type="single"
+                handleParentError={this.handleError}
+              />
+            ) : (
+              <SpinnerAdornment className={classes.spinner} />
+            )}
             {this.state.error && (
               <Typography className={classes.error}>
                 Sorry, looks like this image link is broken :(

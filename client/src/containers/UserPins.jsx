@@ -132,12 +132,14 @@ class UserPins extends Component {
 
   render() {
     const { classes } = this.props;
+    const { userName } = this.props.profile.partialProfile;
     return (
       <div className={classes.container}>
-        {this.props.pin.loggedInUserPins.length ? (
+        {this.props.pin.loggedInUserPins.length &&
+        this.props.handleDeleteDialogOpen ? (
           <ImageGrid
             listType="user"
-            title={`${this.props.profile.partialProfile.userName}'s Wall`}
+            title={userName ? `${userName}'s Wall` : ""}
             handleDeleteDialogOpen={this.props.handleDeleteDialogOpen}
           />
         ) : (

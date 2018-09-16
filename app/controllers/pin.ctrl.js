@@ -6,6 +6,7 @@ const utils = require('../utils');
 exports.getAllPins = (req, res, next) => {
   console.log('getAllPins');
   Pin.find()
+    .sort({createdAt: -1})
   	.then((pins) => {
     	return res.status(200).json({ pins });
   	})
@@ -19,6 +20,7 @@ exports.getAllPins = (req, res, next) => {
 exports.getUserPins = (req, res, next) => {
   console.log(`pin.ctrl.js > getUserPins: ${req.params.userId}`);
   Pin.find({ userId: req.params.userId })
+    .sort({createdAt: -1})
     .then((pins) => {
       return res.status(200).json({ pins });
     })
