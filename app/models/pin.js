@@ -12,8 +12,7 @@ const PinSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  },
-  likes: [{ type: String }] // array of userIds
+  }
 });
 
 module.exports = mongoose.model('Pin', PinSchema);

@@ -140,50 +140,6 @@ exports.removePin = (req, res, next) => {
     });
 }
 
-// Update likes. params: userId (from token),
-// pinId, action ('plusplus' or 'minusminus')
-exports.updateLikes = (req, res, next) => {
-  const { pinId } = req.params;
-  const userId = req.token._id;
-  const action = req.query.action;
-
-  Pin.findOne({ _id: req.params.pinId })
-  	.exec()
-    .then((pin) => {
-
-      // fail if user already liked this pin
-      if (action === "plusplus" && pin.likes.indexOf(userId) > -1) {
-        return res.end();
-      }
-
-      // fail if user tries to unlike a pin they didn't already like
-      if (action === "minusminus" && pin.likes.indexOf(userId) === -1) {
-        return res.end();
-      }
-
-      // fail if user tries to like their own post
-      if (pin.userId === userId) {
-        return res.end();
-      }
-
-      // add/remove userId from likes array depending on action
-      if (action === 'plusplus' && pin.likes.indexOf(userId) === -1) {
-        pin.likes.push(userId);
-      } else if (action === 'minusminus' && pin.likes.indexOf(userId) > -1) {
-        let userIdx = pin.likes.indexOf(userId);
-        pin.likes.splice(userIdx, 1);
-      }
-
-      // save updated pin and return updated pin to client
-      pin.save();
-    	return res.status(200).json({ pin });
-    })
-    .catch((err) => {
-      console.log(`pin.ctrl.js > updateLikes: ${err}`);
-      return handleError(res, err);
-    });
-}
-
 const handleError = (res, err) => {
   return res.status(500).json({message: err});
 }

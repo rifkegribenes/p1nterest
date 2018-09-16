@@ -120,11 +120,6 @@ module.exports = function (app) {
   // Returns fail status + message -or- pin object
   pinRoutes.put('/remove/:pinId', requireAuth, PinController.removePin);
 
-  // Update likes (secured)
-  // Example: PUT >> /api/pin/597dd8665229970e99c6ab55/likes?action=plusplus
-  // Returns fail status + message -or- pin object
-  pinRoutes.put('/:pinId/likes', requireAuth, PinController.updateLikes);
-
 
   // Set url for API group routes
   app.use('/api', apiRoutes);
