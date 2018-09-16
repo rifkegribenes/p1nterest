@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import PropTypes from "prop-types";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { withStyles } from "@material-ui/core/styles";
@@ -245,35 +246,45 @@ class App extends Component {
   };
 
   render() {
+    const { form, deleteDialogOpen, currentPin } = this.props.pin;
+    const {
+      flickr,
+      dialogOpen,
+      selectedPin,
+      imageUrl,
+      siteUrl,
+      title,
+      description
+    } = form;
     return (
       <React.Fragment>
         <CssBaseline />
         <NavBar />
         <Notifier />
         <main className="main" id="main">
-          {this.props.pin.form.dialogOpen && (
+          {dialogOpen && (
             <AddPinDialog
-              flickr={this.props.pin.form.flickr}
-              open={this.props.pin.form.dialogOpen}
+              flickr={flickr}
+              open={dialogOpen}
               handleClose={this.handleClose}
               handleInput={this.props.apiPin.handleInput}
-              selectedPin={this.props.pin.form.selectedPin}
+              selectedPin={selectedPin}
               addPin={this.addPin}
               pin={this.props.pin}
-              imageUrl={this.props.pin.form.imageUrl}
-              siteUrl={this.props.pin.form.siteUrl}
-              title={this.props.pin.form.title}
-              description={this.props.pin.form.description}
+              imageUrl={imageUrl}
+              siteUrl={siteUrl}
+              title={title}
+              description={description}
             />
           )}
-          {this.props.pin.deleteDialogOpen && (
+          {deleteDialogOpen && (
             <AlertDialog
-              pin={this.props.pin.currentPin}
+              pin={currentPin}
               handleClose={this.handleDeleteDialogClose}
-              open={this.props.pin.deleteDialogOpen}
+              open={deleteDialogOpen}
               content={`Delete Pin?`}
               action={() => {
-                this.removePin(this.props.pin.currentPin);
+                this.removePin(currentPin);
                 this.props.apiPin.handleDeleteClose();
               }}
               buttonText="Delete"
@@ -352,6 +363,54 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    hash: PropTypes.string
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }).isRequired,
+  appState: PropTypes.shape({
+    loggedIn: PropTypes.bool,
+    authToken: PropTypes.string
+  }).isRequired,
+  apiProfile: PropTypes.shape({
+    validateToken: PropTypes.func
+  }).isRequired,
+  apiPin: PropTypes.shape({
+    addPin: PropTypes.func,
+    handleAddPinClose: PropTypes.func,
+    removePin: PropTypes.func,
+    clearForm: PropTypes.func
+  }).isRequired,
+  pin: PropTypes.shape({
+    form: PropTypes.shape({
+      imageUrl: PropTypes.string,
+      siteUrl: PropTypes.string,
+      title: PropTypes.string,
+      description: PropTypes.string,
+      flickr: PropTypes.bool,
+      dialogOpen: PropTypes.bool
+    }),
+    error: PropTypes.string,
+    deleteDialogOpen: PropTypes.bool,
+    currentPin: PropTypes.shape({
+      imageUrl: PropTypes.string,
+      siteUrl: PropTypes.string,
+      title: PropTypes.string,
+      description: PropTypes.string
+    })
+  }).isRequired,
+  profile: PropTypes.shape({
+    profile: PropTypes.shape({
+      _id: PropTypes.string,
+      userName: PropTypes.string,
+      avatarUrl: PropTypes.string
+    })
+  }).isRequired
+};
 
 const mapStateToProps = state => ({
   appState: state.appState,
