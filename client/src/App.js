@@ -247,15 +247,7 @@ class App extends Component {
 
   render() {
     const { form, deleteDialogOpen, currentPin } = this.props.pin;
-    const {
-      flickr,
-      dialogOpen,
-      selectedPin,
-      imageUrl,
-      siteUrl,
-      title,
-      description
-    } = form;
+    const { dialogOpen } = form;
     return (
       <React.Fragment>
         <CssBaseline />
@@ -263,25 +255,11 @@ class App extends Component {
         <Notifier />
         <main className="main" id="main">
           {dialogOpen && (
-            <AddPinDialog
-              flickr={flickr}
-              open={dialogOpen}
-              handleClose={this.handleClose}
-              handleInput={this.props.apiPin.handleInput}
-              selectedPin={selectedPin}
-              addPin={this.addPin}
-              pin={this.props.pin}
-              imageUrl={imageUrl}
-              siteUrl={siteUrl}
-              title={title}
-              description={description}
-            />
+            <AddPinDialog handleClose={this.handleClose} addPin={this.addPin} />
           )}
           {deleteDialogOpen && (
             <AlertDialog
-              pin={currentPin}
               handleClose={this.handleDeleteDialogClose}
-              open={deleteDialogOpen}
               content={`Delete Pin?`}
               action={() => {
                 this.removePin(currentPin);

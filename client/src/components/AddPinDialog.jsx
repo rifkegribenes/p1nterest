@@ -56,8 +56,8 @@ const styles = theme => ({
 
 class AddPinDialog extends Component {
   componentDidMount() {
-    // if selectedPin exists, set form values
-    if (this.props.pin.form.selectedPin) {
+    // if currentPin exists, set form values
+    if (this.props.pin.currentPin) {
       const { imageUrl, siteUrl } = this.props.pin.currentPin;
       if (imageUrl) {
         this.props.apiPin.handleInput({
@@ -94,15 +94,9 @@ class AddPinDialog extends Component {
             <AddLink
               formTitle="Save Pin"
               type="dialog"
-              handleInput={this.props.handleInput}
+              handleInput={this.props.apiPin.handleInput}
               addPin={this.props.addPin}
               classes={this.props.classes}
-              pin={this.props.pin}
-              selectedPin={this.props.selectedPin}
-              imageUrl={this.props.imageUrl}
-              siteUrl={this.props.siteUrl}
-              title={this.props.title}
-              description={this.props.description}
             />
           </DialogContent>
           <DialogActions>
@@ -122,11 +116,19 @@ class AddPinDialog extends Component {
 
 AddPinDialog.propTypes = {
   open: PropTypes.bool,
-  title: PropTypes.string,
-  content: PropTypes.string,
-  buttonText: PropTypes.string,
+  modalTitle: PropTypes.string,
   handleClose: PropTypes.func,
-  action: PropTypes.func
+  pin: PropTypes.shape({
+    currentPin: PropTypes.shape({
+      imageUrl: PropTypes.string,
+      siteUrl: PropTypes.string
+    })
+  }).isRequired,
+  apiPin: PropTypes.shape({
+    handleInput: PropTypes.func
+  }),
+  addPin: PropTypes.func,
+  classes: PropTypes.object
 };
 
 const mapStateToProps = state => ({

@@ -30,6 +30,9 @@ class AddLink extends React.Component {
 
   render() {
     const dialog = this.props.type === "dialog";
+    const { classes } = this.props;
+    const { imageUrl, siteUrl, url, context } = this.props.pin.currentPin;
+    const { title, description } = this.props.pin.form;
     return (
       <div style={{ padding: "20 20 0 20" }}>
         <Typography
@@ -40,38 +43,23 @@ class AddLink extends React.Component {
         >
           {dialog ? "Save to your wall" : "Add image by pasting in a URL"}
         </Typography>
-        <div className={this.props.classes.dialogThumbnailWrap}>
+        <div className={classes.dialogThumbnailWrap}>
           <img
-            src={
-              dialog
-                ? this.props.pin.currentPin.imageUrl ||
-                  this.props.pin.currentPin.url
-                : this.props.imageUrl
-            }
-            className={this.props.classes.dialogThumbnail}
+            src={dialog ? imageUrl || url : this.props.imageUrl}
+            className={classes.dialogThumbnail}
             alt={this.props.title}
           />
         </div>
-        <form
-          className={this.props.classes.form}
-          onError={errors => console.log(errors)}
-        >
+        <form className={classes.form} onError={errors => console.log(errors)}>
           <TextField
             name="imageUrl"
             id="imageUrl"
             label="Image URL"
             type="url"
             required
-            value={
-              dialog
-                ? this.props.pin.currentPin.imageUrl ||
-                  this.props.pin.currentPin.url
-                : this.props.pin.form.imageUrl
-            }
+            value={dialog ? imageUrl || url : this.props.pin.form.imageUrl}
             onChange={this.props.apiPin.handleInput}
-            className={
-              dialog ? this.props.classes.hidden : this.props.classes.input
-            }
+            className={dialog ? classes.hidden : classes.input}
           />
           <TextField
             name="siteUrl"
@@ -79,37 +67,30 @@ class AddLink extends React.Component {
             label="Website URL"
             type="url"
             required
-            value={
-              dialog
-                ? this.props.pin.currentPin.siteUrl ||
-                  this.props.pin.currentPin.context
-                : this.props.pin.form.siteUrl
-            }
+            value={dialog ? siteUrl || context : this.props.pin.form.siteUrl}
             onChange={this.props.apiPin.handleInput}
-            className={
-              dialog ? this.props.classes.hidden : this.props.classes.input
-            }
+            className={dialog ? classes.hidden : classes.input}
           />
           <TextField
             name="title"
             id="title"
             label="Title"
-            value={this.props.pin.form.title}
+            value={title}
             required
             onChange={this.props.apiPin.handleInput}
-            className={this.props.classes.input}
+            className={classes.input}
           />
           <TextField
             name="description"
             label="Description"
-            value={this.props.pin.form.description}
+            value={description}
             onChange={this.props.apiPin.handleInput}
-            className={this.props.classes.input}
+            className={classes.input}
           />
           <ButtonWithSpinner
             type="submit"
             color="primary"
-            className={this.props.classes.button}
+            className={classes.button}
             variant="raised"
             onClick={this.addLink}
             loading={this.props.pin.loading}
@@ -129,13 +110,9 @@ AddLink.propTypes = {
       imageUrl: PropTypes.string,
       siteUrl: PropTypes.string,
       title: PropTypes.string,
-      description: PropTypes.string,
-      flickr: PropTypes.bool,
-      dialogOpen: PropTypes.bool
+      description: PropTypes.string
     }),
-    error: PropTypes.string,
     loading: PropTypes.bool,
-    deleteDialogOpen: PropTypes.bool,
     currentPin: PropTypes.shape({
       imageUrl: PropTypes.string,
       siteUrl: PropTypes.string,
