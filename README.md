@@ -2,7 +2,7 @@
 
 ### [p1nterest.herokuapp.com](https://p1nterest.herokuapp.com/)
 
-![p1nterest screenshot](https://raw.githubusercontent.com/rifkegribenes/p1nterest/master/public/screenshot.png)
+![p1nterest screenshot](https://raw.githubusercontent.com/rifkegribenes/p1nterest/master/client/src/img/screenshot.jpg)
 
 ### User Stories
 
