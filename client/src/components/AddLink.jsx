@@ -123,13 +123,32 @@ class AddLink extends React.Component {
 }
 
 AddLink.propTypes = {
+  type: PropTypes.string,
   pin: PropTypes.shape({
+    form: PropTypes.shape({
+      imageUrl: PropTypes.string,
+      siteUrl: PropTypes.string,
+      title: PropTypes.string,
+      description: PropTypes.string,
+      flickr: PropTypes.bool,
+      dialogOpen: PropTypes.bool
+    }),
+    error: PropTypes.string,
     loading: PropTypes.bool,
-    error: PropTypes.string
+    deleteDialogOpen: PropTypes.bool,
+    currentPin: PropTypes.shape({
+      imageUrl: PropTypes.string,
+      siteUrl: PropTypes.string,
+      title: PropTypes.string,
+      description: PropTypes.string
+    })
+  }).isRequired,
+  apiPin: PropTypes.shape({
+    handleInput: PropTypes.func
   }),
-  keyword: PropTypes.string,
-  handleInput: PropTypes.func,
-  searchImage: PropTypes.func,
+  imageUrl: PropTypes.string,
+  title: PropTypes.string,
+  addPin: PropTypes.func,
   classes: PropTypes.object
 };
 
