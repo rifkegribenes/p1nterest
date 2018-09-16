@@ -42,7 +42,12 @@ class Image extends React.Component {
         className={single ? classes.singleImage : classes.image}
         src={this.state.error ? placeholder : this.props.imageUrl}
         alt={this.props.title}
-        onLoad={() => this.setState({ error: false })}
+        onLoad={e => {
+          if (e.target.src !== placeholder) {
+            this.setState({ error: false });
+            this.props.handleParentError(true);
+          }
+        }}
         onError={() => {
           this.handleError();
           this.props.handleParentError();

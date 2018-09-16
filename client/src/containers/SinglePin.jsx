@@ -194,10 +194,11 @@ class SinglePin extends Component {
     }
   }
 
-  handleError = () => {
+  handleError = unset => {
     console.log("image load error");
+    const error = unset ? false : true;
     this.setState({
-      error: true
+      error
     });
   };
 
