@@ -72,27 +72,15 @@ const styles = theme => ({
       zIndex: "1000"
     }
   },
+  menuItem: {
+    padding: "24px 16px"
+  },
   logo: {
     height: 40,
     width: "auto",
     marginRight: 10
   }
 });
-
-function ListItemLink(props) {
-  const { primary, to, handleClose } = props;
-  return (
-    <MenuItem button component={Link} to={to} onClick={handleClose}>
-      <ListItemText primary={primary} />
-    </MenuItem>
-  );
-}
-
-ListItemLink.propTypes = {
-  primary: PropTypes.node.isRequired,
-  to: PropTypes.string.isRequired,
-  handleClose: PropTypes.func.isRequired
-};
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -122,6 +110,20 @@ class NavBar extends React.Component {
       new: "Add Pin"
     };
     const linkList = loggedIn ? Object.keys(linkMap) : ["all"];
+    const ListItemLink = props => {
+      const { primary, to, handleClose } = props;
+      return (
+        <MenuItem
+          button
+          component={Link}
+          to={to}
+          onClick={handleClose}
+          className={classes.menuItem}
+        >
+          <ListItemText primary={primary} />
+        </MenuItem>
+      );
+    };
     const menuLinks = linkList.map((link, index) => (
       <ListItemLink
         to={`/${link}`}

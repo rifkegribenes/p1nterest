@@ -24,7 +24,7 @@ const AlertDialog = props => (
         props.title ? "alert-dialog-title" : "alert-dialog-description"
       }
       aria-describedby="alert-dialog-description"
-      PaperProps={{ classes: props.classes }}
+      PaperProps={{ style: { margin: 0 } }}
     >
       {props.title && (
         <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>

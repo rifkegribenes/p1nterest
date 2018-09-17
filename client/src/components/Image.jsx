@@ -14,7 +14,7 @@ const styles = theme => ({
   singleImage: {
     borderRadius: 6,
     width: 480,
-    maxWidth: "100%",
+    maxWidth: "calc(100% - 20px)",
     height: "auto",
     margin: 10
   }

@@ -83,7 +83,7 @@ class AddPinDialog extends Component {
               : "Save pin to your wall"
           }
           aria-describedby="Save pin to your wall"
-          PaperProps={{ classes: { root: "dialog-root" } }}
+          PaperProps={{ style: { margin: 0 } }}
         >
           {this.props.modalTitle && (
             <DialogTitle id="alert-dialog-title">

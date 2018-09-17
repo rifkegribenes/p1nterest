@@ -39,7 +39,11 @@ const styles = theme => ({
   metaWrap: {
     padding: 40,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    [theme.breakpoints.down("sm")]: {
+      padding: "20px 10px",
+      width: "100%"
+    }
   },
   pinButton: {
     width: 100
@@ -104,7 +108,10 @@ const styles = theme => ({
     flexDirection: "row",
     justifyContent: "center",
     paddingBottom: 40,
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    [theme.breakpoints.down("sm")]: {
+      flexWrap: "wrap"
+    }
   },
   item: {
     [theme.breakpoints.down("sm")]: {
@@ -118,6 +125,7 @@ const styles = theme => ({
     borderRadius: 6,
     zIndex: 1,
     width: 500,
+    maxWidth: "100%",
     cursor: "zoom-in",
     "&:hover": {
       backgroundColor: "rgba(0,0,0,.05)"
@@ -141,13 +149,7 @@ const styles = theme => ({
       padding: "0 10px"
     }
   },
-  avatar: {
-    [theme.breakpoints.down("sm")]: {
-      position: "absolute",
-      right: 20,
-      bottom: 15
-    }
-  },
+  avatar: {},
   title: {
     fontSize: 36,
     fontWeight: 100,
