@@ -199,6 +199,8 @@ class App extends Component {
 
   handleClose = () => {
     this.props.apiPin.handleAddPinClose();
+    this.props.apiPin.clearForm();
+    this.props.history.push("/");
     window.localStorage.removeItem("pin");
   };
 
