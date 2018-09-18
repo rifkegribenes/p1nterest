@@ -89,7 +89,18 @@ const styles = theme => ({
     top: 20,
     right: 20,
     visibility: "hidden",
-    zIndex: 2
+    zIndex: 2,
+    // [theme.breakpoints.down("sm")]: {
+    //   visibility: "visible",
+    //   top: "auto",
+    //   bottom: 30
+    // },
+    ["@media all and (hover: none)"]: {
+      visibility: "visible",
+      top: "auto",
+      bottom: 30,
+      right: 20
+    }
   },
   contentBold: {
     fontWeight: 700
