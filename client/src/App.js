@@ -104,7 +104,6 @@ class App extends Component {
           this.props.apiProfile.validateToken(token, userId).then(result => {
             if (result === "VALIDATE_TOKEN_FAILURE") {
               window.localStorage.clear();
-              console.log("validate token failure");
             } else if (result === "VALIDATE_TOKEN_SUCESS") {
             }
           });
@@ -126,7 +125,6 @@ class App extends Component {
       imageUrl = flickr ? selectedPin.url : selectedPin.imageUrl;
       siteUrl = flickr ? selectedPin.context : selectedPin.siteUrl;
     }
-    console.log(imageUrl);
     const token = this.props.appState.authToken;
     const body = {
       imageUrl,
@@ -205,14 +203,11 @@ class App extends Component {
   };
 
   setRedirect = pin => {
-    console.log(pin);
     window.localStorage.setItem("redirect", "/mypins");
     window.localStorage.setItem("pin", JSON.stringify(pin));
   };
 
   removePin = pinData => {
-    console.log("removePin");
-    console.log(pinData);
     this.setState({
       dialogOpen: true,
       selectedPin: { ...pinData }
@@ -235,9 +230,7 @@ class App extends Component {
   };
 
   handleDeleteDialogOpen = pin => {
-    console.log("open delete dialog");
     if (pin) {
-      console.log(pin);
       if (!this.props.appState.loggedIn) {
         openSnackbar("error", "Please log in to delete a pin");
         return;
