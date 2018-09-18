@@ -29,7 +29,7 @@ class Image extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.imageUrl);
+    // console.log(this.props.imageUrl);
   }
 
   handleError = () => {
@@ -48,7 +48,7 @@ class Image extends React.Component {
         alt={this.props.title}
         onLoad={e => {
           if (e.target.src !== placeholder) {
-            console.log(e.target.src);
+            // console.log(e.target.src);
             this.setState({ error: false });
             this.props.handleParentError(true);
           }

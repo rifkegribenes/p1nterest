@@ -33,6 +33,7 @@ class AddLink extends React.Component {
     const { classes } = this.props;
     const { imageUrl, siteUrl, url, context } = this.props.pin.currentPin;
     const { title, description } = this.props.pin.form;
+    const inputClass = dialog ? classes.hidden : classes.inputClass;
     return (
       <div style={{ padding: "20 20 0 20" }}>
         <Typography
@@ -56,9 +57,13 @@ class AddLink extends React.Component {
             id="imageUrl"
             label="Image URL"
             type="url"
+            variant="outlined"
             required
             value={dialog ? imageUrl || url : this.props.pin.form.imageUrl}
             onChange={this.props.apiPin.handleInput}
+            InputProps={{
+              className: inputClass
+            }}
             className={dialog ? classes.hidden : classes.input}
           />
           <TextField
@@ -66,15 +71,21 @@ class AddLink extends React.Component {
             id="siteUrl"
             label="Website URL"
             type="url"
+            variant="outlined"
             required
             value={dialog ? siteUrl || context : this.props.pin.form.siteUrl}
             onChange={this.props.apiPin.handleInput}
+            InputProps={{
+              className: inputClass
+            }}
             className={dialog ? classes.hidden : classes.input}
           />
           <TextField
             name="title"
             id="title"
             label="Title"
+            type="text"
+            variant="outlined"
             value={title}
             required
             onChange={this.props.apiPin.handleInput}
@@ -83,6 +94,8 @@ class AddLink extends React.Component {
           <TextField
             name="description"
             label="Description"
+            variant="outlined"
+            type="text"
             value={description}
             onChange={this.props.apiPin.handleInput}
             className={classes.input}

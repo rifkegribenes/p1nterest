@@ -30,6 +30,13 @@ class Search extends React.Component {
             label="Keywords"
             value={this.props.pin.form.keyword}
             onChange={this.props.apiPin.handleInput}
+            onKeyDown={e => {
+              if (e.which === 13 || e.keyCode === 13) {
+                e.preventDefault();
+                console.log("enter");
+                this.props.searchImage();
+              }
+            }}
             className={classes.input}
           />
           <ButtonWithSpinner

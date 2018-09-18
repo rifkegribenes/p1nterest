@@ -47,6 +47,10 @@ const styles = theme => ({
     flex: "1 1 auto",
     marginTop: 20
   },
+  inputClass: {
+    width: "100%",
+    height: 32
+  },
   input: {
     width: "100%"
   },
@@ -65,8 +69,6 @@ class AddPin extends Component {
     }
     const userId = this.props.profile.profile._id;
     if (pinToAdd) {
-      console.log("pinToAdd");
-      console.log(pinToAdd);
       if (userId !== pinToAdd.userId) {
         this.props.apiPin.handleAddPinOpen(pinToAdd);
       } else {
